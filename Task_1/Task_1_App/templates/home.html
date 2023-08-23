@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+<body>
+    <h1>Home</h1>
+    <!-- <a href="/tables/" class="btn">Go to Next Page</a> -->
+    <!-- <button type="button" class="btn">Base class</button> -->
+
+    <form action="{% url 'tables' %}" method="post">
+        {% csrf_token %}
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">Tables</button>
+        </div>
+    </form>
+</body>
+</html>

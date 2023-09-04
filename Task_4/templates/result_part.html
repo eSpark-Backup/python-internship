@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Query_Result</title>
+    <style>
+        body {
+            background: url('/static/abstracts.jpg');
+        }
+
+        .table {
+            table-layout: fixed;
+            border-collapse: collapse;
+            width: auto;
+            margin: auto;
+            margin-top: 5%;
+        }
+
+        td {
+            border: none;
+            padding: 50px;
+            text-align: center;
+            background-color: #ffffff60;
+            font-size: 30px;
+            color: #ffffff;
+        }
+
+        th {
+            border: none;
+            padding: 50px;
+            text-align: center;
+            background-color: #ffffff60;
+            font-size: 30px;
+            color: #ffffff;
+        }
+
+        img {
+            margin-left: 10px;
+            padding-bottom: 10px;
+            height: 70px;
+            width: 70px;
+            vertical-align: middle;
+        }
+
+        h2 {
+            color: #ffffff;
+            display: inline;
+            padding: 10px;
+            vertical-align: middle;
+            font-size: 30px;
+        }
+
+        footer {
+            text-align: center;
+            background: #ffffff60;
+            color: #fff;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+        }
+        a p{
+            color: #ffffff;
+            display: inline;
+            padding: 10px;
+            vertical-align: middle;
+            text-decoration: none;
+            font-size: 25px;
+            float: right;
+            margin-right: 70px;
+        }
+
+        a p:hover {
+            background-color: #d0e2ee5b;
+            color: #ffffff;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="heading">
+            <img src="/static/logo.png" alt="">
+            <h2>eSpark Inventory</h2>
+            <a href="/home">
+                <p>
+                    Home
+                <p>
+            </a>
+        </div>
+    </header>
+    <table class="table">
+        <tbody>
+            <tr>
+                <th><b>Part Number</b></td>
+                <th><b>Item Name</b></td>
+                <th><b>Quantity</b></td>
+            </tr>
+            <tr>
+                <td>{{ query_part }}</td>
+                <td>{{ result_item }}</td>
+                <td>{{ result_quantity }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <footer>
+        <p>&copy; 2023 eSpark Inventory. All rights reserved.</p>
+    </footer>
+
+</body>
+
+</html>

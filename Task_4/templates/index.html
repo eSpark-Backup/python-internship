@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Query Item Quantity</title>
+
+    <style>
+        body {
+            background: url('/static/abstracts.jpg');
+        }
+
+        .main-body {
+            margin: auto;
+            text-align: center;
+            margin-top: 10%;
+        }
+
+        img {
+            margin-left: 10px;
+            padding-bottom: 10px;
+            height: 70px;
+            width: 70px;
+            vertical-align: middle;
+        }
+
+        h2 {
+            color: #ffffff;
+            display: inline;
+            padding: 10px;
+            vertical-align: middle;
+            font-size: 30px;
+        }
+
+        .input-container {
+            display: flex;
+            flex-direction: column;
+
+        }
+
+        input[type='text'] {
+            height: 30px;
+            background-color: #ffffff60;
+            border: none;
+            margin: 10px;
+            color: #ffffff;
+        }
+
+        input[type='submit'] {
+            height: 30px;
+            background-color: #ffffff60;
+            border: none;
+            margin: 10px;
+            min-width: 100px;
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 20px;
+            font-family: serif;
+        }
+
+        h1 {
+            color: #ffffff;
+            margin: 20px;
+            font-size: 50px;
+        }
+
+        #item_name {
+            outline: none;
+            size: 50px;
+            font-size: 20px;
+        }
+
+        #part_number {
+            outline: none;
+            size: 50px;
+            font-size: 20px;
+        }
+
+        .item_name {
+            margin: 20px;
+        }
+
+        .part_number {
+            margin: 20px;
+        }
+
+        .text {
+            color: #ffffff;
+            font-size: 30px;
+        }
+
+        footer {
+            text-align: center;
+            background: #ffffff60;
+            color: #fff;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="heading">
+            <img src="/static/logo.png" alt="">
+            <h2>eSpark Inventory</h4>
+        </div>
+    </header>
+    <div class="main-body">
+        <h1>Query Item</h1>
+        <div class="input-container">
+            <div class="item_name">
+                <form method="post" action="{% url 'result_item' %}?item_name={{ item_name }}">
+                    {% csrf_token %}
+                    <label class="text" for="item_name">Enter Item Name:</label>
+                    <input type="text" id="item_name" name="item_name" autocomplete="off">
+                    <input type="submit" value="Query">
+                </form>
+            </div>
+            <div class="part_number">
+                <form method="post" action="{% url 'result_part' %}?part_number={{ part_number }}">
+                    {% csrf_token %}
+                    <label class="text" for="part_number">Enter Part Number:</label>
+                    <input type="text" id="part_number" name="part_number" autocomplete="off">
+                    <input type="submit" value="Query">
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2023 eSpark Inventory. All rights reserved.</p>
+    </footer>
+
+</body>
+
+</html>

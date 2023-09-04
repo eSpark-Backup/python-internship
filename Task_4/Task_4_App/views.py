@@ -19,25 +19,25 @@ def home(request):
 def result_item(request):
     query_item = request.POST.get('item_name','')
 
-    excel_file="C:/Users/eSpark/Documents/Python_Tasks/Task_4/StockData 20-07-23.xlsx"
+    excel_file="C:/Users/eSpark/Documents/Python_Tasks/Tasks/Task_4/StockData 20-07-23.xlsx"
     df=pd.read_excel(excel_file)
-    items=df['ItemName'].unique()
+
     result=[]
     item_list=[]
-    for item in items:
-        if query_item!='' and query_item in item:
-            item_list.append(item)
+    part_no = []
+
+    for index, row in df.iterrows():
+        if query_item!='' and query_item.lower() in row['ItemName'].lower() :
+            item_list.append(row['ItemName'])
+            result.append(row['Stock'])
+            part_no.append(row['ManufacturerPartNo'])
 
     if len(item_list)==0:
         result=[0]
         item_list=['Not Available']
+        part_no=['Not Available']
 
-    else:
-        for item in item_list:
-            stock_item=df[df['ItemName']==item]
-            result.append(stock_item['Stock'].sum())
-
-    item_result_pairs = zip(item_list, result)
+    item_result_pairs = zip(part_no,item_list, result)
 
             
     return render(request,'result_item.html',{'item_view':item_result_pairs})
@@ -46,7 +46,7 @@ def result_item(request):
 def result_part(request):
     query_part=request.POST.get('part_number','')
 
-    excel_file="C:/Users/eSpark/Documents/Python_Tasks/Task_4/StockData 20-07-23.xlsx"
+    excel_file="C:/Users/eSpark/Documents/Python_Tasks/Tasks/Task_4/StockData 20-07-23.xlsx"
     df=pd.read_excel(excel_file)
     items=df['ManufacturerPartNo'].unique()
 
@@ -54,7 +54,6 @@ def result_part(request):
         result_df=df[df['ManufacturerPartNo']==query_part]
         item_name=result_df['ItemName'].to_list()
         result_item=item_name[0]
-        print()
         result_quantity=result_df['Stock'].sum()
 
     else:

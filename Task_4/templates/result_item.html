@@ -7,7 +7,10 @@
     <title>Query_Result</title>
     <style>
         body {
-            background: url('/static/abstracts.jpg');
+            background: linear-gradient(rgb(122, 187, 182), rgb(81, 131, 197));
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
         }
 
         .table {
@@ -63,7 +66,7 @@
             width: 100%;
         }
 
-        a p{
+        a p {
             color: #ffffff;
             display: inline;
             padding: 10px;
@@ -83,30 +86,28 @@
 
 <body>
     <header>
-        <nav>
-            <div class="heading">
-                <img src="/static/logo.png" alt="">
-                <h2>eSpark Inventory</h2>
-                <a href="/home">
+        <div class="heading">
+            <img src="/static/logo.png" alt="">
+            <h2>eSpark Inventory</h2>
+            <a href="/home">
+                <p>
+                    Home
                     <p>
-                        Home
-                    <p>
-                </a>
-
-            </div>
-        </nav>
+            </a>
+        </div>
     </header>
     <table class="table">
         <tbody>
             <tr>
+                <th><b>Part Number</b></td>
                 <th><b>Item Name</b></td>
                 <th><b>Quantity</b></td>
             </tr>
-
-            {% for item,quantity in item_view %}
+            {% for result_part,query_item,result_quantity in item_view %}
             <tr>
-                <td>{{ item }}</td>
-                <td>{{ quantity }}</td>
+                <td>{{ result_part }}</td>
+                <td>{{ query_item }}</td>
+                <td>{{ result_quantity }}</td>
             </tr>
             {% endfor %}
         </tbody>

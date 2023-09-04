@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-wxnb=0&0cin$#8+uc_wxp*$t=ou5$@-j&y56y75xr7j#hd27-t
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['esparkinventory.pk']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            background: linear-gradient(rgb(122, 187, 182), rgb(81, 131, 197));
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: fit-content;
+        }
+
+        .header-container .heading {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-container .heading img {
+            margin-left: 20px;
+            padding-bottom: 10px;
+            height: 70px;
+            width: 70px;
+        }
+
+        .header-container .heading h2 {
+            color: #ffffff;
+            display: inline;
+            padding: 10px;
+            vertical-align: middle;
+            font-size: 30px;
+        }
+
+        .header-container .nav-links {
+            display: flex;
+            align-items: center;
+        }
+
+        .div-form {
+            width: fit-content;
+            text-align: center;
+            margin: auto;
+            background: #ffffff60;
+        }
+
+        .div-form h2 {
+            color: #ffffff;
+            padding: 10px;
+            font-size: 30px;
+        }
+
+        .login-data {
+            padding: 30px;
+            color: #ffffff;
+            font-size: 20px;
+            font-family: serif;
+        }
+
+        #username {
+            background: #afd3d89c;
+            outline: none;
+            border: none;
+            font-size: 20px;
+            font-family: serif;
+            color: #ffffff;
+            margin: 5px;
+        }
+
+        #password {
+            background: #afd0d89c;
+            outline: none;
+            border: none;
+            font-size: 20px;
+            font-family: serif;
+            color: #ffffff;
+            margin: 5px;
+        }
+
+        .button {
+            margin: 20px;
+            background: #1186f388;
+            border: none;
+            color: #ffffff;
+            font-size: 20px;
+            font-family: serif;
+            size: 20px;
+        }
+
+        input[type='text'] {
+            color: #ffffff;
+        }
+
+        input[type='password'] {
+            color: #ffffff;
+        }
+
+        footer {
+            text-align: center;
+            background: #ffffff60;
+            color: #fff;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="header-container">
+            <div class="heading">
+                <img src="/static/logo.png" alt="">
+                <h2>eSpark Inventory</h2>
+            </div>
+        </div>
+    </header>
+    <div class="div-form">
+        <h2>
+            Login
+        </h2>
+        <form class="login-form" method="post">
+            {% csrf_token %}
+
+            <div class="login-data">
+                <label class="text" for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Username" autocomplete="off" />
+            </div>
+
+            <div class="login-data">
+                <label class="text" for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Password" autocomplete="new-password" />
+            </div>
+
+            <div>
+                {% if error_message %}
+                <div class="alert alert-danger" role="alert">{{ error_message }}</div>
+                {% endif %}
+            </div>
+
+            <div>
+                <input type="submit" class="button" value="Submit" />
+            </div>
+        </form>
+    </div>
+
+    <footer>
+        <p>&copy; 2023 eSpark Inventory. All rights reserved.</p>
+    </footer>
+
+</body>
+
+</html>

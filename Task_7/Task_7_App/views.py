@@ -142,6 +142,7 @@ def home_admin(request):
     return render(request, 'index_admin.html')
 
 
+
     
 
 @login_admin_successfull
@@ -315,6 +316,8 @@ def admin_result_item(request):
 
 
     return render(request,'admin_result_item.html',{'item_view':item_result_pairs})
+
+
 
 
 

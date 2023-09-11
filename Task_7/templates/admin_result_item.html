@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Query Result</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous"></script>
+    <style>
+        .b-body {
+            background: linear-gradient(rgb(122, 187, 182), rgb(81, 131, 197));
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        .header-contr {
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: fit-content;
+        }
+
+        .header-contr .headin {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-contr .headin img {
+            margin-left: 20px;
+            padding-bottom: 10px;
+            height: 80px;
+            width: 70px;
+        }
+
+        .header-contr .headin h2 {
+            color: #ffffff;
+            display: inline;
+            padding: 10px;
+            vertical-align: middle;
+            font-size: 30px;
+            font-family: serif;
+            font-weight: bold;
+        }
+
+        .header-contr .nav-links {
+            display: flex;
+            align-items: center;
+        }
+
+        a.navs {
+            color: #ffffff;
+            display: inline;
+            padding: 10px;
+            vertical-align: middle;
+            text-decoration: none;
+            font-size: 25px;
+            font-family: serif;
+            margin-right: 30px;
+        }
+
+        a.navs:hover {
+            background-color: #d0e2ee5b;
+            color: #ffffff;
+        }
+
+        .b-table {
+            table-layout: fixed;
+            border-collapse: collapse;
+            width: auto;
+            margin: auto;
+            margin-top: 3%;
+            margin-bottom: 10%;
+            font-family: serif;
+            color: #ffffff;
+        }
+
+        .b-table td,
+        .b-table th {
+            border: none;
+            padding: 50px;
+            text-align: center;
+            background-color: hsla(0, 0%, 100%, 0.376);
+            font-size: 30px;
+            color: #ffffff;
+        }
+
+        .del_button {
+            padding: 10px;
+            background: #1186f388;
+            border: none;
+            color: #ffffff;
+            font-size: 20px;
+            font-family: serif;
+            size: 20px;
+        }
+
+        .edit_button {
+            padding: 10px;
+            background: #1186f388;
+            border: none;
+            color: #ffffff;
+            font-size: 20px;
+            font-family: serif;
+            size: 20px;
+        }
+
+        footer {
+            text-align: center;
+            justify-content: center;
+            padding-top: 10px;
+            background: #ffffff60;
+            color: #fff;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            font-family: serif;
+            height: 50px;
+        }
+
+        .modal {
+            color: #ffffff;
+        }
+
+        .modal-content {
+            background: #ffffff60;
+        }
+    </style>
+
+</head>
+
+<body class="b-body">
+
+    <header>
+        <div class="header-contr">
+            <div class="headin">
+                <img src="/static/logo.png" alt="">
+                <h2>eSpark Inventory</h2>
+            </div>
+
+            <div class="nav-links">
+                <a class="navs" href="/admin_home">
+                    <p>Home</p>
+                </a>
+
+                <a class="navs" href="/logout">
+                    <p>Logout</p>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <table class="b-table">
+        <tbody>
+            <tr>
+                <th><b>Part Number</b></th>
+                <th><b>Item Name</b></th>
+                <th><b>Quantity</b></th>
+                <th></th>
+                <th></th>
+
+            </tr>
+            {% for input_query,result_part,query_item,result_quantity in item_view %}
+            <tr>
+                <td>{{ result_part }}</td>
+                <td>{{ query_item }}</td>
+                <td>{{ result_quantity }}</td>
+                <td>
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="query_item" value="{{input_query }}">
+                        <input type="hidden" name="del_part" value="{{ result_part }}">
+                        <input type="submit" class="del_button" name="delete" value="Delete Item" />
+                    </form>
+                </td>
+                <td>
+                    <button type="button" class="edit_button" data-bs-toggle="modal" data-bs-target="#editModal"
+                        data-query-item="{{ input_query }}" data-edit-part="{{ result_part }}">Edit Quantity</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="editModalLabel">Edit Quantity</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" id="modal-query-item" name="query_item">
+                        <input type="hidden" id="modal-edit-part" name="edit_part">
+                        <div class="form-group">
+                            <label for="new_quantity" style="margin-bottom: 8px;">New Quantity:</label>
+                            <input type="number" class="form-control" id="new_quantity" name="new_quantity" required>
+                            <input type="submit" class="btn btn-primary" name="edit" id="edit" value="Save"
+                                style="margin-top: 10px;"></input>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $('.edit_button').on('click', function () {
+            var queryItem = $(this).data('query-item');
+            var editPart = $(this).data('edit-part');
+            $('#modal-query-item').val(queryItem);
+            $('#modal-edit-part').val(editPart);
+        });
+    </script>
+
+    <footer>
+        <p>&copy; 2023 eSpark Inventory. All rights reserved.</p>
+    </footer>
+
+</body>
+
+</html>

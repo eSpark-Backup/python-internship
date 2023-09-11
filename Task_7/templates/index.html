@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <title>Home</title>
+
+    <style>
+.b-body {
+            background: linear-gradient(rgb(122, 187, 182), rgb(81, 131, 197));
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        .header-contr {
+            padding: 10px ;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: fit-content;
+        }
+
+        .header-contr .headin {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-contr .headin img {
+            margin-left: 20px;
+            padding-bottom: 10px;
+            height: 80px;
+            width: 70px;
+        }
+
+        .header-contr .headin h2 {
+            color: #ffffff;
+            display: inline;
+            padding: 10px;
+            vertical-align: middle;
+            font-size: 30px;
+            font-family: serif;
+            font-weight: bold;
+        }
+
+        .header-contr .nav-links {
+            display: flex;
+            align-items: center;
+        }
+
+        a.navs {
+            color: #ffffff;
+            display: inline;
+            padding: 10px;
+            vertical-align: middle;
+            text-decoration: none;
+            font-size: 25px;
+            font-family: serif;
+            margin-right: 30px;
+        }
+
+        a.navs:hover {
+            background-color: #d0e2ee5b;
+            color: #ffffff;
+        }
+
+        .main-body{
+            font-family: serif;
+            align-items: center;
+            text-align: center;
+            padding-top: 60px;
+        }
+
+        .input-container {
+            display: flex;
+            flex-direction: column;
+
+        }
+
+        input[type='text'] {
+            height: 30px;
+            background-color: #ffffff60;
+            border: none;
+            margin: 10px;
+            color: #ffffff;
+        }
+
+        input[type='submit'] {
+            height: 30px;
+            background-color: #ffffff60;
+            border: none;
+            margin: 10px;
+            min-width: 100px;
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 20px;
+            font-family: serif;
+        }
+
+        h1 {
+            color: #ffffff;
+            margin: 20px;
+            font-size: 50px;
+        }
+
+        #item_name {
+            outline: none;
+            size: 50px;
+            font-size: 20px;
+        }
+
+        #part_number {
+            outline: none;
+            size: 50px;
+            font-size: 20px;
+        }
+
+        .item_name {
+            margin: 20px;
+        }
+
+        .part_number {
+            margin: 20px;
+        }
+
+        .text {
+            color: #ffffff;
+            font-size: 30px;
+        }
+
+        footer {
+            text-align: center;
+            justify-content: center;
+            padding-top: 10px;
+            background: #ffffff60;
+            color: #fff;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            font-family: serif;
+            height: 50px;
+        }
+    </style>
+</head>
+
+<body class="b-body">
+
+    <header>
+        <div class="header-contr">
+            <div class="headin">
+                <img src="/static/logo.png" alt="">
+                <h2>eSpark Inventory</h2>
+            </div>
+
+            <div class="nav-links">
+                <a class="navs" href="/logout">
+                    <p>Logout</p>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-body">
+        <h1>Query Item</h1>
+        <div class="input-container">
+            <div class="item_name">
+                <form method="post" action="{% url 'result_item' %}?item_name={{ item_name }}">
+                    {% csrf_token %}
+                    <label class="text" for="item_name">Enter Item Name:</label>
+                    <input type="text" id="item_name" name="item_name" autocomplete="off">
+                    <input type="submit" value="Query">
+                </form>
+            </div>
+            <div class="part_number">
+                <form method="post" action="{% url 'result_part' %}?part_number={{ part_number }}">
+                    {% csrf_token %}
+                    <label class="text" for="part_number">Enter Part Number:</label>
+                    <input type="text" id="part_number" name="part_number" autocomplete="off">
+                    <input type="submit" value="Query">
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2023 eSpark Inventory. All rights reserved.</p>
+    </footer>
+
+</body>
+
+</html>

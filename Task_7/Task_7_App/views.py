@@ -104,21 +104,20 @@ def result_item(request):
 
 
 
-
 def result_part(request):
     query_part=request.POST.get('part_number','')
 
+    result_item=None
+    result_quantity=0
 
     df=pd.read_excel(excel_file)
-    items=df['ManufacturerPartNo'].unique()
 
-    if query_part in items:
-        result_df=df[df['ManufacturerPartNo']==query_part]
-        item_name=result_df['ItemName'].to_list()
-        result_item=item_name[0]
-        result_quantity=result_df['Stock'].sum()
+    for index, row in df.iterrows():
+        if query_part==str(row['ManufacturerPartNo']):
+            result_item=row['ItemName']
+            result_quantity=row['Stock']
 
-    else:
+    if result_item==None and result_quantity==0:
         query_part='Not Available'
         result_item='Not Available'
         result_quantity=0
@@ -140,7 +139,6 @@ def home_admin(request):
             part_number = request.POST.get('part_number', '')
             return HttpResponseRedirect(reverse('admin_result_part') + f'?part_number={part_number}')
     return render(request, 'index_admin.html')
-
 
 
     
@@ -319,22 +317,21 @@ def admin_result_item(request):
 
 
 
-
-
 @login_admin_successfull
 def admin_result_part(request):
     query_part=request.POST.get('part_number','')
     
+    result_item=None
+    result_quantity=0
+
     df=pd.read_excel(excel_file)
-    items=df['ManufacturerPartNo'].unique()
 
-    if query_part in items:
-        result_df=df[df['ManufacturerPartNo']==query_part]
-        item_name=result_df['ItemName'].to_list()
-        result_item=item_name[0]
-        result_quantity=result_df['Stock'].sum()
+    for index, row in df.iterrows():
+        if query_part==str(row['ManufacturerPartNo']):
+            result_item=row['ItemName']
+            result_quantity=row['Stock']
 
-    else:
+    if result_item==None and result_quantity==0:
         query_part='Not Available'
         result_item='Not Available'
         result_quantity=0
@@ -349,6 +346,16 @@ def admin_result_part(request):
 
             df.reset_index(drop=True, inplace=True)
 
+    if request.method=='POST':
+        if 'delete' in request.POST:
+            del_item=request.POST.get('del_part')
+
+            for index, row in df.iterrows():
+                if del_item==str(row['ManufacturerPartNo']):
+                    df.drop(index,inplace=True)
+
+            df.reset_index(drop=True, inplace=True)
+
             with pd.ExcelWriter(excel_file, engine='openpyxl') as writer:
                 df.to_excel(writer, sheet_name='Sheet1', index=False)
 
@@ -360,22 +367,21 @@ def admin_result_part(request):
 
         elif 'edit' in request.POST:
             edit_part=request.POST.get('edit_part')
-            new_quant=request.POST.get('new_quantity')
+            new_quant=int(request.POST.get('new_quantity'))
 
             for index, row in df.iterrows():
-                if edit_part==row['ManufacturerPartNo']:
-                    df.at[index, 'Stock']=new_quant
+                if edit_part==str(row['ManufacturerPartNo']):
+                    df.at[index, 'Stock'] = new_quant
 
             with pd.ExcelWriter(excel_file, engine='openpyxl') as writer:
                 df.to_excel(writer, sheet_name='Sheet1', index=False)
 
-            items=df['ManufacturerPartNo'].unique()
+            df=pd.read_excel(excel_file)
 
-            if edit_part in items:
-                result_df=df[df['ManufacturerPartNo']==edit_part]
-                item_name=result_df['ItemName'].to_list()
-                result_item=item_name[0]
-                result_quantity=result_df['Stock'].sum()
+            for index, row in df.iterrows():
+                if edit_part==str(row['ManufacturerPartNo']):
+                    result_item=row['ItemName']
+                    result_quantity=row['Stock']
 
             return render(request,'admin_result_part.html',{'query_part': edit_part,'result_item':result_item, 'result_quantity': result_quantity})
 

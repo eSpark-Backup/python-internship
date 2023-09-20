@@ -1,5 +1,6 @@
 import time
 from tkinter import *
+from ctypes import windll, byref, sizeof, c_int
 # from tkinter.ttk import *
 
 seconds = 0
@@ -53,55 +54,35 @@ def move_app(e):
 # main_window
 window = Tk()
 window.title('STOP WATCH')
-window.geometry('500x250')
-window.configure(bg="#B8C1CB")
+window.geometry('400x450')
+window.iconbitmap(r'timer_JHz_icon.ico')
 window.resizable(False, False)
 
-# #remove title bar
-# window.overrideredirect(True)
+#background
+back=PhotoImage(file='b_g.png')
+label_back =Label(window , background="#212121", image=back )
+label_back.place(x=0 , y=0, relwidth=1 , relheight=1)
 
-# title=Frame(window, bg="#7AA428", relief=SUNKEN,bd=0)
-# title.pack( fill=X)
-
-# #binding for moving
-# title.bind("<B1-Motion>", move_app)
-
-
-# title_label=Label(title, text="STOP WATCH", bg="#7AA428", fg='#000000')
-# title_label.pack(anchor=CENTER)
-
-# win_close=Button(title,text="X", fg='black', bg='red', command=window.destroy)
-# win_close.pack(side=RIGHT)
-
-
-# my_button=Button(window, text="Close", command=window.quit)
-# my_button.pack()
-
-
-# UI
-label = Label(window, text="00:00:00", background="#000000", foreground="#ffffff",font=('Serif',20))
-label.pack(padx=50, pady=50)
-
-# Create a frame to hold the buttons and center them horizontally
-button_frame = Frame(window)
-button_frame.pack(pady=25)
-
-# Create a colored label as the background for the frame (black in this case)
-bg_label = Label(button_frame, background="#B8C1CB")
-bg_label.pack(fill="both", expand=True)
+#create label 
+label=Label(window, background="#000000", text='00:00:00'
+, foreground='#7DAE59',font=('Times',35))
+label.place(relx=0.5, rely=0.43,anchor='center')
 
 # Place the "Reset" button in the middle
-reset_button = Button(bg_label, text='Reset', command=reset, bg="#000000", fg="#ffffff")
-reset_button.pack(side="left", padx=15)
+reset_button = Button(window, text='Reset', command=reset, bg="#000000", fg="#ffffff", padx=57, font=('Serif',13))
+reset_button.place(x=116.5, y=305)
+# reset_button.pack(side="left", padx=15)
 
 # Place the "Start" button on the left
-start_button = Button(bg_label, text='Start', command=start_watch, bg="#2A69BF", fg="#ffffff")
-start_button.pack(side="left", padx=15)
+start_button = Button(window, text='Start  ', command=start_watch, bg="#000000", fg="#0282D6", padx=57, font=('Serif',13))
+# start_button.pack(side="left", padx=15)
+start_button.place(x=116.5, y=235)
 
 # Place the "Stop" button on the right
-stop_button = Button(bg_label, text='Stop', command=stop_watch, bg="#D12B2B", fg="#ffffff")
-stop_button.pack(side="right", padx=15)
-
+stop_button = Button(window, text='Stop  ', command=stop_watch, bg="#000000", fg="red", padx=57, font=('Serif',13))
+# stop_button.pack(side="right", padx=15)
+stop_button.place(x=116.5, y=270)
 
 # main_loop
 window.mainloop()
+

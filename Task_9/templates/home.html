@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <title>Home</title>
+
+    <style>
+        body {
+            background: linear-gradient(rgb(255, 255, 255), rgba(98, 184, 199, 0.466));
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        #bodies {
+            margin: 30px;
+        }
+
+        #main-blue {
+            background-color: #01496D;
+            height: 20px;
+        }
+
+        #logo {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        #no-logs a {
+            text-decoration: none;
+        }
+
+        #no-logs a p {
+            text-align: right;
+            font-size: 30px;
+            font-family: serif;
+            color: #00B0B4;
+        }
+
+        #no-logs a:hover p {
+            text-align: right;
+            font-size: 30px;
+            font-family: serif;
+            color: #008688;
+        }
+
+        #form-but{
+            margin: auto;
+            margin-top: 200px;
+            width: 400px;
+        }
+
+        #form-but a{
+            text-decoration: none;
+        }
+
+        #form-but a p{
+            font-family: serif;
+            text-align: center;
+            font-size: 30px;
+            background-color: #00B0B4;
+            width: 400px;
+            color: #ffffff;
+            border: 2px solid #00B0B4;
+            border-radius: 10px;
+        }
+
+        #form-but a:hover p{
+            font-family: serif;
+            text-align: center;
+            font-size: 30px;
+            background-color: #00B0B4;
+            width: 400px;
+            color: #cecece;
+            border: 2px solid #00B0B4;
+            border-radius: 10px;
+        }
+
+        #greens {
+            margin-top: 315px;
+            padding: 3px;
+            background-color: #00B0B4;
+        }
+
+        #greys {
+            padding: 3px;
+            background-color: #B5B5B5;
+        }
+
+        #blues {
+            padding: 15px;
+            background-color: #01496D;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="bodies">
+
+        <div id="heading">
+            <div id="main-blue">
+            </div>
+
+            <div id="logo">
+
+                <span id="logo-img">
+                    <img src="/static/es_logo.png" alt="">
+                </span>
+
+                <div id="no-logs">
+                    <a href="/logout">
+                        <p><b>Logout</b></p>
+                    </a>
+                </div>
+
+            </div>
+
+            <div id="main-blue">
+            </div>
+        </div>
+
+        <div id="form-but">
+
+            <a href="/eT_Invoice">
+                <p><b>Generate eT Invoice</b></p>
+            </a>
+
+            <a href="/Client_Invoice">
+                <p><b>Generate Client Invoice</b></p>
+            </a>
+
+            <a href="/Salary_Slip">
+                <p><b>Generate Salary Slip</b></p>
+            </a>
+
+        </div>
+
+        <div id="footer">
+            <div id="greens"></div>
+            <div id="greys"></div>
+            <div id="blues"></div>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>

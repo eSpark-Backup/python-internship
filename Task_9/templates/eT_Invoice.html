@@ -9,9 +9,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <style>
-        body {
-            overflow: hidden;
-        }
 
         #body {
             margin: 40px;
@@ -19,31 +16,58 @@
 
         #main-blue {
             background-color: #01496D;
-            width: 100%;
             height: 20px;
         }
 
+        #logo {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        #descr {
+            font-size: 35px;
+            color: #006496;
+            font-family: serif;
+            font-weight: bold;
+        }
+
+        #no-logs a {
+            text-decoration: none;
+        }
+
+        #no-logs a p {
+            text-align: right;
+            font-size: 30px;
+            font-family: serif;
+            color: #00B0B4;
+        }
+
+        #no-logs a:hover p {
+            text-align: right;
+            font-size: 30px;
+            font-family: serif;
+            color: #008688;
+        }
+
+        #whole-form input[type="submit"] {
+            background-color: #006496;
+            color: #ffffff;
+            border: 2px solid #006496;
+            border-radius: 10px;
+            font-family: 'Segoe UI';
+            font-size: 22.5px;
+        }
+
         .main-green {
+            margin-top: 10px;
             background-color: #018E91;
             width: 100%;
             text-align: center;
             color: #ffffff;
             height: 35px;
-        }
-
-        #crucial-ele {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        #logo-img img {
-            width: 150px;
-            height: 150px;
-        }
-
-        #contacts {
-            text-align: right;
         }
 
         table {
@@ -154,29 +178,10 @@
             font-family: sans-serif;
         }
 
-        #sal-desc-table th:nth-child(1),
-        #sal-desc-table td:nth-child(1) {
-            width: 50%;
-        }
-
-        #sal-desc-table th:nth-child(2),
-        #sal-desc-table td:nth-child(2) {
-            width: 10%;
-        }
-
-        #sal-desc-table th:nth-child(3),
-        #sal-desc-table td:nth-child(3) {
-            width: 12%;
-        }
-
-        #sal-desc-table th:nth-child(4),
-        #sal-desc-table td:nth-child(4) {
-            width: 28%;
-        }
-
         .green-col {
             background-color: #018E91;
             text-align: center;
+            color: #ffffff;
         }
 
         .green-col input {
@@ -201,8 +206,9 @@
             font-size: 16px;
         }
 
-        #above-total {
+        #no-use {
             color: #ffffff;
+            height: 30px;
         }
 
         #sal-total {
@@ -212,15 +218,10 @@
             font-weight: bold;
         }
 
-        #foots {
-            position: sticky;
-            bottom: 40px;
-        }
-
         #end-note {
             font-family: sans-serif;
             font-size: 11px;
-            margin-top: 23%;
+            margin-top: 3%;
         }
 
         #greens {
@@ -237,209 +238,46 @@
             padding: 15px;
             background-color: #01496D;
         }
-
-        /* (min-width: 2480px )and (max-height: 3508px)  */
-        @media print {
-            @page {
-                size: A4;
-                margin: 0;
-            }
-
-            #crucial-ele {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-            }
-
-            #logo-img img {
-                width: 170px;
-                height: 170px;
-            }
-
-            #contacts {
-                text-align: right;
-            }
-
-            table {
-                width: 100%;
-            }
-
-            #invoice-desc {
-                display: flex;
-                justify-content: space-between;
-            }
-
-            #invoice-desc-left,
-            #invoice-desc-right {
-                display: inline-block;
-                margin-top: 10px;
-                margin-bottom: 10px;
-                margin-left: 5px;
-                margin-right: 5px;
-            }
-
-            #invoice-desc-left td,
-            #invoice-desc-right td {
-                font-family: sans-serif;
-                font-size: 16px;
-                text-align: left;
-                font-weight: 510;
-            }
-
-            #invoice-desc-left input,
-            #invoice-desc-right input {
-                border: none;
-                outline: none;
-                font-family: sans-serif;
-                font-size: 16px;
-                font-weight: bold;
-                color: #00A0A0;
-            }
-
-            #no-use {
-                color: #ffffff;
-                font-size: 12px;
-                background-color: #ffffff;
-            }
-
-            #emp-desc input {
-                border: none;
-                outline: none;
-                font-family: sans-serif;
-                font-size: 16px;
-                font-weight: bold;
-            }
-
-            .white-row td {
-                color: #00A0A0;
-                font-weight: bold;
-                font-family: sans-serif;
-                font-size: 16px;
-            }
-
-            .white-row input {
-                color: #00A0A0;
-                font-family: sans-serif;
-                font-size: 16px;
-                margin-left: 15px;
-            }
-
-            .green-row {
-                background-color: #018E91;
-            }
-
-            .green-row td {
-                color: #ffffff;
-                font-weight: bold;
-                font-family: sans-serif;
-                font-size: 16px;
-            }
-
-            .green-row input {
-                background-color: #018E91;
-                color: #ffffff;
-                font-family: sans-serif;
-                font-size: 16px;
-                margin-left: 15px;
-            }
-
-            .sal-green {
-                background-color: #018E91;
-                width: 100%;
-                text-align: center;
-                color: #ffffff;
-                height: 30px;
-                margin-top: 30px;
-                padding-top: 3px;
-                font-size: 25px;
-            }
-
-            #sal-desc table {
-                width: 100%;
-                font-size: 16px;
-            }
-
-            #sal-desc table td {
-                border: none;
-                padding-top: 10px;
-                padding-bottom: 10px;
-            }
-
-            #sal-table-green-row {
-                background-color: #018E91;
-            }
-
-            #sal-table-green-row th {
-                color: #ffffff;
-                font-weight: bold;
-                font-size: 15px;
-                text-align: center;
-                font-family: sans-serif;
-            }
-
-            .green-col {
-                background-color: #018E91;
-                text-align: center;
-            }
-
-            .green-col input {
-                background-color: #018E91;
-                color: #ffffff;
-                border: none;
-                outline: none;
-                text-align: center;
-                font-family: sans-serif;
-                font-size: 14px;
-            }
-
-            .nor-col {
-                text-align: center;
-            }
-
-            .nor-col input {
-                border: none;
-                outline: none;
-                text-align: center;
-                font-family: sans-serif;
-                font-size: 14px;
-            }
-
-            #above-total {
-                color: #ffffff;
-            }
-
-            #sal-total {
-                text-align: center;
-                color: #00A0A0;
-                font-family: sans-serif;
-                font-weight: bold;
-            }
-        }
     </style>
 
 </head>
 
 <body>
+
     <div id="gen-pdf">
+
         <div id="body">
-            <form action="">
+
+            <div id="heading">
+
                 <div id="main-blue">
                 </div>
 
-                <div id="crucial-ele">
+                <div id="logo">
 
                     <span id="logo-img">
-                        <img src="/static/logo_eT.png" alt="">
+                        <img src="/static/es_logo.png" alt="">
                     </span>
 
-                    <div id="contacts">
-                        <p>0323-2788259 <b>&#9990;</b></p>
-                        <p>www.esparkconsultants.com/hire-a-talent <img src="/static/globe.png" alt=""
-                                style="width: 18px; height: 18px;"></p>
-                        <p>sales@esparkconsultants.com <b>&#64;</b></p>
+                    <div id="descr">
+                        INVOICE ESPARK TALENT
+                    </div>
+
+                    <div id="no-logs">
+                        <a href="/logout">
+                            <p><b>Logout</b></p>
+                        </a>
                     </div>
 
                 </div>
+
+                <div id="main-blue">
+                </div>
+
+            </div>
+
+            <form id="whole-form" method="post">
+                {% csrf_token %}
 
                 <div class="main-green">
                     <h4>
@@ -448,67 +286,68 @@
                 </div>
 
                 <div id="invoice-desc">
+
                     <div id="invoice-desc-left">
+
                         <table>
                             <tr>
                                 <td>
                                     ATTENTION
-                                    <input type="text" placeholder="..." required>
+                                    <input type="text" placeholder="..." name="attention" required autocomplete="off">
                                 </td>
                             </tr>
 
                             <tr>
                                 <td>
                                     Company Name:
-                                    <input type="text" placeholder="..." required>
+                                    <input type="text" placeholder="..." name="comp_name" required autocomplete="off">
                                 </td>
                             </tr>
 
                             <tr>
                                 <td>
                                     Email:
-                                    <input type="text" placeholder="..." required>
+                                    <input type="email" placeholder="..." name="email" required autocomplete="off">
                                 </td>
                             </tr>
 
                             <tr>
                                 <td>
                                     Company Address:
-                                    <input type="text" placeholder="..." required>
+                                    <input type="text" placeholder="..." name="comp_addr" required autocomplete="off">
 
                                 </td>
                             </tr>
                         </table>
+
                     </div>
+
                     <div id="invoice-desc-right">
+
                         <table>
                             <tr>
                                 <td>
-                                    Invoice No:
-                                    <input type="text" placeholder="..." required>
+                                    Invoice No: ...
                                 </td>
                             </tr>
 
                             <tr>
                                 <td>
                                     Date:
-                                    <input type="text" placeholder="..." required>
+                                    <input type="date" name="date" required autocomplete="off">
                                 </td>
                             </tr>
 
                             <tr>
                                 <td>
                                     Invoice Month:
-                                    <input type="text" placeholder="..." required>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td id="no-use">
-                                    cfgg
+                                    <input type="month" name="inv_month" required autocomplete="off">
                                 </td>
                             </tr>
                         </table>
+
                     </div>
+
                 </div>
 
                 <div class="main-green">
@@ -522,42 +361,42 @@
                         <tr class="white-row">
                             <td>
                                 Employee ID No:
-                                <input type="text" placeholder="..." required>
+                                <input type="text" placeholder="..." name="emp_id" required autocomplete="off">
                             </td>
                         </tr>
 
                         <tr class="green-row">
                             <td>
                                 Employee Name:
-                                <input type="text" placeholder="..." required>
+                                <input type="text" placeholder="..." name="emp_name" required autocomplete="off">
                             </td>
                         </tr>
 
                         <tr class="white-row">
                             <td>
                                 Employee Designation:
-                                <input type="text" placeholder="..." required>
+                                <input type="text" placeholder="..." name="emp_desig" required autocomplete="off">
                             </td>
                         </tr>
 
                         <tr class="green-row">
                             <td>
                                 Project Name:
-                                <input type="text" placeholder="..." required>
+                                <input type="text" placeholder="..." name="proj_name" required autocomplete="off">
                             </td>
                         </tr>
 
                         <tr class="white-row">
                             <td>
                                 Job Mode:
-                                <input type="text" placeholder="..." required>
+                                <input type="text" placeholder="..." name="job_mode" required autocomplete="off">
                             </td>
                         </tr>
 
                         <tr class="green-row">
                             <td>
                                 Joining Date:
-                                <input type="text" placeholder="..." required>
+                                <input type="date" name="join_date" required autocomplete="off">
                             </td>
                         </tr>
                     </table>
@@ -576,11 +415,11 @@
                                 Services
                             </th>
 
-                            <th>
+                            <th style="width: 15%;">
                                 Hours
                             </th>
 
-                            <th>
+                            <th style="width: 15%;">
                                 Hourly Rate (Per Hour)
                             </th>
 
@@ -596,20 +435,18 @@
 
                             <td class="green-col">
 
-                                <input type="text" value="-">
+                                <input type="number" placeholder="-" name="ser_char_hours" autocomplete="off">
 
                             </td>
 
                             <td class="nor-col">
 
-                                <input type="text" value="-">
+                                <input type="number" placeholder="-" name="ser_char_per_hour" autocomplete="off">
 
                             </td>
 
                             <td class="green-col">
-
-                                <input type="text" value="-">
-
+                                -
                             </td>
                         </tr>
 
@@ -620,59 +457,42 @@
 
                             <td class="green-col">
 
-                                <input type="text" value="-">
+                                <input type="number" placeholder="-" name="man_char_hours" autocomplete="off">
 
                             </td>
 
                             <td class="nor-col">
 
-                                <input type="text" value="-">
+                                <input type="number" placeholder="-" name="man_char_per_hour" autocomplete="off">
 
                             </td>
 
                             <td class="green-col">
-
-                                <input type="text" value="-">
-
+                                -
                             </td>
                         </tr>
 
                         <tr>
-                            <td id="above-total">
-                                glkdsf
-                            </td>
-
-                            <td>
-                            </td>
-
-                            <td>
-                            </td>
-
-                            <td>
-                            </td>
+                            <td id="no-use" colspan="4"></td>
                         </tr>
 
                         <tr>
-                            <td>
-
-                            </td>
-
-                            <td>
-                            </td>
+                            <td colspan="2"></td>
 
                             <td id="sal-total">
                                 Total Amount
                             </td>
 
                             <td class="green-col">
-
-                                <input type="text" value="Rs ">
-
+                                Rs 0
                             </td>
                         </tr>
 
                     </table>
                 </div>
+
+                <input type="submit" value="Submit">
+
             </form>
             <div id="foots">
                 <div id="end-note">

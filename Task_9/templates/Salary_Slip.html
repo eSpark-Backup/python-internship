@@ -9,13 +9,37 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <style>
+        #no-logs{
+            width: fit-content;
+            margin-top: 40px;
+            margin-left: 93%;
+        }
+        
+        #no-logs a {
+            text-decoration: none;
+        }
+
+        #no-logs a p {
+            text-align: right;
+            font-size: 30px;
+            font-family: serif;
+            color: #00B0B4;
+        }
+
+        #no-logs a:hover p {
+            text-align: right;
+            font-size: 30px;
+            font-family: serif;
+            color: #008688;
+        }
+
         #body {
             margin: 40px;
         }
 
-        header img{
+        header img {
             width: 100%;
-            
+
         }
 
         .main-green {
@@ -102,7 +126,7 @@
             color: #00A0A0;
             font-family: sans-serif;
             font-size: 16px;
-            margin-left: 15px; 
+            margin-left: 15px;
         }
 
         .green-row {
@@ -141,7 +165,7 @@
             font-size: 16px;
         }
 
-        #sal-desc table td{
+        #sal-desc table td {
             font-weight: 550;
         }
 
@@ -209,208 +233,18 @@
         footer img {
             width: 100%;
         }
-
-        @media print {
-            @page {
-                size: A4;
-                margin: 0;
-            }
-
-            #body {
-                margin: 40px;
-            }
-
-            header img{
-                margin-top: 20px;
-                margin-bottom: 40px;
-            }
-
-            .main-green {
-                background-color: #00A0A0;
-                width: 100%;
-                text-align: center;
-                color: #ffffff;
-                height: 35px;
-                font-size: 20px;
-                font-weight: 550;
-                font-family: sans-serif;
-            }
-
-            #payroll-cont {
-                display: flex;
-                justify-content: space-between;
-            }
-
-            #payroll-desc-left,
-            #payroll-desc-right {
-                display: inline-block;
-                margin-top: 10px;
-                margin-bottom: 10px;
-                margin-left: 5px;
-                margin-right: 5px;
-            }
-
-            #payroll-cont table {
-                width: 100%;
-            }
-
-            #payroll-desc-left td,
-            #payroll-desc-right td {
-                font-family: sans-serif;
-                font-size: 15px;
-                text-align: left;
-                font-weight: 510;
-            }
-
-            #payroll-desc-left input,
-            #payroll-desc-right input {
-                border: none;
-                outline: none;
-                font-family: sans-serif;
-                font-size: 15px;
-                font-weight: bold;
-                color: #00B0B4;
-            }
-
-            .no-use {
-                color: #ffffff;
-                font-size: 12px;
-                background-color: #ffffff;
-            }
-
-            #account-desc table {
-                width: 100%;
-            }
-
-            #account-desc input {
-                border: none;
-                outline: none;
-                font-family: sans-serif;
-                font-size: 15px;
-                font-weight: bold;
-            }
-
-            .white-row td {
-                color: #00A0A0;
-                font-weight: bold;
-                font-family: sans-serif;
-                font-size: 15px;
-            }
-
-            .white-row input {
-                color: #00A0A0;
-                font-family: sans-serif;
-                font-size: 15px;
-            }
-
-            .green-row {
-                background-color: #00A0A0;
-            }
-
-            .green-row td {
-                color: #ffffff;
-                font-weight: bold;
-                font-family: sans-serif;
-                font-size: 15px;
-            }
-
-            .green-row input {
-                background-color: #00A0A0;
-                color: #ffffff;
-                font-family: sans-serif;
-                font-size: 15px;
-            }
-
-            #sal-green {
-                background-color: #00A0A0;
-                width: 100%;
-                text-align: center;
-                color: #ffffff;
-                height: 35px;
-                margin-top: 20px;
-                font-size: 20px;
-                font-family: sans-serif;
-                font-weight: 550;
-            }
-
-            #sal-desc table {
-                width: 100%;
-                font-size: 14px;
-            }
-            
-            #sal-desc table td{                
-                font-weight:510;
-            }
-
-            #sal-table-green-row {
-                background-color: #00A0A0;
-            }
-
-            #sal-table-green-row th {
-                color: #ffffff;
-                font-weight: bold;
-                font-size: 14px;
-                text-align: center;
-                font-family: sans-serif;
-            }
-
-            .green-col {
-                background-color: #00A0A0;
-                text-align: center;
-            }
-
-            .green-col input {
-                background-color: #00A0A0;
-                color: #ffffff;
-                border: none;
-                outline: none;
-                text-align: center;
-                font-family: sans-serif;
-                font-size: 14px;
-            }
-
-            .nor-col {
-                text-align: center;
-            }
-
-            .nor-col input {
-                border: none;
-                outline: none;
-                text-align: center;
-                font-family: sans-serif;
-                font-size: 14px;
-            }
-
-            .gap {
-                color: #ffffff;
-            }
-
-            .totals {
-                text-align: center;
-                color: #00A0A0;
-                font-family: sans-serif;
-                font-weight: bold;
-            }
-
-            #end-note {
-                font-family: sans-serif;
-                font-size: 14px;
-                margin-top: 20%;
-            }
-
-            footer {
-                width: 100%;
-            }
-
-            footer img {
-                width: 100%;
-            }
-        }
     </style>
 
 </head>
 
 <body>
+
+    <div id="no-logs">
+        <a href="/logout">
+            <p><b>Logout</b></p>
+        </a>
+    </div>
+
     <div id="gen-pdf">
         <div id="body">
             <form action="">

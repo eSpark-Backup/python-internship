@@ -9,12 +9,30 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <style>
-        #no-logs{
-            width: fit-content;
-            margin-top: 40px;
-            margin-left: 93%;
+        #body {
+            margin: 40px;
         }
-        
+
+        #main-blue {
+            background-color: #01496D;
+            height: 20px;
+        }
+
+        #logo {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        #descr {
+            font-size: 35px;
+            color: #006496;
+            font-family: serif;
+            font-weight: bold;
+        }
+
         #no-logs a {
             text-decoration: none;
         }
@@ -33,6 +51,16 @@
             color: #008688;
         }
 
+        #whole-form input[type="submit"] {
+            margin-top: 40px;
+            background-color: #006496;
+            color: #ffffff;
+            border: 2px solid #006496;
+            border-radius: 10px;
+            font-family: 'Segoe UI';
+            font-size: 22.5px;
+        }
+
         #body {
             margin: 40px;
         }
@@ -43,6 +71,7 @@
         }
 
         .main-green {
+            margin-top: 20px;
             background-color: #00A0A0;
             width: 100%;
             text-align: center;
@@ -106,14 +135,6 @@
             font-size: 16px;
             font-weight: bold;
         }
-
-        /* .sec-col-account {
-            text-align: right;
-        }
-
-        .sec-col-account input {
-            text-align: right;
-        } */
 
         .white-row td {
             color: #00A0A0;
@@ -183,7 +204,12 @@
 
         .green-col {
             background-color: #00A0A0;
+            color: #ffffff;
             text-align: center;
+            text-align: center;
+            font-family: sans-serif;
+            font-size: 16px;
+            font-weight: 550;
         }
 
         .green-col input {
@@ -194,6 +220,7 @@
             text-align: center;
             font-family: sans-serif;
             font-size: 16px;
+            font-weight: 550;
         }
 
         .nor-col {
@@ -204,12 +231,13 @@
             border: none;
             outline: none;
             text-align: center;
-            font-family: sans-serif;
-            font-size: 15px;
+            font-size: 16px;
+            font-weight: 550;
         }
 
         .gap {
             color: #ffffff;
+            height: 30px;
         }
 
         .totals {
@@ -219,19 +247,35 @@
             font-weight: bold;
         }
 
+        #sal-desc-table th:nth-child(2),
+        #sal-desc-table td:nth-child(2) {
+            width: 15%;
+        }
+
+        #sal-desc-table th:nth-child(4),
+        #sal-desc-table td:nth-child(4) {
+            width: 15%;
+        }
+
         #end-note {
             font-family: sans-serif;
             font-size: 14px;
-            margin-top: 5%;
-            margin-bottom: 0;
+            margin-top: 3%;
         }
 
-        footer {
-            width: 100%;
+        #greens {
+            padding: 3px;
+            background-color: #00B0B4;
         }
 
-        footer img {
-            width: 100%;
+        #greys {
+            padding: 3px;
+            background-color: #B5B5B5;
+        }
+
+        #blues {
+            padding: 15px;
+            background-color: #01496D;
         }
     </style>
 
@@ -239,18 +283,39 @@
 
 <body>
 
-    <div id="no-logs">
-        <a href="/logout">
-            <p><b>Logout</b></p>
-        </a>
-    </div>
-
     <div id="gen-pdf">
         <div id="body">
-            <form action="">
-                <header>
-                    <img src="/static/header_1.PNG" alt="">
-                </header>
+
+            <div id="heading">
+
+                <div id="main-blue">
+                </div>
+
+                <div id="logo">
+
+                    <span id="logo-img">
+                        <img src="/static/es_logo.png" alt="">
+                    </span>
+
+                    <div id="descr">
+                        SALARY SLIP
+                    </div>
+
+                    <div id="no-logs">
+                        <a href="/logout">
+                            <p><b>Logout</b></p>
+                        </a>
+                    </div>
+
+                </div>
+
+                <div id="main-blue">
+                </div>
+
+            </div>
+
+            <form action="" method="post" id="whole-form">
+                {% csrf_token %}
 
                 <div class="main-green">
                     <p>
@@ -264,28 +329,28 @@
                             <tr>
                                 <td>
                                     EMPLOYEE ID:
-                                    <input type="text" placeholder="..." required>
+                                    <input type="text" placeholder="..." name="emp_id" required autocomplete="off">
                                 </td>
                             </tr>
 
                             <tr>
                                 <td>
                                     EMPLOYEE NAME:
-                                    <input type="text" placeholder="..." required>
+                                    <input type="text" placeholder="..." name="emp_name" required autocomplete="off">
                                 </td>
                             </tr>
 
                             <tr>
                                 <td>
                                     DESIGNATION:
-                                    <input type="text" placeholder="..." required>
+                                    <input type="text" placeholder="..." name="desig" required autocomplete="off">
                                 </td>
                             </tr>
 
                             <tr>
                                 <td>
                                     TOTAL SERVICE:
-                                    <input type="text" placeholder="..." required>
+                                    <input type="text" placeholder="..." name="tot_serv" required autocomplete="off">
 
                                 </td>
                             </tr>
@@ -296,26 +361,21 @@
                             <tr>
                                 <td>
                                     JOINING DATE:
-                                    <input type="text" placeholder="..." required>
+                                    <input type="date" placeholder="..." name="join_date" required autocomplete="off">
                                 </td>
                             </tr>
 
                             <tr>
                                 <td>
                                     PAYROLL MONTH:
-                                    <input type="text" placeholder="..." required>
+                                    <input type="month" placeholder="..." name="payroll_month" required autocomplete="off">
                                 </td>
                             </tr>
 
                             <tr>
                                 <td>
                                     STATUS:
-                                    <input type="text" placeholder="..." required>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="no-use">
-                                    cfgg
+                                    <input type="text" placeholder="..." name="status" required autocomplete="off">
                                 </td>
                             </tr>
                         </table>
@@ -327,28 +387,28 @@
                         <tr class="green-row">
                             <td>
                                 Email ID:
-                                <input type="text" placeholder="..." required>
+                                <input type="text" placeholder="..." name="email" required autocomplete="off">
                             </td>
                         </tr>
 
                         <tr class="white-row">
                             <td>
                                 Phone Number:
-                                <input type="text" placeholder="..." required>
+                                <input type="text" placeholder="..." name="phone_no" required autocomplete="off">
                             </td>
                         </tr>
 
                         <tr class="green-row">
                             <td>
                                 Bank Account:
-                                <input type="text" placeholder="..." required>
+                                <input type="text" placeholder="..." name="bank_acc" required autocomplete="off">
                             </td>
                         </tr>
 
                         <tr class="white-row">
                             <td>
                                 NOK:
-                                <input type="text" placeholder="..." required>
+                                <input type="text" placeholder="..." name="nok" required autocomplete="off">
                             </td>
                         </tr>
                     </table>
@@ -387,19 +447,19 @@
 
                             <td class="green-col">
 
-                                <input type="text" value="-">
+                                <input type="number" placeholder="-" name="b_pay_earn_amount" required autocomplete="off">
 
                             </td>
 
                             <td class="nor-col">
 
-                                <input type="text" value="-">
+                                <input type="text" placeholder="-" name="ded_rec_1" required autocomplete="off">
 
                             </td>
 
                             <td class="green-col">
 
-                                <input type="text" value="-">
+                                <input type="number" placeholder="-" name="ded_rec_1_amount" required autocomplete="off">
 
                             </td>
                         </tr>
@@ -411,19 +471,19 @@
 
                             <td class="green-col">
 
-                                <input type="text" value="-">
+                                <input type="number" placeholder="-" name="sp_tech_earn_amount" required autocomplete="off">
 
                             </td>
 
                             <td class="nor-col">
 
-                                <input type="text" value="-">
+                                <input type="text" placeholder="-" name="ded_rec_2" required autocomplete="off">
 
                             </td>
 
                             <td class="green-col">
 
-                                <input type="text" value="-">
+                                <input type="number" placeholder="-" name="ded_rec_2_amount" required autocomplete="off">
 
                             </td>
                         </tr>
@@ -435,19 +495,19 @@
 
                             <td class="green-col">
 
-                                <input type="text" value="-">
+                                <input type="number" placeholder="-" name="punct_earn_amount" required autocomplete="off">
 
                             </td>
 
                             <td class="nor-col">
 
-                                <input type="text" value="-">
+                                <input type="text" placeholder="-" name="ded_rec_3" required autocomplete="off">
 
                             </td>
 
                             <td class="green-col">
 
-                                <input type="text" value="-">
+                                <input type="number" placeholder="-" name="ded_rec_3_amount" required autocomplete="off">
 
                             </td>
                         </tr>
@@ -459,19 +519,19 @@
 
                             <td class="green-col">
 
-                                <input type="text" value="-">
+                                <input type="number" placeholder="-" name="mg_allow_earn_amount" required autocomplete="off">
 
                             </td>
 
                             <td class="nor-col">
 
-                                <input type="text" value="-">
+                                <input type="text" placeholder="-" name="ded_rec_4" required autocomplete="off">
 
                             </td>
 
                             <td class="green-col">
 
-                                <input type="text" value="-">
+                                <input type="number" placeholder="-" name="ded_rec_4_amount" required autocomplete="off">
 
                             </td>
                         </tr>
@@ -483,19 +543,19 @@
 
                             <td class="green-col">
 
-                                <input type="text" value="-">
+                                <input type="number" placeholder="-" name="proj_earn_amount" required autocomplete="off">
 
                             </td>
 
                             <td class="nor-col">
 
-                                <input type="text" value="-">
+                                <input type="text" placeholder="-" name="ded_rec_5" required autocomplete="off">
 
                             </td>
 
                             <td class="green-col">
 
-                                <input type="text" value="-">
+                                <input type="number" placeholder="-" name="ded_rec_5_amount" required autocomplete="off">
 
                             </td>
                         </tr>
@@ -507,19 +567,19 @@
 
                             <td class="green-col">
 
-                                <input type="text" value="-">
+                                <input type="number" placeholder="-" name="convey_allow_earn_amount" required autocomplete="off">
 
                             </td>
 
                             <td class="nor-col">
 
-                                <input type="text" value="-">
+                                <input type="text" placeholder="-" name="ded_rec_6" required autocomplete="off">
 
                             </td>
 
                             <td class="green-col">
 
-                                <input type="text" value="-">
+                                <input type="number" placeholder="-" name="ded_rec_6_amount" required autocomplete="off">
 
                             </td>
                         </tr>
@@ -531,35 +591,25 @@
 
                             <td class="green-col">
 
-                                <input type="text" value="-">
+                                <input type="number" placeholder="-" name="onsite_allow_earn_amount" required autocomplete="off">
 
                             </td>
 
                             <td class="nor-col">
 
-                                <input type="text" value="-">
+                                <input type="text" placeholder="-" name="ded_rec_7" required autocomplete="off">
 
                             </td>
 
                             <td class="green-col">
 
-                                <input type="text" value="-">
+                                <input type="number" placeholder="-" name="ded_rec_7_amount" required autocomplete="off">
 
                             </td>
                         </tr>
 
                         <tr>
-                            <td class="gap">
-                                glkdsf
-                            </td>
-
-                            <td>
-                            </td>
-
-                            <td>
-                            </td>
-
-                            <td>
+                            <td colspan="4" class="gap">
                             </td>
                         </tr>
 
@@ -569,7 +619,7 @@
                             </td>
 
                             <td class="green-col">
-                                <input type="text" value="Rs ">
+                                Rs. 0
                             </td>
 
                             <td class="totals">
@@ -577,22 +627,12 @@
                             </td>
 
                             <td class="green-col">
-                                <input type="text" value="Rs ">
+                                Rs. 0
                             </td>
                         </tr>
 
                         <tr>
-                            <td class="gap">
-                                glkdsf
-                            </td>
-
-                            <td>
-                            </td>
-
-                            <td>
-                            </td>
-
-                            <td>
+                            <td colspan="4" class="gap">
                             </td>
                         </tr>
 
@@ -602,29 +642,30 @@
                             </td>
 
                             <td class="green-col">
-                                <input type="text" value="Rs ">
-                            </td>
-
-                            <td>
-                            </td>
-
-                            <td>
+                                Rs. 0
                             </td>
                         </tr>
 
                     </table>
                 </div>
 
-            </form>
-            <div id="end-note">
-                <p>
-                    &diams; This is a computer generated document and don't required any signature
-                </p>
-            </div>
+                <input type="submit" value="Submit">
 
-            <footer>
-                <img src="/static/footer_1.PNG" alt="">
-            </footer>
+            </form>
+
+            <div id="foots">
+                <div id="end-note">
+                    <p>
+                        &diams; This is a computer generated document and don't required any signature
+                    </p>
+                </div>
+
+                <div id="footer">
+                    <div id="greens"></div>
+                    <div id="greys"></div>
+                    <div id="blues"></div>
+                </div>
+            </div>
 
 
         </div>

@@ -76,16 +76,6 @@
             font-weight: bold;
         }
 
-        #emp-desc input {
-            width: auto;
-            word-wrap: break-word;
-            border: none;
-            outline: none;
-            font-family: sans-serif;
-            font-size: 16px;
-            font-weight: bold;
-        }
-
         .white-row td {
             display: inline-block;
             color: #00A0A0;
@@ -138,21 +128,10 @@
             width: 30%;
         }
 
-        /* #sal-desc-table th:nth-child(2),
-        #sal-desc-table td:nth-child(2) {
-            width: 15%;
-        }*/
-
         #sal-desc-table th:nth-child(3),
         #sal-desc-table td:nth-child(3) {
             width: 25%;
         }
-
-        /* 
-        #sal-desc-table th:nth-child(4),
-        #sal-desc-table td:nth-child(4) {
-            width: 30%;
-        } */
 
         .green-col {
             background-color: #018E91;
@@ -237,7 +216,6 @@
 <body>
     <div id="gen-pdf">
         <div id="body">
-            <form action="">
                 <div id="main-blue">
                 </div>
 
@@ -484,13 +462,13 @@
                             </td>
 
                             <td class="green-col">
-                                {{total}}
+                                Rs. {{total}}
                             </td>
                         </tr>
 
                     </table>
                 </div>
-            </form>
+
 
 
             <button onclick="my_print('gen-pdf')" type="button">Generate PDF</button>

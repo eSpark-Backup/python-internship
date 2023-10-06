@@ -9,12 +9,14 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <style>
+
         #body {
             margin: 40px;
         }
 
         header img {
             width: 100%;
+            margin-bottom: 30px;
 
         }
 
@@ -29,6 +31,11 @@
 
         .sec-col-inv {
             text-align: right;
+        }
+
+        .ans{
+            margin-left: 10px;
+            font-weight: bold;
         }
 
         .green-row {
@@ -71,6 +78,10 @@
             font-size: 16px;
         }
 
+        .nor-row .ans{
+            color: #00A0A0;
+        }
+
         .white-row th {
             font-family: 17px;
             color: #00A0A0;
@@ -107,7 +118,7 @@
         }
 
         #details {
-            margin-top: 50px;
+            margin-top: 30px;
         }
 
         #details table {
@@ -228,219 +239,30 @@
             width: 100%;
         }
 
+        button {
+            background-color: #006496;
+            color: #ffffff;
+            border: 2px solid #006496;
+            border-radius: 10px;
+            font-family: 'Segoe UI';
+            font-size: 22.5px;
+            margin-top: 40px;
+        }
+        
         @media print {
             @page {
                 size: A4;
                 margin: 0;
             }
 
-            #body {
-                margin: 40px;
-            }
-
-            header img {
-                margin-top: 15px;
-                margin-bottom: 30px;
-            }
-
-            #inv-desc table {
-                width: 100%;
-            }
-
-            #inv-desc input {
-                border: none;
-                outline: none;
-            }
-
-            .sec-col-inv {
-                text-align: right;
-            }
-
-            .green-row {
-                background-color: #00A0A0;
-            }
-
-            .green-row th {
-                font-family: 16px;
-                color: #ffffff;
-                font-weight: bold;
-                font-family: sans-serif;
-            }
-
-            .green-row td {
-                color: #ffffff;
-                font-weight: 510;
-                font-family: sans-serif;
-                font-size: 15px;
-            }
-
-            .green-row input {
-                background-color: #00A0A0;
-                color: #ffffff;
-                font-family: sans-serif;
-                font-size: 15px;
-                font-weight: bold;
-                margin-left: 5px;
-            }
-
-            .nor-row {
-                font-weight: 510;
-                font-family: sans-serif;
-                font-size: 14px;
-            }
-
-            .nor-row input {
-                color: #00A0A0;
-                font-weight: 510;
-                font-family: sans-serif;
-                font-size: 14px;
-            }
-
-            .white-row th {
-                font-family: 16px;
-                color: #00A0A0;
-                font-weight: bold;
-                font-family: sans-serif;
-            }
-
-            .white-row td {
-                color: #00A0A0;
-                font-weight: bold;
-                font-family: sans-serif;
-                font-size: 15px;
-            }
-
-            .white-row input {
-                color: #00A0A0;
-                font-family: sans-serif;
-                font-size: 15px;
-                font-weight: bold;
-                margin-left: 5px;
-            }
-
-            #cont-info {
-                margin-top: 10px;
-            }
-
-            #cont-info table {
-                width: 100%;
-            }
-
-            #cont-info input {
-                border: none;
-                outline: none;
-            }
-
-            #details table {
-                border-collapse: collapse;
-                font-size: 14.5px;
-            }
-
-            #details table .need-height {
-                height: 150px;
-            }
-
-            #details table th {
-                background-color: #00A0A0;
-                color: #ffffff;
-                text-align: center;
-                border: 1px solid black;
-            }
-
-            #details table td {
-                text-align: center;
-                border: 1px solid black;
-            }
-
-            #details table input {
-                border: none;
-                outline: none;
-                text-align: center;
-            }
-
-            .sr-no {
-                width: 8%;
-                font-weight: bold;
-            }
-
-            .item {
-                width: 23%;
-                padding: 3px;
-            }
-
-            .item input {
-                width: 100%;
-            }
-
-            .specs {
-                width: 31%;
-                padding: 3px;
-            }
-
-            .specs input {
-                width: 100%;
-            }
-
-            .qty {
-                width: 7%;
-                padding: 3px;
-            }
-
-            .qty input {
-                width: 100%;
-            }
-
-            .price {
-                width: 12%;
-                padding: 3px;
-            }
-
-            .price input {
-                width: 100%;
-            }
-
-            .amount {
-                background-color: #00A0A0;
-                color: #ffffff;
-                width: 20%;
-                padding: 3px;
-            }
-
-            .amount input {
-                background-color: #00A0A0;
-                color: #ffffff;
-                width: 100%;
-            }
-
-            #details table #totals {
-                height: 30px;
-            }
-
-            #details table #totals #no-use {
-                border: none;
-                width: 0;
-                padding: 0;
-                margin: 0;
-            }
-
-            #teeess {
-                background-color: #00A0A0;
-                color: #ffffff;
-                font-weight: bold;
+            button {
+                visibility: hidden;
             }
 
             #end-note {
                 font-family: sans-serif;
-                font-size: 14px;
-                margin-top: 8%;
-            }
-
-            footer {
-                width: 100%;
-            }
-
-            footer img {
-                width: 100%;
+                font-size: 13px;
+                margin-top: 50px;
             }
         }
     </style>
@@ -448,163 +270,166 @@
 </head>
 
 <body>
-    <div id="body">
-        <form action="">
-            <header>
-                <img src="/static/header_1.PNG" alt="">
-            </header>
 
-            <div id="inv-desc">
-                <table>
-                    <tr class="green-row">
-                        <th>
-                            INVOICE TO:
-                            <input type="text" placeholder="...">
-                        </th>
-                        <th class="sec-col-inv">
-                            INVOICE DETAILS:&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                        </th>
-                    </tr>
+    <div id="gen-pdf">
+        <div id="body">
 
-                    <tr class="nor-row">
-                        <td>
-                            ATTENTION:
-                            <input type="text" placeholder="Mr. ...">
-                        </td>
-                        <td class="sec-col-inv">
-                            INVOICE NO:
-                            <input type="text" placeholder="..." required>
+                <header>
+                    <img src="/static/header_1.PNG" alt="">
+                </header>
 
-                        </td>
-                    </tr>
+                <div id="inv-desc">
+                    <table>
+                        <tr class="green-row">
+                            <th>
+                                INVOICE TO:
+                                <span class="ans">{{inv_recipient}}</span>
+                            </th>
+                            <th class="sec-col-inv">
+                                INVOICE DETAILS:&emsp;&emsp;
+                            </th>
+                        </tr>
 
-                    <tr class="nor-row">
-                        <td>
-                            THIS INVOICE IS PREPARED BY:
-                            <input type="text" placeholder="...">
-                        </td>
-                        <td class="sec-col-inv">
-                            DATE:
-                            <input type="text" placeholder="..." required>
+                        <tr class="nor-row">
+                            <td>
+                                ATTENTION:
+                                <span class="ans"> {{attention}} </span>
+                            </td>
+                            <td class="sec-col-inv">
+                                INVOICE NO:
+                                <span class="ans"> {{invoice_no}} </span>
 
-                        </td>
-                    </tr>
+                            </td>
+                        </tr>
 
-                </table>
+                        <tr class="nor-row">
+                            <td>
+                                THIS INVOICE IS PREPARED BY:
+                                <span class="ans"> {{prep_by}} </span>
+                            </td>
+                            <td class="sec-col-inv">
+                                DATE:
+                                <span class="ans"> {{date}} </span>
+                            </td>
+                        </tr>
+
+                    </table>
+                </div>
+
+                <div id="cont-info">
+                    <table>
+                        <tr class="green-row">
+                            <th>
+                                Contact Person:
+                                <span class="ans"> {{contact_per}} </span>
+                            </th>
+                        </tr>
+
+                        <tr class="white-row">
+                            <th>
+                                Email:
+                                <span class="ans"> {{email}} </span>
+                            </th>
+                        </tr>
+                    </table>
+                </div>
+
+                <div id="details">
+                    <table>
+                        <tr>
+                            <th class="sr-no">Sr.No.</th>
+                            <th class="item"> Item Name</th>
+                            <th class="specs">Specification</th>
+                            <th class="qty">Qty</th>
+                            <th class="price">Unit Price</th>
+                            <th class="amount">Amount</th>
+                        </tr>
+                        <tr class="need-height">
+                            <td class="sr-no">
+                                1
+                            </td>
+                            <td class="item">
+                                {{item_1}}
+                            </td>
+                            <td class="specs">
+                                {{specs_1}}
+                            </td>
+                            <td class="qty">
+                                {{qty_1}}
+                            </td>
+                            <td class="price">
+                                {{price_1}}
+                            </td>
+                            <td class="amount">
+                                {{amount_1}}
+                            </td>
+                        </tr>
+                        <tr class="need-height">
+                            <td class="sr-no">
+                                2
+                            </td>
+                            <td class="item">
+                                {{item_2}}
+                            </td>
+                            <td class="specs">
+                                {{specs_2}}
+                            </td>
+                            <td class="qty">
+                                {{qty_2}}
+                            </td>
+                            <td class="price">
+                                {{price_2}}
+                            </td>
+                            <td class="amount">
+                                {{amount_2}}
+                            </td>
+                        </tr>
+                        <tr class="need-height">
+                            <td class="sr-no">
+                                3
+                            </td>
+                            <td class="item">
+                                {{item_3}}
+                            </td>
+                            <td class="specs">
+                                {{specs_3}}
+                            </td>
+                            <td class="qty">
+                                {{qty_3}}
+                            </td>
+                            <td class="price">
+                                {{price_3}}
+                            </td>
+                            <td class="amount">
+                                {{amount_3}}
+                            </td>
+                        </tr>
+                        <tr id="totals">
+                            <td id="no-use" colspan="2"></td>
+                            <td id="teeess" colspan="3">
+                                Total
+                            </td>
+                            <td class="amount">
+                                Rs. {{total}}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+            <button onclick="my_print('gen-pdf')" type="button">Generate PDF</button>
+
+            <div id="end-note">
+                <p>
+                    &diams; This is a computer generated document and don't required any signature
+                </p>
             </div>
 
-            <div id="cont-info">
-                <table>
-                    <tr class="green-row">
-                        <th>
-                            Contact Person:
-                            <input type="text" placeholder="..." required>
-                        </th>
-                    </tr>
+            <footer>
+                <img src="/static/footer_1.PNG" alt="">
+            </footer>
 
-                    <tr class="white-row">
-                        <th>
-                            Email:
-                            <input type="text" placeholder="..." required>
-                        </th>
-                    </tr>
-                </table>
-            </div>
 
-            <div id="details">
-                <table>
-                    <tr>
-                        <th class="sr-no">Sr.No.</th>
-                        <th class="item"> Item Name</th>
-                        <th class="specs">Specification</th>
-                        <th class="qty">Qty</th>
-                        <th class="price">Unit Price</th>
-                        <th class="amount">Amount</th>
-                    </tr>
-                    <tr class="need-height">
-                        <td class="sr-no">
-                            1
-                        </td>
-                        <td class="item">
-                            <input type="text" placeholder="..." wrap="soft">
-                        </td>
-                        <td class="specs">
-                            <input type="text" placeholder="..." wrap="soft">
-                        </td>
-                        <td class="qty">
-                            <input type="text" placeholder="...">
-                        </td>
-                        <td class="price">
-                            <input type="text" placeholder="...">
-                        </td>
-                        <td class="amount">
-                            <input type="text" placeholder="...">
-                        </td>
-                    </tr>
-                    <tr class="need-height">
-                        <td class="sr-no">
-                            2
-                        </td>
-                        <td class="item">
-                            <input type="text" placeholder="..." wrap="soft">
-                        </td>
-                        <td class="specs">
-                            <input type="text" placeholder="..." wrap="soft">
-                        </td>
-                        <td class="qty">
-                            <input type="text" placeholder="...">
-                        </td>
-                        <td class="price">
-                            <input type="text" placeholder="...">
-                        </td>
-                        <td class="amount">
-                            <input type="text" placeholder="...">
-                        </td>
-                    </tr>
-                    <tr class="need-height">
-                        <td class="sr-no">
-                            3
-                        </td>
-                        <td class="item">
-                            <input type="text" placeholder="..." wrap="soft">
-                        </td>
-                        <td class="specs">
-                            <input type="text" placeholder="..." wrap="soft">
-                        </td>
-                        <td class="qty">
-                            <input type="text" placeholder="...">
-                        </td>
-                        <td class="price">
-                            <input type="text" placeholder="...">
-                        </td>
-                        <td class="amount">
-                            <input type="text" placeholder="...">
-                        </td>
-                    </tr>
-                    <tr id="totals">
-                        <td id="no-use" colspan="2"></td>
-                        <td id="teeess" colspan="3">
-                            Total
-                        </td>
-                        <td class="amount">
-                            <input type="text" placeholder="...">
-                        </td>
-                    </tr>
-                </table>
-            </div>
-
-        </form>
-        <div id="end-note">
-            <p>
-                &diams; This is a computer generated document and don't required any signature
-            </p>
         </div>
-
-        <footer>
-            <img src="/static/footer_1.PNG" alt="">
-        </footer>
-
-
     </div>
 
 
@@ -612,6 +437,17 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
+
+        <script type="text/javascript">
+            var originalContent = document.body.innerHTML; // Store the original content
+    
+            function my_print(p_id) {
+                var to_print = document.getElementById(p_id).innerHTML;
+                document.body.innerHTML = to_print;
+                window.print();
+                document.body.innerHTML = originalContent;
+            }
+        </script>
 
 </body>
 

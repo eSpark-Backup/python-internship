@@ -368,7 +368,8 @@
                             <tr>
                                 <td>
                                     PAYROLL MONTH:
-                                    <input type="month" placeholder="..." name="payroll_month" required autocomplete="off">
+                                    <input type="month" placeholder="..." name="payroll_month" required
+                                        autocomplete="off">
                                 </td>
                             </tr>
 
@@ -447,7 +448,8 @@
 
                             <td class="green-col">
 
-                                <input type="number" placeholder="-" name="b_pay_earn_amount" required autocomplete="off">
+                                <input type="number" placeholder="-" name="b_pay_earn_amount" required
+                                    autocomplete="off" oninput="tot()">
 
                             </td>
 
@@ -459,7 +461,8 @@
 
                             <td class="green-col">
 
-                                <input type="number" placeholder="-" name="ded_rec_1_amount" required autocomplete="off">
+                                <input type="number" placeholder="-" name="ded_rec_1_amount" required autocomplete="off"
+                                    oninput="tot()">
 
                             </td>
                         </tr>
@@ -471,7 +474,8 @@
 
                             <td class="green-col">
 
-                                <input type="number" placeholder="-" name="sp_tech_earn_amount" required autocomplete="off">
+                                <input type="number" placeholder="-" name="sp_tech_earn_amount" required
+                                    autocomplete="off" oninput="tot()">
 
                             </td>
 
@@ -483,7 +487,8 @@
 
                             <td class="green-col">
 
-                                <input type="number" placeholder="-" name="ded_rec_2_amount" required autocomplete="off">
+                                <input type="number" placeholder="-" name="ded_rec_2_amount" required autocomplete="off"
+                                    oninput="tot()">
 
                             </td>
                         </tr>
@@ -495,7 +500,8 @@
 
                             <td class="green-col">
 
-                                <input type="number" placeholder="-" name="punct_earn_amount" required autocomplete="off">
+                                <input type="number" placeholder="-" name="punct_earn_amount" required
+                                    autocomplete="off" oninput="tot()">
 
                             </td>
 
@@ -507,7 +513,8 @@
 
                             <td class="green-col">
 
-                                <input type="number" placeholder="-" name="ded_rec_3_amount" required autocomplete="off">
+                                <input type="number" placeholder="-" name="ded_rec_3_amount" required autocomplete="off"
+                                    oninput="tot()">
 
                             </td>
                         </tr>
@@ -519,7 +526,8 @@
 
                             <td class="green-col">
 
-                                <input type="number" placeholder="-" name="mg_allow_earn_amount" required autocomplete="off">
+                                <input type="number" placeholder="-" name="mg_allow_earn_amount" required
+                                    autocomplete="off" oninput="tot()">
 
                             </td>
 
@@ -531,7 +539,8 @@
 
                             <td class="green-col">
 
-                                <input type="number" placeholder="-" name="ded_rec_4_amount" required autocomplete="off">
+                                <input type="number" placeholder="-" name="ded_rec_4_amount" required autocomplete="off"
+                                    oninput="tot()">
 
                             </td>
                         </tr>
@@ -543,7 +552,8 @@
 
                             <td class="green-col">
 
-                                <input type="number" placeholder="-" name="proj_earn_amount" required autocomplete="off">
+                                <input type="number" placeholder="-" name="proj_earn_amount" required autocomplete="off"
+                                    oninput="tot()">
 
                             </td>
 
@@ -555,7 +565,8 @@
 
                             <td class="green-col">
 
-                                <input type="number" placeholder="-" name="ded_rec_5_amount" required autocomplete="off">
+                                <input type="number" placeholder="-" name="ded_rec_5_amount" required autocomplete="off"
+                                    oninput="tot()">
 
                             </td>
                         </tr>
@@ -567,7 +578,8 @@
 
                             <td class="green-col">
 
-                                <input type="number" placeholder="-" name="convey_allow_earn_amount" required autocomplete="off">
+                                <input type="number" placeholder="-" name="convey_allow_earn_amount" required
+                                    autocomplete="off" oninput="tot()">
 
                             </td>
 
@@ -579,7 +591,8 @@
 
                             <td class="green-col">
 
-                                <input type="number" placeholder="-" name="ded_rec_6_amount" required autocomplete="off">
+                                <input type="number" placeholder="-" name="ded_rec_6_amount" required autocomplete="off"
+                                    oninput="tot()">
 
                             </td>
                         </tr>
@@ -591,7 +604,8 @@
 
                             <td class="green-col">
 
-                                <input type="number" placeholder="-" name="onsite_allow_earn_amount" required autocomplete="off">
+                                <input type="number" placeholder="-" name="onsite_allow_earn_amount" required
+                                    autocomplete="off" oninput="tot()">
 
                             </td>
 
@@ -603,7 +617,8 @@
 
                             <td class="green-col">
 
-                                <input type="number" placeholder="-" name="ded_rec_7_amount" required autocomplete="off">
+                                <input type="number" placeholder="-" name="ded_rec_7_amount" required autocomplete="off"
+                                    oninput="tot()">
 
                             </td>
                         </tr>
@@ -619,7 +634,7 @@
                             </td>
 
                             <td class="green-col">
-                                Rs. 0
+                                <input type="text" id="totalEarn" readonly value="Rs. 0">
                             </td>
 
                             <td class="totals">
@@ -627,7 +642,7 @@
                             </td>
 
                             <td class="green-col">
-                                Rs. 0
+                                <input type="text" id="totalDeduct" readonly value="Rs. 0">
                             </td>
                         </tr>
 
@@ -642,7 +657,7 @@
                             </td>
 
                             <td class="green-col">
-                                Rs. 0
+                                <input type="text" id="netTotal" readonly value="Rs. 0">
                             </td>
                         </tr>
 
@@ -675,7 +690,33 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
+    <script>
+        function tot() {
+            var earn_1 = parseInt(document.querySelector('input[name="b_pay_earn_amount"]').value) || 0;
+            var earn_2 = parseInt(document.querySelector('input[name="sp_tech_earn_amount"]').value) || 0;
+            var earn_3 = parseInt(document.querySelector('input[name="punct_earn_amount"]').value) || 0;
+            var earn_4 = parseInt(document.querySelector('input[name="mg_allow_earn_amount"]').value) || 0;
+            var earn_5 = parseInt(document.querySelector('input[name="proj_earn_amount"]').value) || 0;
+            var earn_6 = parseInt(document.querySelector('input[name="convey_allow_earn_amount"]').value) || 0;
+            var earn_7 = parseInt(document.querySelector('input[name="onsite_allow_earn_amount"]').value) || 0;
 
+            var deduct_1 = parseInt(document.querySelector('input[name="ded_rec_1_amount"]').value) || 0;
+            var deduct_2 = parseInt(document.querySelector('input[name="ded_rec_2_amount"]').value) || 0;
+            var deduct_3 = parseInt(document.querySelector('input[name="ded_rec_3_amount"]').value) || 0;
+            var deduct_4 = parseInt(document.querySelector('input[name="ded_rec_4_amount"]').value) || 0;
+            var deduct_5 = parseInt(document.querySelector('input[name="ded_rec_5_amount"]').value) || 0;
+            var deduct_6 = parseInt(document.querySelector('input[name="ded_rec_6_amount"]').value) || 0;
+            var deduct_7 = parseInt(document.querySelector('input[name="ded_rec_7_amount"]').value) || 0;
+
+            var totalEarn = earn_1 + earn_2 + earn_3 + earn_4 + earn_5 + earn_6 + earn_7;
+            var totalDeduct = deduct_1 + deduct_2 + deduct_3 + deduct_4 + deduct_5 + deduct_6 + deduct_7;
+            var netTotal = totalEarn - totalDeduct;
+
+            document.getElementById('totalEarn').value = 'Rs. ' + totalEarn;
+            document.getElementById('totalDeduct').value = 'Rs. ' + totalDeduct;
+            document.getElementById('netTotal').value = 'Rs. ' + netTotal;
+        }
+    </script>
 </body>
 
 </html>

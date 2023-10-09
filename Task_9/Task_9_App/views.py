@@ -28,7 +28,7 @@ def home(request):
     return render(request,'home.html')
 
 @login_admin_successfull
-@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+# @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def eT_Invoice(request):
     if request.method=='POST':
         attention=request.POST['attention']
@@ -68,9 +68,10 @@ def eT_Invoice(request):
             'amount':[ser_char_amount,man_char_amount]
         }
 
-        new_invoice_eT = eT_Invoice_Table.objects.create(attention=attention, company_name=company_name, email=email, company_address=company_address, date=date, month=month, emp_info=emp_info, sal_info=sal_info)
+        # new_invoice_eT = eT_Invoice_Table.objects.create(attention=attention, company_name=company_name, email=email, company_address=company_address, date=date, month=month, emp_info=emp_info, sal_info=sal_info)
 
-        current_invoice_number = new_invoice_eT.invoice_no
+        # current_invoice_number = new_invoice_eT.invoice_no
+        current_invoice_number='dfgdf555'
 
         return render(request, 'eT_Invoice_pdf.html', {
             'current_invoice_number' : current_invoice_number,
@@ -98,6 +99,7 @@ def eT_Invoice(request):
     return render(request,'eT_Invoice.html')
 
 @login_admin_successfull
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def Salary_Slip(request):
     if request.method=='POST':
         emp_id=request.POST['emp_id']
@@ -146,7 +148,7 @@ def Salary_Slip(request):
 
         net_pay= total_earn - total_deduc
 
-        new_sal_slip=Salary_Slip_Table.objects.create(emp_id=emp_id,emp_name=emp_name,desig=desig,tot_ser=tot_ser,join_date=join_date,payroll_month=payroll_month,status=status,email=email,phone_no=phone_no,bank_acc=bank_acc,nok=nok,sal_info=sal_info)
+        # new_sal_slip=Salary_Slip_Table.objects.create(emp_id=emp_id,emp_name=emp_name,desig=desig,tot_ser=tot_ser,join_date=join_date,payroll_month=payroll_month,status=status,email=email,phone_no=phone_no,bank_acc=bank_acc,nok=nok,sal_info=sal_info)
 
         return render(request,'Salary_Slip_pdf.html',{
             "emp_id":emp_id,
@@ -190,12 +192,12 @@ def Salary_Slip(request):
     return render(request,'Salary_Slip.html')
 
 @login_admin_successfull
+# @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def Client_Invoice(request):
     if request.method=='POST':
 
         inv_recipient=request.POST["inv_recipient"]
         attention=request.POST["attention"]
-        invoice_no=request.POST["invoice_no"]
         prep_by=request.POST["prep_by"]
         date=request.POST["date"]
         contact_per=request.POST["contact_per"]
@@ -219,12 +221,22 @@ def Client_Invoice(request):
 
         total=amount_1+amount_2+amount_3
 
-        new_client_invoice=Client_Invoice_Table.objects.create(invoice_no=invoice_no,inv_recipient=inv_recipient,attention=attention,prep_by=prep_by,date=date,contact_per=contact_per,email=email)
+        item_desc={
+            'item_1':[item_1,specs_1,qty_1,price_1,amount_1],
+            'item_2':[item_2,specs_2,qty_2,price_2,amount_2],
+            'item_3':[item_3,specs_3,qty_3,price_3,amount_3]
+        }
+
+        # new_client_invoice=Client_Invoice_Table.objects.create(inv_recipient=inv_recipient,attention=attention,prep_by=prep_by,date=date,contact_per=contact_per,email=email,item_desc=item_desc)
+
+        # new_inv_no=new_client_invoice.invoice_no
+
+        new_inv_no='6hgfh546'
 
         return render(request, 'Client_Invoice_pdf.html', {
             "inv_recipient":inv_recipient,
             "attention":attention,
-            "invoice_no":invoice_no,
+            "invoice_no":new_inv_no,
             "prep_by":prep_by,
             "date":date,
             "contact_per":contact_per,

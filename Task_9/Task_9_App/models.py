@@ -72,7 +72,7 @@ class Client_Invoice_Table(models.Model):
         current_year = str(datetime.datetime.now().year)
 
         if not self.invoice_no:
-            latest_invoice = eT_Invoice_Table.objects.filter(
+            latest_invoice = Client_Invoice_Table.objects.filter(
                 invoice_no__startswith="ES-"+current_year+"-"
             ).order_by("-invoice_no").first()
 

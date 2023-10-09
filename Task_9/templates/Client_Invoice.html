@@ -65,7 +65,7 @@
 
         }
 
-        #inv-desc{
+        #inv-desc {
             margin-top: 20px;
         }
 
@@ -407,13 +407,15 @@
                                 <input type="text" placeholder="..." name="specs_1" autocomplete="off">
                             </td>
                             <td class="qty">
-                                <input type="number" placeholder="..." name="qty_1" autocomplete="off">
+                                <input type="number" placeholder="..." name="qty_1" id="qty_1" autocomplete="off"
+                                    oninput="tot()">
                             </td>
                             <td class="price">
-                                <input type="number" placeholder="..." name="price_1" autocomplete="off">
+                                <input type="number" placeholder="..." name="price_1" id="price_1" autocomplete="off"
+                                    oninput="tot()">
                             </td>
                             <td class="amount">
-                                -
+                                <input type="text" id="amount_1" value="0" readonly>
                             </td>
                         </tr>
                         <tr class="need-height">
@@ -427,13 +429,14 @@
                                 <input type="text" placeholder="..." name="specs_2" autocomplete="off">
                             </td>
                             <td class="qty">
-                                <input type="number" placeholder="..." name="qty_2" autocomplete="off">
+                                <input type="number" placeholder="..." name="qty_2" id="qty_2" autocomplete="off"
+                                    oninput="tot()">
                             </td>
                             <td class="price">
-                                <input type="number" placeholder="..." name="price_2" autocomplete="off">
+                                <input type="number" placeholder="..." name="price_2" id="price_2" autocomplete="off" oninput="tot()">
                             </td>
                             <td class="amount">
-                               -
+                                <input type="text" id="amount_2" value="0" readonly>
                             </td>
                         </tr>
                         <tr class="need-height">
@@ -447,13 +450,15 @@
                                 <input type="text" placeholder="..." name="specs_3" autocomplete="off">
                             </td>
                             <td class="qty">
-                                <input type="number" placeholder="..." name="qty_3" autocomplete="off">
+                                <input type="number" placeholder="..." name="qty_3" id="qty_3" autocomplete="off"
+                                    oninput="tot()">
                             </td>
                             <td class="price">
-                                <input type="number" placeholder="..." name="price_3" autocomplete="off">
+                                <input type="number" placeholder="..." name="price_3" id="price_3" autocomplete="off"
+                                    oninput="tot()">
                             </td>
                             <td class="amount">
-                                -
+                                <input type="text" id="amount_3" value="0" readonly>
                             </td>
                         </tr>
                         <tr id="totals">
@@ -462,7 +467,7 @@
                                 Total
                             </td>
                             <td class="amount">
-                                Rs. 0
+                                <input type="text" id="totalAmount" readonly value="Rs. 0">
                             </td>
                         </tr>
                     </table>
@@ -487,17 +492,32 @@
             </div>
 
         </div>
-
-
-        </div>
     </div>
+
 
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
-
+    <script>
+        function tot() {
+            var qty_1 = parseInt(document.getElementById('qty_1').value) || 0;
+            var price_1 = parseInt(document.getElementById('price_1').value) || 0;
+            var amount_1 = qty_1 * price_1;
+            var qty_2 = parseInt(document.getElementById('qty_2').value) || 0;
+            var price_2 = parseInt(document.getElementById('price_2').value) || 0;
+            var amount_2 = qty_2 * price_2;
+            var qty_3 = parseInt(document.getElementById('qty_3').value) || 0;
+            var price_3 = parseInt(document.getElementById('price_3').value) || 0;
+            var amount_3 = qty_3 * price_3;
+            document.getElementById('amount_1').value = amount_1;
+            document.getElementById('amount_2').value = amount_2;
+            document.getElementById('amount_3').value = amount_3;
+            var total = amount_1 + amount_2 + amount_3
+            document.getElementById('totalAmount').value = 'Rs. ' + total;
+        }
+    </script>
 </body>
 
 </html>

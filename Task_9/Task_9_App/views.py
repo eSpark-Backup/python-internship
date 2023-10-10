@@ -28,7 +28,7 @@ def home(request):
     return render(request,'home.html')
 
 @login_admin_successfull
-# @cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def eT_Invoice(request):
     if request.method=='POST':
         attention=request.POST['attention']
@@ -43,15 +43,9 @@ def eT_Invoice(request):
         proj_name=request.POST['proj_name']
         job_mode=request.POST['job_mode']
         join_date=request.POST['join_date']
-        ser_char_hours = int(request.POST['ser_char_hours'])
-        ser_char_per_hour = int(request.POST['ser_char_per_hour'])
-        man_char_hours = int(request.POST['man_char_hours'])
-        man_char_per_hour = int(request.POST['man_char_per_hour'])
-
-        ser_char_amount = ser_char_hours*ser_char_per_hour
-        man_char_amount = man_char_hours*man_char_per_hour
-
-        total = ser_char_amount+man_char_amount
+        services = [service for service in request.POST.getlist('services[]') if service]
+        hours = [hour for hour in request.POST.getlist('hours[]') if hour]
+        hourly_rates = [rate for rate in request.POST.getlist('hourly_rate[]') if rate]
 
         emp_info={
             'emp_id':emp_id,
@@ -61,17 +55,19 @@ def eT_Invoice(request):
             'job_mode':job_mode
         }
 
-        sal_info={
-            'services':['Service Charges','Management Fee'],
-            'hours':[ser_char_hours,man_char_hours],
-            'hourly rate':[ser_char_per_hour,man_char_per_hour],
-            'amount':[ser_char_amount,man_char_amount]
+        sal_info = {
+            'services': services,
+            'hours': [int(hour) for hour in hours],
+            'hourly_rates': [int(rate) for rate in hourly_rates],
+            'amounts': [int(hour) * int(rate) for hour, rate in zip(hours, hourly_rates)]
         }
 
-        # new_invoice_eT = eT_Invoice_Table.objects.create(attention=attention, company_name=company_name, email=email, company_address=company_address, date=date, month=month, emp_info=emp_info, sal_info=sal_info)
+        total = sum(sal_info['amounts'])
 
-        # current_invoice_number = new_invoice_eT.invoice_no
-        current_invoice_number='dfgdf555'
+        new_invoice_eT = eT_Invoice_Table.objects.create(attention=attention, company_name=company_name, email=email, company_address=company_address, date=date, month=month, emp_info=emp_info, sal_info=sal_info)
+
+        current_invoice_number = new_invoice_eT.invoice_no
+
 
         return render(request, 'eT_Invoice_pdf.html', {
             'current_invoice_number' : current_invoice_number,
@@ -87,12 +83,7 @@ def eT_Invoice(request):
             'proj_name' : proj_name,
             'job_mode' : job_mode,
             'join_date' : join_date,
-            'ser_char_hours' : ser_char_hours,
-            'ser_char_per_hour' : ser_char_per_hour,
-            'man_char_hours' : man_char_hours,
-            'man_char_per_hour' : man_char_per_hour,
-            'ser_char_amount' : ser_char_amount,
-            'man_char_amount' : man_char_amount,
+            'sal_info' : sal_info,
             'total' : total
         })
 
@@ -113,42 +104,26 @@ def Salary_Slip(request):
         phone_no=request.POST['phone_no']
         bank_acc=request.POST['bank_acc']
         nok=request.POST['nok']
-        b_pay_earn_amount=int(request.POST['b_pay_earn_amount'])
-        ded_rec_1=(request.POST['ded_rec_1'])
-        ded_rec_1_amount=int(request.POST['ded_rec_1_amount'])
-        sp_tech_earn_amount=int(request.POST['sp_tech_earn_amount'])
-        ded_rec_2=(request.POST['ded_rec_2'])
-        ded_rec_2_amount=int(request.POST['ded_rec_2_amount'])
-        punct_earn_amount=int(request.POST['punct_earn_amount'])
-        ded_rec_3=(request.POST['ded_rec_3'])
-        ded_rec_3_amount=int(request.POST['ded_rec_3_amount'])
-        mg_allow_earn_amount=int(request.POST['mg_allow_earn_amount'])
-        ded_rec_4=(request.POST['ded_rec_4'])
-        ded_rec_4_amount=int(request.POST['ded_rec_4_amount'])
-        proj_earn_amount=int(request.POST['proj_earn_amount'])
-        ded_rec_5=(request.POST['ded_rec_5'])
-        ded_rec_5_amount=int(request.POST['ded_rec_5_amount'])
-        convey_allow_earn_amount=int(request.POST['convey_allow_earn_amount'])
-        ded_rec_6=(request.POST['ded_rec_6'])
-        ded_rec_6_amount=int(request.POST['ded_rec_6_amount'])
-        onsite_allow_earn_amount=int(request.POST['onsite_allow_earn_amount'])
-        ded_rec_7=(request.POST['ded_rec_7'])
-        ded_rec_7_amount=int(request.POST['ded_rec_7_amount'])
+        earnings = [earning for earning in request.POST.getlist('earning[]') if earning]
+        earn_amount = [int(amount) for amount in request.POST.getlist('earn_amount[]') if amount]
+        deductions = [deduction for deduction in request.POST.getlist('deduction[]') if deduction]
+        deduct_amount = [int(amount) for amount in request.POST.getlist('deduct_amount[]') if amount]
+        print(earnings)
 
-        total_earn=b_pay_earn_amount+sp_tech_earn_amount+punct_earn_amount+mg_allow_earn_amount+proj_earn_amount+convey_allow_earn_amount+onsite_allow_earn_amount
-
-        total_deduc=ded_rec_1_amount+ded_rec_2_amount+ded_rec_3_amount+ded_rec_4_amount+ded_rec_5_amount+ded_rec_7_amount
+        total_earn = sum(earn_amount)
+        
+        total_deduc = sum(deduct_amount)
 
         sal_info={
-            'earning description':['Basic Pay','Special Tech Allowance','Punctuality','Management Allowance','Project Allowance','Conveyance Allowance','On Site Allowance'],
-            'Earn Amount':[b_pay_earn_amount,sp_tech_earn_amount,punct_earn_amount,mg_allow_earn_amount,proj_earn_amount,convey_allow_earn_amount,onsite_allow_earn_amount],
-            'deduction recoveries':[ded_rec_1,ded_rec_2,ded_rec_3,ded_rec_4,ded_rec_5,ded_rec_6,ded_rec_7],
-            'Deduct Amount':[ded_rec_1_amount,ded_rec_2_amount,ded_rec_3_amount,ded_rec_4_amount,ded_rec_5_amount,ded_rec_6_amount,ded_rec_7_amount]
+            'Earning_Description' : earnings,
+            'Earn_Amount' : earn_amount,
+            'Deduction_Recoveries' : deductions,
+            'Deduct_Amount' : deduct_amount
         }
 
         net_pay= total_earn - total_deduc
 
-        # new_sal_slip=Salary_Slip_Table.objects.create(emp_id=emp_id,emp_name=emp_name,desig=desig,tot_ser=tot_ser,join_date=join_date,payroll_month=payroll_month,status=status,email=email,phone_no=phone_no,bank_acc=bank_acc,nok=nok,sal_info=sal_info)
+        new_sal_slip=Salary_Slip_Table.objects.create(emp_id=emp_id,emp_name=emp_name,desig=desig,tot_ser=tot_ser,join_date=join_date,payroll_month=payroll_month,status=status,email=email,phone_no=phone_no,bank_acc=bank_acc,nok=nok,sal_info=sal_info)
 
         return render(request,'Salary_Slip_pdf.html',{
             "emp_id":emp_id,
@@ -162,76 +137,47 @@ def Salary_Slip(request):
             "phone_no":phone_no,
             "bank_acc":bank_acc,
             "nok":nok,
-            "b_pay_earn_amount":b_pay_earn_amount,
-            "ded_rec_1":ded_rec_1,
-            "ded_rec_1_amount":ded_rec_1_amount,
-            "sp_tech_earn_amount":sp_tech_earn_amount,
-            "ded_rec_2":ded_rec_2,
-            "ded_rec_2_amount":ded_rec_2_amount,
-            "punct_earn_amount":punct_earn_amount,
-            "ded_rec_3":ded_rec_3,
-            "ded_rec_3_amount":ded_rec_3_amount,
-            "mg_allow_earn_amount":mg_allow_earn_amount,
-            "ded_rec_4":ded_rec_4,
-            "ded_rec_4_amount":ded_rec_4_amount,
-            "proj_earn_amount":proj_earn_amount,
-            "ded_rec_5":ded_rec_5,
-            "ded_rec_5_amount":ded_rec_5_amount,
-            "convey_allow_earn_amount":convey_allow_earn_amount,
-            "ded_rec_6":ded_rec_6,
-            "ded_rec_6_amount":ded_rec_6_amount,
-            "onsite_allow_earn_amount":onsite_allow_earn_amount,
-            "ded_rec_7":ded_rec_7,
-            "ded_rec_7_amount":ded_rec_7_amount,
-            "total_earn":total_earn,
-            "total_deduc":total_deduc,
-            "net_pay":net_pay
-        })
+            "sal_info":sal_info,
+            "total_earn": total_earn,
+            "total_deduct": total_deduc,
+            "net_pay": net_pay
+         })
 
 
     return render(request,'Salary_Slip.html')
 
 @login_admin_successfull
-# @cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def Client_Invoice(request):
     if request.method=='POST':
-
         inv_recipient=request.POST["inv_recipient"]
         attention=request.POST["attention"]
         prep_by=request.POST["prep_by"]
         date=request.POST["date"]
         contact_per=request.POST["contact_per"]
         email=request.POST["email"]
-        item_1=request.POST["item_1"]
-        specs_1=request.POST["specs_1"]
-        qty_1=int(request.POST["qty_1"])
-        price_1=int(request.POST["price_1"])
-        item_2=request.POST["item_2"]
-        specs_2=request.POST["specs_2"]
-        qty_2=int(request.POST["qty_2"])
-        price_2=int(request.POST["price_2"])
-        item_3=request.POST["item_3"]
-        specs_3=request.POST["specs_3"]
-        qty_3=int(request.POST["qty_3"])
-        price_3=int(request.POST["price_3"])
+        items=[item for item in request.POST.getlist('item[]') if item]
+        specs=[spec for spec in request.POST.getlist('spec[]') if spec]
+        qtys=[int(qty) for qty in request.POST.getlist('qty[]') if qty]
+        prices=[int(price) for price in request.POST.getlist('price[]') if price]
 
-        amount_1=qty_1*price_1
-        amount_2=qty_2*price_2
-        amount_3=qty_3*price_3
+        amounts=[]
+        for i in range(len(qtys)):
+            amounts.append(qtys[i]*prices[i])
 
-        total=amount_1+amount_2+amount_3
+        total=sum(amounts)
 
         item_desc={
-            'item_1':[item_1,specs_1,qty_1,price_1,amount_1],
-            'item_2':[item_2,specs_2,qty_2,price_2,amount_2],
-            'item_3':[item_3,specs_3,qty_3,price_3,amount_3]
+            'items':items,
+            'specs': specs,
+            'qtys':qtys,
+            'prices':prices,
+            'amounts':amounts
         }
 
-        # new_client_invoice=Client_Invoice_Table.objects.create(inv_recipient=inv_recipient,attention=attention,prep_by=prep_by,date=date,contact_per=contact_per,email=email,item_desc=item_desc)
+        new_client_invoice=Client_Invoice_Table.objects.create(inv_recipient=inv_recipient,attention=attention,prep_by=prep_by,date=date,contact_per=contact_per,email=email,item_desc=item_desc)
 
-        # new_inv_no=new_client_invoice.invoice_no
-
-        new_inv_no='6hgfh546'
+        new_inv_no=new_client_invoice.invoice_no
 
         return render(request, 'Client_Invoice_pdf.html', {
             "inv_recipient":inv_recipient,
@@ -241,22 +187,8 @@ def Client_Invoice(request):
             "date":date,
             "contact_per":contact_per,
             "email":email,
-            "item_1":item_1,
-            "specs_1":specs_1,
-            "qty_1":qty_1,
-            "price_1":price_1,
-            "amount_1":amount_1,
-            "item_2":item_2,
-            "specs_2":specs_2,
-            "qty_2":qty_2,
-            "price_2":price_2,
-            "amount_2":amount_2,
-            "item_3":item_3,
-            "specs_3":specs_3,
-            "qty_3":qty_3,
-            "price_3":price_3,
-            "amount_3":amount_3,
-            "total":total,
+            "item_desc": item_desc,
+            "total":total
         })
 
 

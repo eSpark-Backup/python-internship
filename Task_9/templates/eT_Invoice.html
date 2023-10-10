@@ -197,10 +197,22 @@
             text-align: center;
         }
 
+        .nor-col-serv {
+            text-align: left;
+        }
+
         .nor-col input {
             border: none;
             outline: none;
             text-align: center;
+            font-family: sans-serif;
+            font-size: 16px;
+        }
+
+        .nor-col-serv input {
+            border: none;
+            outline: none;
+            text-align: left;
             font-family: sans-serif;
             font-size: 16px;
         }
@@ -231,6 +243,17 @@
         #blues {
             padding: 15px;
             background-color: #01496D;
+        }
+
+        #add-row {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            background-color: #006496;
+            color: #ffffff;
+            border: 2px solid #006496;
+            border-radius: 10px;
+            font-family: 'Segoe UI';
+            font-size: 22.5px;
         }
     </style>
 
@@ -405,86 +428,25 @@
                 <div id="sal-desc">
                     <table id="sal-desc-table">
                         <tr id="sal-table-green-row">
-                            <th>
-                                Services
-                            </th>
-
-                            <th style="width: 15%;">
-                                Hours
-                            </th>
-
-                            <th style="width: 15%;">
-                                Hourly Rate (Per Hour)
-                            </th>
-
-                            <th>
-                                Amount
-                            </th>
+                            <th style="width: 40%;">Services</th>
+                            <th style="width: 15%;">Hours</th>
+                            <th style="width: 15%;">Hourly Rate (Per Hour)</th>
+                            <th style="width: 30%;">Amount</th>
                         </tr>
-
-                        <tr>
-                            <td>
-                                &infin; Service Charges
+                        <tr id="dynamic-row-template" >
+                            <td class="nor-col-serv">&infin; <input type="text" placeholder="-" name="services[]" autocomplete="off">
                             </td>
-
-                            <td class="green-col">
-
-                                <input type="number" placeholder="-" name="ser_char_hours" autocomplete="off"
-                                    id="hour_input_ser"  oninput="tot()">
-
-                            </td>
-
-                            <td class="nor-col">
-
-                                <input type="number" placeholder="-" name="ser_char_per_hour" autocomplete="off"
-                                    id="rate_input_ser" oninput="tot()">
-
-                            </td>
-
-                            <td class="green-col">
-                                <input type="text" id="ser_char_amount" value="0" readonly>
-                            </td>
+                            <td class="green-col" style="width: 15%;"><input type="number" name="hours[]" placeholder="0" autocomplete="off" min="0"></td>
+                            <td class="nor-col" style="width: 15%;"><input type="number" name="hourly_rate[]" placeholder="0" autocomplete="off" min="0"></td>
+                            <td class="green-col"><input type="text" class="amount" readonly value="0"></td>
                         </tr>
-
-                        <tr>
-                            <td>
-                                &infin; Management Fee
-                            </td>
-
-                            <td class="green-col">
-
-                                <input type="number" placeholder="-" name="man_char_hours" autocomplete="off"
-                                    id="hour_input_man"  oninput="tot()">
-
-                            </td>
-
-                            <td class="nor-col">
-
-                                <input type="number" placeholder="-" name="man_char_per_hour" autocomplete="off"
-                                    id="rate_input_man"  oninput="tot()">
-                            </td>
-
-                            <td class="green-col">
-                                <input type="text" id="man_char_amount" value="0" readonly>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td id="no-use" colspan="4"></td>
-                        </tr>
-
                         <tr>
                             <td colspan="2"></td>
-
-                            <td id="sal-total">
-                                Total Amount
-                            </td>
-
-                            <td class="green-col">
-                                <input type="text" id="totalAmount" readonly value="Rs. 0">
-                            </td>
+                            <td id="sal-total">Total Amount</td>
+                            <td class="green-col"><input type="text" id="totalAmount" readonly value="Rs. 0"></td>
                         </tr>
                     </table>
+                    <button type="button" id="add-row">Add Row</button>
                 </div>
                 <input type="submit" value="Submit">
             </form>
@@ -508,26 +470,57 @@
         </div>
 
     </div>
-    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
 
 
 
+
+
     <script>
-        function tot() {
-            var hour_1 = parseInt(document.getElementById('hour_input_ser').value) || 0;
-            var rate_1 =parseInt(document.getElementById('rate_input_ser').value) ||0;
-            var amount_1 = rate_1 * hour_1;
-            var hour_2 = parseInt(document.getElementById('hour_input_man').value) ||0;
-            var rate_2 = parseInt(document.getElementById('rate_input_man').value) ||0;
-            var amount_2= hour_2* rate_2
-            document.getElementById('ser_char_amount').value = amount_1;
-            document.getElementById('man_char_amount').value = amount_2;
-            var total=amount_1+amount_2
-            document.getElementById('totalAmount').value= 'Rs. ' + total;
+        // Function to calculate the amount for a row
+        function calculateAmount(row) {
+            const hours = parseInt(row.find('input[name="hours[]"]').val()) || 0;
+            const hourlyRate = parseInt(row.find('input[name="hourly_rate[]"]').val()) || 0;
+            const amount = hours * hourlyRate;
+            row.find('.amount').val(amount);
+            calculateTotal();
         }
+
+        function calculateTotal() {
+            let total = 0;
+            $('input[name="hours[]"]').each(function () {
+                const hours = parseInt($(this).val()) || 0;
+                const row = $(this).closest('tr');
+                const hourlyRate = parseInt(row.find('input[name="hourly_rate[]"]').val()) || 0;
+                const amount = hours * hourlyRate;
+                total += amount;
+            });
+            $('#totalAmount').val('Rs. ' + total);
+        }
+
+        // Function to add a new row
+        function addRow() {
+            const template = $('#dynamic-row-template').clone();
+            template.removeAttr('id').show();
+            template.find('input[type="text"], input[type="number"]').val('');
+
+            $('#sal-desc-table tr:last').before(template);
+        }
+
+        $(document).ready(function () {
+            $('#add-row').click(function () {
+                addRow();
+            });
+
+            // Calculate amounts when input fields change
+            $(document).on('input', 'input[name="hours[]"], input[name="hourly_rate[]"]', function () {
+                const row = $(this).closest('tr');
+                calculateAmount(row);
+            });
+        });
     </script>
 
 </body>

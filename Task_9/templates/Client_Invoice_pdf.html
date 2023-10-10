@@ -1,3 +1,4 @@
+{% load custom_filters %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,7 +10,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <style>
-
         #body {
             margin: 40px;
         }
@@ -33,7 +33,7 @@
             text-align: right;
         }
 
-        .ans{
+        .ans {
             margin-left: 10px;
             font-weight: bold;
         }
@@ -78,7 +78,7 @@
             font-size: 16px;
         }
 
-        .nor-row .ans{
+        .nor-row .ans {
             color: #00A0A0;
         }
 
@@ -129,7 +129,7 @@
         }
 
         #details table .need-height {
-            height: 150px;
+            height: 100px;
         }
 
         #details table th {
@@ -248,7 +248,7 @@
             font-size: 22.5px;
             margin-top: 40px;
         }
-        
+
         @media print {
             @page {
                 size: A4;
@@ -259,10 +259,14 @@
                 visibility: hidden;
             }
 
-            #end-note {
-                font-family: sans-serif;
-                font-size: 13px;
-                margin-top: 50px;
+            #details table .need-height {
+                height: 80px;
+            }
+
+            #foots {
+                position: absolute;
+                bottom: 40px;
+                width: 90%;
             }
         }
     </style>
@@ -274,159 +278,125 @@
     <div id="gen-pdf">
         <div id="body">
 
-                <header>
-                    <img src="/static/header_1.PNG" alt="">
-                </header>
+            <header>
+                <img src="/static/header_1.PNG" alt="">
+            </header>
 
-                <div id="inv-desc">
-                    <table>
-                        <tr class="green-row">
-                            <th>
-                                INVOICE TO:
-                                <span class="ans">{{inv_recipient}}</span>
-                            </th>
-                            <th class="sec-col-inv">
-                                INVOICE DETAILS:&emsp;&emsp;
-                            </th>
-                        </tr>
+            <div id="inv-desc">
+                <table>
+                    <tr class="green-row">
+                        <th>
+                            INVOICE TO:
+                            <span class="ans">{{inv_recipient}}</span>
+                        </th>
+                        <th class="sec-col-inv">
+                            INVOICE DETAILS:&emsp;&emsp;
+                        </th>
+                    </tr>
 
-                        <tr class="nor-row">
-                            <td>
-                                ATTENTION:
-                                <span class="ans"> {{attention}} </span>
-                            </td>
-                            <td class="sec-col-inv">
-                                INVOICE NO:
-                                <span class="ans"> {{invoice_no}} </span>
+                    <tr class="nor-row">
+                        <td>
+                            ATTENTION:
+                            <span class="ans"> {{attention}} </span>
+                        </td>
+                        <td class="sec-col-inv">
+                            INVOICE NO:
+                            <span class="ans"> {{invoice_no}} </span>
 
-                            </td>
-                        </tr>
+                        </td>
+                    </tr>
 
-                        <tr class="nor-row">
-                            <td>
-                                THIS INVOICE IS PREPARED BY:
-                                <span class="ans"> {{prep_by}} </span>
-                            </td>
-                            <td class="sec-col-inv">
-                                DATE:
-                                <span class="ans"> {{date}} </span>
-                            </td>
-                        </tr>
+                    <tr class="nor-row">
+                        <td>
+                            THIS INVOICE IS PREPARED BY:
+                            <span class="ans"> {{prep_by}} </span>
+                        </td>
+                        <td class="sec-col-inv">
+                            DATE:
+                            <span class="ans"> {{date}} </span>
+                        </td>
+                    </tr>
 
-                    </table>
-                </div>
+                </table>
+            </div>
 
-                <div id="cont-info">
-                    <table>
-                        <tr class="green-row">
-                            <th>
-                                Contact Person:
-                                <span class="ans"> {{contact_per}} </span>
-                            </th>
-                        </tr>
+            <div id="cont-info">
+                <table>
+                    <tr class="green-row">
+                        <th>
+                            Contact Person:
+                            <span class="ans"> {{contact_per}} </span>
+                        </th>
+                    </tr>
 
-                        <tr class="white-row">
-                            <th>
-                                Email:
-                                <span class="ans"> {{email}} </span>
-                            </th>
-                        </tr>
-                    </table>
-                </div>
+                    <tr class="white-row">
+                        <th>
+                            Email:
+                            <span class="ans"> {{email}} </span>
+                        </th>
+                    </tr>
+                </table>
+            </div>
 
-                <div id="details">
-                    <table>
-                        <tr>
-                            <th class="sr-no">Sr.No.</th>
-                            <th class="item"> Item Name</th>
-                            <th class="specs">Specification</th>
-                            <th class="qty">Qty</th>
-                            <th class="price">Unit Price</th>
-                            <th class="amount">Amount</th>
-                        </tr>
-                        <tr class="need-height">
-                            <td class="sr-no">
-                                1
-                            </td>
-                            <td class="item">
-                                {{item_1}}
-                            </td>
-                            <td class="specs">
-                                {{specs_1}}
-                            </td>
-                            <td class="qty">
-                                {{qty_1}}
-                            </td>
-                            <td class="price">
-                                {{price_1}}
-                            </td>
-                            <td class="amount">
-                                {{amount_1}}
-                            </td>
-                        </tr>
-                        <tr class="need-height">
-                            <td class="sr-no">
-                                2
-                            </td>
-                            <td class="item">
-                                {{item_2}}
-                            </td>
-                            <td class="specs">
-                                {{specs_2}}
-                            </td>
-                            <td class="qty">
-                                {{qty_2}}
-                            </td>
-                            <td class="price">
-                                {{price_2}}
-                            </td>
-                            <td class="amount">
-                                {{amount_2}}
-                            </td>
-                        </tr>
-                        <tr class="need-height">
-                            <td class="sr-no">
-                                3
-                            </td>
-                            <td class="item">
-                                {{item_3}}
-                            </td>
-                            <td class="specs">
-                                {{specs_3}}
-                            </td>
-                            <td class="qty">
-                                {{qty_3}}
-                            </td>
-                            <td class="price">
-                                {{price_3}}
-                            </td>
-                            <td class="amount">
-                                {{amount_3}}
-                            </td>
-                        </tr>
-                        <tr id="totals">
-                            <td id="no-use" colspan="2"></td>
-                            <td id="teeess" colspan="3">
-                                Total
-                            </td>
-                            <td class="amount">
-                                Rs. {{total}}
-                            </td>
-                        </tr>
-                    </table>
-                </div>
+            <div id="details">
+                <table>
+                    <tr>
+                        <th class="sr-no">Sr.No.</th>
+                        <th class="item"> Item Name</th>
+                        <th class="specs">Specification</th>
+                        <th class="qty">Qty</th>
+                        <th class="price">Unit Price</th>
+                        <th class="amount">Amount</th>
+                    </tr>
+
+                    {% for item in item_desc.items %}
+                    <tr class="need-height">
+                        <td class="sr-no">
+                        </td>
+                        <td class="item">
+                            {{item}}
+                        </td>
+                        <td class="specs">
+                            {{ item_desc.specs|get_item:forloop.counter0 }}
+                        </td>
+                        <td class="qty">
+                            {{ item_desc.qtys|get_item:forloop.counter0 }}
+                        </td>
+                        <td class="price">
+                            {{ item_desc.prices|get_item:forloop.counter0 }}
+                        </td>
+                        <td class="amount">
+                            {{ item_desc.amounts|get_item:forloop.counter0 }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    <tr id="totals">
+                        <td id="no-use" colspan="2"></td>
+                        <td id="teeess" colspan="3">
+                            Total
+                        </td>
+                        <td class="amount">
+                            Rs. {{total}}
+                        </td>
+                    </tr>
+                </table>
+            </div>
 
             <button onclick="my_print('gen-pdf')" type="button">Generate PDF</button>
 
-            <div id="end-note">
-                <p>
-                    &diams; This is a computer generated document and don't required any signature
-                </p>
+
+            <div id="foots">
+                <div id="end-note">
+                    <p>
+                        &diams; This is a computer generated document and don't required any signature
+                    </p>
+                </div>
+
+                <footer>
+                    <img src="/static/footer_1.PNG" alt="">
+                </footer>
             </div>
 
-            <footer>
-                <img src="/static/footer_1.PNG" alt="">
-            </footer>
 
 
         </div>
@@ -438,16 +408,33 @@
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
 
-        <script type="text/javascript">
-            var originalContent = document.body.innerHTML; // Store the original content
-    
-            function my_print(p_id) {
-                var to_print = document.getElementById(p_id).innerHTML;
-                document.body.innerHTML = to_print;
-                window.print();
-                document.body.innerHTML = originalContent;
+    <script type="text/javascript">
+        var originalContent = document.body.innerHTML; // Store the original content
+
+        function my_print(p_id) {
+            var to_print = document.getElementById(p_id).innerHTML;
+            document.body.innerHTML = to_print;
+            window.print();
+            document.body.innerHTML = originalContent;
+        }
+
+        function generateSerialNumbers() {
+            const rows = document.getElementsByClassName('sr-no');
+
+            // Start from 1 to skip the header row
+            for (let i = 0; i < rows.length; i++) {
+                rows[i + 1].textContent = i + 1; // Set the serial number
             }
-        </script>
+        }
+
+        // Call the function to generate serial numbers
+        generateSerialNumbers();
+
+
+        // Call the function to generate serial numbers
+        generateSerialNumbers();
+
+    </script>
 
 </body>
 

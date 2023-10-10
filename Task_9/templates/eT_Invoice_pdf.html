@@ -1,3 +1,4 @@
+{% load custom_filters %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -148,6 +149,13 @@
             font-family: sans-serif;
             font-size: 16px;
         }
+        .nor-col-serv {
+            border: none;
+            outline: none;
+            text-align: left;
+            font-family: sans-serif;
+            font-size: 16px;
+        }
 
         #no-use {
             color: #ffffff;
@@ -197,16 +205,15 @@
                 size: A4;
                 margin: 0;
             }
-
             button {
                 visibility: hidden;
             }
 
-            #end-note {
-                font-family: sans-serif;
-                font-size: 13px;
-                margin-top: 200px;
-            }
+            #foots {
+            position: absolute;
+            bottom: 40px;
+            width: 90%;
+        }
 
         }
     </style>
@@ -216,258 +223,228 @@
 <body>
     <div id="gen-pdf">
         <div id="body">
-                <div id="main-blue">
+            <div id="main-blue">
+            </div>
+
+            <div id="crucial-ele">
+
+                <span id="logo-img">
+                    <img src="/static/logo_eT.png" alt="">
+                </span>
+
+                <div id="contacts">
+                    <p>0323-2788259 <b>&#9990;</b></p>
+                    <p>www.esparkconsultants.com/hire-a-talent <img src="/static/globe.png" alt=""
+                            style="width: 18px; height: 18px;"></p>
+                    <p>sales@esparkconsultants.com <b>&#64;</b></p>
                 </div>
 
-                <div id="crucial-ele">
+            </div>
 
-                    <span id="logo-img">
-                        <img src="/static/logo_eT.png" alt="">
-                    </span>
+            <div class="main-green">
+                <h4>
+                    INVOICE
+                </h4>
+            </div>
 
-                    <div id="contacts">
-                        <p>0323-2788259 <b>&#9990;</b></p>
-                        <p>www.esparkconsultants.com/hire-a-talent <img src="/static/globe.png" alt=""
-                                style="width: 18px; height: 18px;"></p>
-                        <p>sales@esparkconsultants.com <b>&#64;</b></p>
-                    </div>
-
-                </div>
-
-                <div class="main-green">
-                    <h4>
-                        INVOICE
-                    </h4>
-                </div>
-
-                <div id="invoice-desc">
-                    <div id="invoice-desc-left">
-                        <table>
-                            <tr>
-                                <td>
-                                    ATTENTION:
-                                </td>
-
-                                <td class="ans">
-                                    {{attention}}
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    Company Name:
-                                </td>
-                                <td class="ans">
-                                    {{company_name}}
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    Email:
-                                </td>
-                                <td class="ans">
-                                    {{email}}
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    Company Address:
-                                </td>
-                                <td class="ans">
-                                    {{company_address}}
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div id="invoice-desc-right">
-                        <table>
-                            <tr>
-                                <td>
-                                    Invoice No:
-                                </td>
-                                <td class="ans">
-                                    {{current_invoice_number}}
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    Date:
-                                </td>
-                                <td class="ans">
-                                    {{date}}
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    Invoice Month:
-                                </td>
-                                <td class="ans">
-                                    {{month}}
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="main-green">
-                    <h4>
-                        Employee Information
-                    </h4>
-                </div>
-
-                <div id="emp-desc">
+            <div id="invoice-desc">
+                <div id="invoice-desc-left">
                     <table>
-                        <tr class="white-row">
+                        <tr>
                             <td>
-                                Employee ID No:
+                                ATTENTION:
                             </td>
+
                             <td class="ans">
-                                {{emp_id}}
+                                {{attention}}
                             </td>
                         </tr>
 
-                        <tr class="green-row">
+                        <tr>
                             <td>
-                                Employee Name:
+                                Company Name:
                             </td>
                             <td class="ans">
-                                {{emp_name}}
+                                {{company_name}}
                             </td>
                         </tr>
 
-                        <tr class="white-row">
+                        <tr>
                             <td>
-                                Employee Designation:
+                                Email:
                             </td>
                             <td class="ans">
-                                {{emp_desig}}
+                                {{email}}
                             </td>
                         </tr>
 
-                        <tr class="green-row">
+                        <tr>
                             <td>
-                                Project Name:
+                                Company Address:
                             </td>
                             <td class="ans">
-                                {{proj_name}}
-                            </td>
-                        </tr>
-
-                        <tr class="white-row">
-                            <td>
-                                Job Mode:
-                            </td>
-                            <td class="ans">
-                                {{job_mode}}
-                            </td>
-                        </tr>
-
-                        <tr class="green-row">
-                            <td>
-                                Joining Date:
-                            </td>
-                            <td class="ans">
-                                {{join_date}}
+                                {{company_address}}
                             </td>
                         </tr>
                     </table>
                 </div>
-
-                <div class="sal-green">
-                    <h5>
-                        SALARY INFORMATION
-                    </h5>
-                </div>
-
-                <div id="sal-desc">
-                    <table id="sal-desc-table">
-                        <tr id="sal-table-green-row">
-                            <th>
-                                Services
-                            </th>
-
-                            <th>
-                                Hours
-                            </th>
-
-                            <th>
-                                Hourly Rate (Per Hour)
-                            </th>
-
-                            <th>
-                                Amount
-                            </th>
-                        </tr>
-
+                <div id="invoice-desc-right">
+                    <table>
                         <tr>
                             <td>
-                                &infin; Service Charges
+                                Invoice No:
                             </td>
-
-                            <td class="green-col">
-
-                                {{ser_char_hours}}
-
-                            </td>
-
-                            <td class="nor-col">
-
-                                {{ser_char_per_hour}}
-
-                            </td>
-
-                            <td class="green-col">
-
-                                {{ser_char_amount}}
-
+                            <td class="ans">
+                                {{current_invoice_number}}
                             </td>
                         </tr>
 
                         <tr>
                             <td>
-                                &infin; Management Fee
+                                Date:
                             </td>
-
-                            <td class="green-col">
-
-                                {{man_char_hours}}
-
-                            </td>
-
-                            <td class="nor-col">
-
-                                {{man_char_per_hour}}
-
-                            </td>
-
-                            <td class="green-col">
-                                {{man_char_amount}}
-
+                            <td class="ans">
+                                {{date}}
                             </td>
                         </tr>
 
                         <tr>
-                            <td id="no-use" colspan="4"></td>
-                        </tr>
-
-                        <tr>
-                            <td colspan="2"></td>
-
-                            <td id="sal-total">
-                                Total
+                            <td>
+                                Invoice Month:
                             </td>
-
-                            <td class="green-col">
-                                Rs. {{total}}
+                            <td class="ans">
+                                {{month}}
                             </td>
                         </tr>
-
                     </table>
                 </div>
+            </div>
+
+            <div class="main-green">
+                <h4>
+                    Employee Information
+                </h4>
+            </div>
+
+            <div id="emp-desc">
+                <table>
+                    <tr class="white-row">
+                        <td>
+                            Employee ID No:
+                        </td>
+                        <td class="ans">
+                            {{emp_id}}
+                        </td>
+                    </tr>
+
+                    <tr class="green-row">
+                        <td>
+                            Employee Name:
+                        </td>
+                        <td class="ans">
+                            {{emp_name}}
+                        </td>
+                    </tr>
+
+                    <tr class="white-row">
+                        <td>
+                            Employee Designation:
+                        </td>
+                        <td class="ans">
+                            {{emp_desig}}
+                        </td>
+                    </tr>
+
+                    <tr class="green-row">
+                        <td>
+                            Project Name:
+                        </td>
+                        <td class="ans">
+                            {{proj_name}}
+                        </td>
+                    </tr>
+
+                    <tr class="white-row">
+                        <td>
+                            Job Mode:
+                        </td>
+                        <td class="ans">
+                            {{job_mode}}
+                        </td>
+                    </tr>
+
+                    <tr class="green-row">
+                        <td>
+                            Joining Date:
+                        </td>
+                        <td class="ans">
+                            {{join_date}}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="sal-green">
+                <h5>
+                    SALARY INFORMATION
+                </h5>
+            </div>
+
+            <div id="sal-desc">
+                <table id="sal-desc-table">
+                    <tr id="sal-table-green-row">
+                        <th>
+                            Services
+                        </th>
+
+                        <th>
+                            Hours
+                        </th>
+
+                        <th>
+                            Hourly Rate (Per Hour)
+                        </th>
+
+                        <th>
+                            Amount
+                        </th>
+                    </tr>
+
+                    {% for service in sal_info.services %}
+                    <tr>
+                        <td class="nor-col-serv">
+                            &infin; {{ service }}
+                        </td>
+                        <td class="green-col">
+                            {{ sal_info.hours|get_item:forloop.counter0 }}
+                        </td>
+                        <td class="nor-col">
+                            {{ sal_info.hourly_rates|get_item:forloop.counter0 }}
+                        </td>
+                        <td class="green-col">
+                            {{ sal_info.amounts|get_item:forloop.counter0 }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    
+                    <tr>
+                        <td id="no-use" colspan="4"></td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2"></td>
+
+                        <td id="sal-total">
+                            Total
+                        </td>
+
+                        <td class="green-col">
+                            Rs. {{total}}
+                        </td>
+                    </tr>
+
+                </table>
+            </div>
 
 
 
@@ -490,6 +467,7 @@
         </div>
 
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"

@@ -38,31 +38,21 @@
         }
 
         #no-logs a p {
+            margin-left: 10px;
+            display: inline;
             text-align: right;
-            font-size: 30px;
-            font-family: serif;
+            font-size: 20px;
+            font-family: sans-serif;
             color: #00B0B4;
         }
 
         #no-logs a:hover p {
-            text-align: right;
-            font-size: 30px;
-            font-family: serif;
             color: #008688;
-        }
-
-        #whole-form input[type="submit"] {
-            background-color: #006496;
-            color: #ffffff;
-            border: 2px solid #006496;
-            border-radius: 10px;
-            font-family: 'Segoe UI';
-            font-size: 22.5px;
         }
 
         .main-green {
             margin-top: 10px;
-            background-color: #018E91;
+            background-color: #018e91;
             width: 100%;
             text-align: center;
             color: #ffffff;
@@ -245,15 +235,25 @@
             background-color: #01496D;
         }
 
-        #add-row {
-            margin-top: 10px;
-            margin-bottom: 10px;
+        #whole-form input[type="submit"] {
+            margin: auto;
+            display: block;
             background-color: #006496;
             color: #ffffff;
-            border: 2px solid #006496;
+            border: #006496;
             border-radius: 10px;
             font-family: 'Segoe UI';
-            font-size: 22.5px;
+            font-size: 20px;
+        }
+
+        #add-row {
+            padding-top: 0;
+            padding-bottom: 0;
+            background-color: #006496;
+            color: #ffffff;
+            border: #006496;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-size: 17px;
         }
     </style>
 
@@ -281,6 +281,9 @@
                     </div>
 
                     <div id="no-logs">
+                        <a href="/home" id="home-link">
+                            <p><b>Home</b></p>
+                        </a>
                         <a href="/logout">
                             <p><b>Logout</b></p>
                         </a>
@@ -433,11 +436,14 @@
                             <th style="width: 15%;">Hourly Rate (Per Hour)</th>
                             <th style="width: 30%;">Amount</th>
                         </tr>
-                        <tr id="dynamic-row-template" >
-                            <td class="nor-col-serv">&infin; <input type="text" placeholder="-" name="services[]" autocomplete="off">
+                        <tr id="dynamic-row-template">
+                            <td class="nor-col-serv">&infin; <input type="text" placeholder="-" name="services[]"
+                                    autocomplete="off">
                             </td>
-                            <td class="green-col" style="width: 15%;"><input type="number" name="hours[]" placeholder="0" autocomplete="off" min="0"></td>
-                            <td class="nor-col" style="width: 15%;"><input type="number" name="hourly_rate[]" placeholder="0" autocomplete="off" min="0"></td>
+                            <td class="green-col" style="width: 15%;"><input type="number" name="hours[]"
+                                    placeholder="0" autocomplete="off" min="0"></td>
+                            <td class="nor-col" style="width: 15%;"><input type="number" name="hourly_rate[]"
+                                    placeholder="0" autocomplete="off" min="0"></td>
                             <td class="green-col"><input type="text" class="amount" readonly value="0"></td>
                         </tr>
                         <tr>
@@ -446,7 +452,7 @@
                             <td class="green-col"><input type="text" id="totalAmount" readonly value="Rs. 0"></td>
                         </tr>
                     </table>
-                    <button type="button" id="add-row">Add Row</button>
+                    <button type="button" id="add-row"> + </button>
                 </div>
                 <input type="submit" value="Submit">
             </form>
@@ -480,6 +486,13 @@
 
 
     <script>
+        // Add a click event to the "Home" link
+        document.getElementById('home-link').addEventListener('click', function (e) {
+            var confirmLeave = confirm('Are you sure you want to leave this page?');
+            if (!confirmLeave) {
+                e.preventDefault();
+            }
+        });
         // Function to calculate the amount for a row
         function calculateAmount(row) {
             const hours = parseInt(row.find('input[name="hours[]"]').val()) || 0;

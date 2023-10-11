@@ -38,26 +38,16 @@
         }
 
         #no-logs a p {
+            margin-left: 10px;
+            display: inline;
             text-align: right;
-            font-size: 30px;
-            font-family: serif;
+            font-size: 20px;
+            font-family: sans-serif;
             color: #00B0B4;
         }
 
         #no-logs a:hover p {
-            text-align: right;
-            font-size: 30px;
-            font-family: serif;
             color: #008688;
-        }
-
-        #whole-form input[type="submit"] {
-            background-color: #006496;
-            color: #ffffff;
-            border: 2px solid #006496;
-            border-radius: 10px;
-            font-family: 'Segoe UI';
-            font-size: 22.5px;
         }
 
         header img {
@@ -282,23 +272,24 @@
         }
 
         #whole-form input[type="submit"] {
+            margin: auto;
+            display: block;
             background-color: #006496;
             color: #ffffff;
-            border: 2px solid #006496;
+            border: #006496;
             border-radius: 10px;
             font-family: 'Segoe UI';
-            font-size: 22.5px;
+            font-size: 20px;
         }
 
         #add-row {
-            margin-top: 10px;
-            margin-bottom: 10px;
+            padding-top: 0;
+            padding-bottom: 0;
             background-color: #006496;
             color: #ffffff;
-            border: 2px solid #006496;
-            border-radius: 10px;
-            font-family: 'Segoe UI';
-            font-size: 22.5px;
+            border: #006496;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-size: 17px;
         }
     </style>
 
@@ -325,6 +316,9 @@
                     </div>
 
                     <div id="no-logs">
+                        <a href="/home" id="home-link">
+                            <p><b>Home</b></p>
+                        </a>
                         <a href="/logout">
                             <p><b>Logout</b></p>
                         </a>
@@ -345,7 +339,7 @@
                         <tr class="green-row">
                             <th>
                                 INVOICE TO:
-                                <input type="text" placeholder="..." name="inv_recipient"  autocomplete="off" required>
+                                <input type="text" placeholder="..." name="inv_recipient" autocomplete="off" required>
                             </th>
                             <th class="sec-col-inv">
                                 INVOICE DETAILS:&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
@@ -355,7 +349,7 @@
                         <tr class="nor-row">
                             <td>
                                 ATTENTION:
-                                <input type="text" placeholder="Mr. ..." name="attention"  autocomplete="off" required>
+                                <input type="text" placeholder="Mr. ..." name="attention" autocomplete="off" required>
                             </td>
                             <td class="sec-col-inv">
                                 INVOICE NO: ...
@@ -366,11 +360,11 @@
                         <tr class="nor-row">
                             <td>
                                 THIS INVOICE IS PREPARED BY:
-                                <input type="text" placeholder="..." name="prep_by"  autocomplete="off" required>
+                                <input type="text" placeholder="..." name="prep_by" autocomplete="off" required>
                             </td>
                             <td class="sec-col-inv">
                                 DATE:
-                                <input type="date" placeholder="..." name="date"  autocomplete="off" required>
+                                <input type="date" placeholder="..." name="date" autocomplete="off" required>
 
                             </td>
                         </tr>
@@ -383,14 +377,14 @@
                         <tr class="green-row">
                             <th>
                                 Contact Person:
-                                <input type="text" placeholder="..." name="contact_per"  autocomplete="off" required>
+                                <input type="text" placeholder="..." name="contact_per" autocomplete="off" required>
                             </th>
                         </tr>
 
                         <tr class="white-row">
                             <th>
                                 Email:
-                                <input type="email" placeholder="..." name="email"  autocomplete="off" required>
+                                <input type="email" placeholder="..." name="email" autocomplete="off" required>
                             </th>
                         </tr>
                     </table>
@@ -428,7 +422,7 @@
                             </td>
                         </tr>
                     </table>
-                    <button type="button" id="add-row">Add Row</button>
+                    <button type="button" id="add-row">+</button>
 
                 </div>
 
@@ -439,7 +433,7 @@
             <div id="foots">
                 <div id="end-note">
                     <p>
-                        &diams; This is a computer generated document and don't  any signature
+                        &diams; This is a computer generated document and don't any signature
                     </p>
                 </div>
 
@@ -459,6 +453,13 @@
         crossorigin="anonymous"></script>
 
     <script>
+        // Add a click event to the "Home" link
+        document.getElementById('home-link').addEventListener('click', function (e) {
+            var confirmLeave = confirm('Are you sure you want to leave this page?');
+            if (!confirmLeave) {
+                e.preventDefault();
+            }
+        });
         $(document).ready(function () {
             // Function to calculate the amount for a row
             function calculateAmount() {

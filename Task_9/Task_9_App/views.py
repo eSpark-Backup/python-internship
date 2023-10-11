@@ -64,9 +64,10 @@ def eT_Invoice(request):
 
         total = sum(sal_info['amounts'])
 
-        new_invoice_eT = eT_Invoice_Table.objects.create(attention=attention, company_name=company_name, email=email, company_address=company_address, date=date, month=month, emp_info=emp_info, sal_info=sal_info)
+        # new_invoice_eT = eT_Invoice_Table.objects.create(attention=attention, company_name=company_name, email=email, company_address=company_address, date=date, month=month, emp_info=emp_info, sal_info=sal_info)
 
-        current_invoice_number = new_invoice_eT.invoice_no
+        # current_invoice_number = new_invoice_eT.invoice_no
+        current_invoice_number='gdgfgdfg'
 
 
         return render(request, 'eT_Invoice_pdf.html', {

@@ -20,7 +20,7 @@ class eT_Invoice_Table(models.Model):
 
         if not self.invoice_no:
             latest_invoice = eT_Invoice_Table.objects.filter(
-                invoice_no__startswith="eS-"+current_year+"-"
+                invoice_no__startswith="ETI-"+current_year+"-"
             ).order_by("-invoice_no").first()
 
             if latest_invoice:
@@ -29,7 +29,7 @@ class eT_Invoice_Table(models.Model):
             else:
                 numeric_part = 0
 
-            self.invoice_no = f"ES-2023-{numeric_part:06}"
+            self.invoice_no = f"ETI-{current_year}-{numeric_part:06}"
 
         super().save(*args, **kwargs)
 
@@ -82,7 +82,7 @@ class Client_Invoice_Table(models.Model):
             else:
                 numeric_part = 0
 
-            self.invoice_no = f"ES-2023-{numeric_part:06}"
+            self.invoice_no = f"CI-{current_year}-{numeric_part:06}"
 
         super().save(*args, **kwargs)
 

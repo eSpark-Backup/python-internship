@@ -11,12 +11,36 @@
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <style>
         #body {
-            margin: 40px;
+            margin-bottom: 40px;
+            margin-right: 40px;
+            margin-left: 40px;
         }
 
-        header img {
+        #no-logs {
+            margin-top: 10px;
+            text-align: right;
+        }
+
+        #no-logs a {
+            text-decoration: none;
+        }
+
+        #no-logs a p {
+            margin-right: 5px;
+            display: inline;
+            text-align: right;
+            font-size: 22.5px;
+            font-family: sans-serif;
+            color: #00B0B4;
+        }
+
+        #no-logs a:hover p {
+            color: #008688;
+        }
+
+        #header img {
             width: 100%;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
 
         }
 
@@ -258,6 +282,11 @@
                 margin: 0;
             }
 
+            #no-logs {
+                margin: 0;
+                visibility: hidden;
+            }
+
             button {
                 visibility: hidden;
             }
@@ -280,10 +309,15 @@
 
     <div id="gen-pdf">
         <div id="body">
+            <div id="no-logs">
+                <a href="/home" id="home-link">
+                    <p><b>Home</b></p>
+                </a>
+            </div>
 
-            <header>
+            <div id="header">
                 <img src="/static/header_1.PNG" alt="">
-            </header>
+            </div>
 
             <div id="inv-desc">
                 <table>

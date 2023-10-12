@@ -39,7 +39,7 @@ class eT_Invoice_Table(models.Model):
 
 class Salary_Slip_Table(models.Model):
 
-    emp_id = models.CharField(max_length=15, unique=True)
+    emp_id = models.CharField(max_length=15)
     emp_name = models.CharField(max_length=50)
     desig = models.CharField(max_length=30)
     tot_ser = models.CharField(max_length=30)
@@ -73,7 +73,7 @@ class Client_Invoice_Table(models.Model):
 
         if not self.invoice_no:
             latest_invoice = Client_Invoice_Table.objects.filter(
-                invoice_no__startswith="eS-"+current_year+"-"
+                invoice_no__startswith="CI-"+current_year+"-"
             ).order_by("-invoice_no").first()
 
             if latest_invoice:

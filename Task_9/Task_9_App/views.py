@@ -52,7 +52,8 @@ def eT_Invoice(request):
             'emp_name':emp_name,
             'emp_desig':emp_desig,
             'proj_name':proj_name,
-            'job_mode':job_mode
+            'job_mode':job_mode,
+            'join_date':join_date
         }
 
         sal_info = {
@@ -64,11 +65,9 @@ def eT_Invoice(request):
 
         total = sum(sal_info['amounts'])
 
-        # new_invoice_eT = eT_Invoice_Table.objects.create(attention=attention, company_name=company_name, email=email, company_address=company_address, date=date, month=month, emp_info=emp_info, sal_info=sal_info)
+        new_invoice_eT = eT_Invoice_Table.objects.create(attention=attention, company_name=company_name, email=email, company_address=company_address, date=date, month=month, emp_info=emp_info, sal_info=sal_info)
 
-        # current_invoice_number = new_invoice_eT.invoice_no
-        current_invoice_number='gdgfgdfg'
-
+        current_invoice_number = new_invoice_eT.invoice_no
 
         return render(request, 'eT_Invoice_pdf.html', {
             'current_invoice_number' : current_invoice_number,
@@ -107,10 +106,8 @@ def Salary_Slip(request):
         nok=request.POST['nok']
         earnings = [earning for earning in request.POST.getlist('earning[]') if earning]
         earn_amount = [int(amount) for amount in request.POST.getlist('earn_amount[]') if amount]
-        deductions = [deduction for deduction in request.POST.getlist('deduction[]') if deduction]
+        deductions = [deduction if deduction else '-' for deduction in request.POST.getlist('deduction[]')]
         deduct_amount = [int(amount) for amount in request.POST.getlist('deduct_amount[]') if amount]
-        print(earnings)
-
         total_earn = sum(earn_amount)
         
         total_deduc = sum(deduct_amount)
@@ -158,7 +155,7 @@ def Client_Invoice(request):
         contact_per=request.POST["contact_per"]
         email=request.POST["email"]
         items=[item for item in request.POST.getlist('item[]') if item]
-        specs=[spec for spec in request.POST.getlist('spec[]') if spec]
+        specs=[spec for spec in request.POST.getlist('specs[]') if spec]
         qtys=[int(qty) for qty in request.POST.getlist('qty[]') if qty]
         prices=[int(price) for price in request.POST.getlist('price[]') if price]
 
@@ -192,8 +189,56 @@ def Client_Invoice(request):
             "total":total
         })
 
-
     return render(request,'Client_Invoice.html')
+
+@login_admin_successfull
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+def search_eT_Invoice(request):
+    if request.method=='POST':
+        inv_no=request.POST['inv_no']
+
+        try:
+            invoice_data = eT_Invoice_Table.objects.get(invoice_no=inv_no)
+        except ETInvoice.DoesNotExist:
+            invoice_data = None
+
+
+        if invoice_data!=None:
+            attention=invoice_data.attention
+            company_name=invoice_data.company_name
+            email=invoice_data.email
+            company_address=invoice_data.company_address
+            date=invoice_data.date
+            month=invoice_data.month
+            emp_info=invoice_data.emp_info
+            sal_info=invoice_data.sal_info
+            total = sum(sal_info['amounts'])
+            
+            return render(request, 'eT_Invoice_pdf.html', {
+            'current_invoice_number' : inv_no,
+            'attention' : attention,
+            'company_name' : company_name,
+            'email' : email,
+            'company_address' : company_address,
+            'date' : date,
+            'month' : month,
+            'emp_id' : emp_info['emp_id'],
+            'emp_name' : emp_info['emp_name'],
+            'emp_desig':['emp_desig'],
+            'proj_name' : ['proj_name'],
+            'job_mode' : ['job_mode'],
+            'join_date' : ['join_date'],
+            'sal_info' : sal_info,
+            'total' : total
+        })  
+        
+    return render(request,'search_eT_Invoice.html')
+
+def search_Client_Invoice(request):
+    return render(request,'search_Client_Invoice.html')
+
+def search_Salary_Slip(request):
+    return render(request,'search_Salary_Slip.html')
 
 def logout(request):
     if 'role' in request.session:

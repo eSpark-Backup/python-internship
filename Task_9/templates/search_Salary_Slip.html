@@ -132,6 +132,18 @@
             padding: 15px;
             background-color: #01496D;
         }
+        
+        #error{
+            margin-top: 10px;
+        }
+        
+        .alert{
+            padding: 3px;
+            width: 20%;
+            margin: auto;
+            border: none;
+            border-radius: 0;
+        }
     </style>
 
 </head>
@@ -164,17 +176,23 @@
             <h1>Query Salary Slip</h1>
             <div id="input-container">
                 <div id="ss">
-                    <form method="post">
+                    <form method="post" action="{%url 'view_Salary_Slip'%}">
                         {% csrf_token %}
                         <label class="label" >Enter Employee ID:</label>
                         <input type="text" id="emp-id" name="emp_id" autocomplete="off">
                         <label class="label" >Enter Month:</label>
-                        <input type="month" id="month" name="month" autocomplete="off">
+                        <input type="month" id="month" name="payroll_month" autocomplete="off">
+                        <div id="error">
+                            {% if error_message %}
+                            <div class="alert alert-danger" role="alert">{{ error_message }}</div>
+                            {% endif %}
+                        </div>
                         <input type="submit" value="Query">
                     </form>
                 </div>
             </div>
         </div>
+
 
         <div id="footer">
             <div id="greens"></div>

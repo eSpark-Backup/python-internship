@@ -38,18 +38,18 @@
         }
 
         #no-logs a p {
+            display: inline;
+            margin-left: 10px;
             text-align: right;
-            font-size: 30px;
+            font-size: 25px;
             font-family: serif;
             color: #00B0B4;
         }
 
         #no-logs a:hover p {
-            text-align: right;
-            font-size: 30px;
-            font-family: serif;
             color: #008688;
         }
+        
         #main-body{
             font-family: serif;
             align-items: center;
@@ -125,6 +125,18 @@
         #blues {
             padding: 15px;
             background-color: #01496D;
+        }       
+        
+        #error{
+            margin-top: 10px;
+        }
+        
+        .alert{
+            padding: 3px;
+            width: 20%;
+            margin: auto;
+            border: none;
+            border-radius: 0;
         }
     </style>
 
@@ -141,6 +153,10 @@
                 </span>
 
                 <div id="no-logs">
+                    <a href="/home">
+                        <p><b>Home</b></p>
+                    </a>
+                    
                     <a href="/logout">
                         <p><b>Logout</b></p>
                     </a>
@@ -154,10 +170,15 @@
             <h1>Query eT Invoice</h1>
             <div id="input-container">
                 <div id="eT_Invoice">
-                    <form method="post">
+                    <form method="post" action="{%url 'view_eT_Invoice'%}">
                         {% csrf_token %}
                         <label>Enter eT Invoice Number:</label>
                         <input type="text" id="inv-no" name="inv_no" autocomplete="off">
+                        <div id="error">
+                            {% if error_message %}
+                            <div class="alert alert-danger" role="alert">{{ error_message }}</div>
+                            {% endif %}
+                        </div>
                         <input type="submit" value="Query">
                     </form>
                 </div>

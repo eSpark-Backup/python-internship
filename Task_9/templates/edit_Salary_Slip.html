@@ -1,0 +1,542 @@
+{% load custom_filters %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Salary Slip</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <style>
+        #body {
+            margin: 40px;
+        }
+
+        #no-logs {
+            margin-top: 10px;
+            text-align: right;
+        }
+
+        #no-logs a {
+            text-decoration: none;
+        }
+
+        #no-logs a p {
+            margin-right: 5px;
+            display: inline;
+            text-align: right;
+            font-size: 22.5px;
+            font-family: sans-serif;
+            color: #00B0B4;
+        }
+
+        #no-logs a:hover p {
+            color: #008688;
+        }
+
+        #header img {
+            width: 100%;
+            margin-bottom: 20px;
+
+        }
+
+        .main-green {
+            margin-top: 20px;
+            background-color: #00A0A0;
+            width: 100%;
+            text-align: center;
+            color: #ffffff;
+            height: 35px;
+            font-size: 20px;
+            font-weight: 510;
+            font-family: sans-serif;
+        }
+
+        #payroll-cont {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        #payroll-desc-left,
+        #payroll-desc-right {
+            display: inline-block;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+
+        #payroll-cont table {
+            width: 100%;
+        }
+
+        #payroll-desc-left td,
+        #payroll-desc-right td {
+            font-family: sans-serif;
+            font-size: 16px;
+            text-align: left;
+            font-weight: 700;
+        }
+
+        #payroll-desc-left input,
+        #payroll-desc-right input {
+            border: none;
+            outline: none;
+            font-family: sans-serif;
+            font-size: 16px;
+            font-weight: bold;
+            color: #00A0A0;
+        }
+
+        .no-use {
+            color: #ffffff;
+            font-size: 12px;
+            background-color: #ffffff;
+        }
+
+        #account-desc table {
+            width: 100%;
+        }
+
+        #account-desc input {
+            border: none;
+            outline: none;
+            font-family: sans-serif;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .white-row td {
+            color: #00A0A0;
+            font-weight: bold;
+            font-family: sans-serif;
+            font-size: 16px;
+        }
+
+        .white-row input {
+            color: #00A0A0;
+            font-family: sans-serif;
+            font-size: 16px;
+            margin-left: 15px;
+        }
+
+        .green-row {
+            background-color: #00A0A0;
+        }
+
+        .green-row td {
+            color: #ffffff;
+            font-weight: bold;
+            font-family: sans-serif;
+            font-size: 16px;
+        }
+
+        .green-row input {
+            background-color: #00A0A0;
+            color: #ffffff;
+            font-family: sans-serif;
+            font-size: 16px;
+            margin-left: 15px;
+        }
+
+        #sal-green {
+            background-color: #00A0A0;
+            width: 100%;
+            text-align: center;
+            color: #ffffff;
+            height: 35px;
+            margin-top: 20px;
+            font-size: 20px;
+            font-family: sans-serif;
+            font-weight: 510;
+        }
+
+        #sal-desc table {
+            width: 100%;
+            font-size: 16px;
+        }
+
+        #sal-desc table td {
+            font-weight: 550;
+        }
+
+        #sal-table-green-row {
+            background-color: #00A0A0;
+        }
+
+        #sal-table-green-row th {
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 16px;
+            text-align: center;
+            font-family: sans-serif;
+        }
+
+        .green-col {
+            background-color: #00A0A0;
+            color: #ffffff;
+            text-align: center;
+            text-align: center;
+            font-family: sans-serif;
+            font-size: 16px;
+            font-weight: 550;
+        }
+
+        .green-col input {
+            background-color: #00A0A0;
+            color: #ffffff;
+            border: none;
+            outline: none;
+            text-align: center;
+            font-family: sans-serif;
+            font-size: 16px;
+            font-weight: 550;
+        }
+
+        .nor-col-serv input {
+            border: none;
+            outline: none;
+            text-align: left;
+            font-size: 16px;
+            font-weight: 550;
+        }
+
+        .gap {
+            color: #ffffff;
+            height: 30px;
+        }
+
+        .totals {
+            text-align: center;
+            color: #00A0A0;
+            font-family: sans-serif;
+            font-weight: bold;
+        }
+
+        #sal-desc-table th:nth-child(2),
+        #sal-desc-table td:nth-child(2) {
+            width: 15%;
+        }
+
+        #sal-desc-table th:nth-child(4),
+        #sal-desc-table td:nth-child(4) {
+            width: 15%;
+        }
+
+        #end-note {
+            font-family: sans-serif;
+            font-size: 14px;
+            margin-top: 5%;
+            margin-bottom: 0;
+        }
+
+        #footer {
+            width: 100%;
+        }
+
+        #footer img {
+            width: 100%;
+        }
+
+        #whole-form input[type="submit"] {
+            margin: auto;
+            display: block;
+            background-color: #006496;
+            color: #ffffff;
+            border: #006496;
+            border-radius: 10px;
+            font-family: 'Segoe UI';
+            font-size: 20px;
+        }
+
+        #add-row {
+            padding-top: 0;
+            padding-bottom: 0;
+            background-color: #006496;
+            color: #ffffff;
+            border: #006496;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-size: 17px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div id="gen-pdf">
+        <div id="body">
+            <div id="no-logs">
+                <a href="/home" id="home-link">
+                    <p><b>Home</b></p>
+                </a>
+            </div>
+            <div id="header">
+                <img src="/static/header_1.PNG" alt="">
+            </div>
+
+            <form action="{%url 'edit_Salary_Slip'%}" method="post" id="whole-form">
+                {% csrf_token %}
+
+                <div class="main-green">
+                    <p>
+                        Employee Payroll Sheet
+                    </p>
+                </div>
+
+                <div id="payroll-cont">
+                    <div id="payroll-desc-left">
+                        <table>
+                            <tr>
+                                <td>
+                                    EMPLOYEE ID:
+                                    <input type="text" value="{{emp_id}}" name="emp_id" autocomplete="off" required
+                                        readonly>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    EMPLOYEE NAME:
+                                    <input type="text" value="{{emp_name}}" name="emp_name" autocomplete="off" required>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    DESIGNATION:
+                                    <input type="text" value="{{desig}}" name="desig" autocomplete="off" required>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    TOTAL SERVICE:
+                                    <input type="text" value="{{tot_ser}}" name="tot_serv" autocomplete="off" required>
+
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div id="payroll-desc-right">
+                        <table>
+                            <tr>
+                                <td>
+                                    JOINING DATE:
+                                    <input type="date" value="{{join_date}}" name="join_date" autocomplete="off"
+                                        required>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    PAYROLL MONTH:
+                                    <input type="month" value="{{payroll_month}}" name="payroll_month"
+                                        autocomplete="off" required readonly>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    STATUS:
+                                    <input type="text" value="{{status}}" name="status" autocomplete="off" required>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="account-desc">
+                    <table>
+                        <tr class="green-row">
+                            <td>
+                                Email ID:
+                                <input type="text" value="{{email}}" name="email" autocomplete="off" required>
+                            </td>
+                        </tr>
+
+                        <tr class="white-row">
+                            <td>
+                                Phone Number:
+                                <input type="text" value="{{phone_no}}" name="phone_no" autocomplete="off" required>
+                            </td>
+                        </tr>
+
+                        <tr class="green-row">
+                            <td>
+                                Bank Account:
+                                <input type="text" value="{{bank_acc}}" name="bank_acc" autocomplete="off" required>
+                            </td>
+                        </tr>
+
+                        <tr class="white-row">
+                            <td>
+                                NOK:
+                                <input type="text" value="{{nok}}" name="nok" autocomplete="off" required>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div id="sal-green">
+                    <p>
+                        SALARY INFORMATION
+                    </p>
+                </div>
+
+                <div id="sal-desc">
+                    <table id="sal-desc-table">
+                        <tr id="sal-table-green-row">
+                            <th>
+                                Earning-Description
+                            </th>
+
+                            <th>
+                                Amount
+                            </th>
+
+                            <th>
+                                Deduction-Recoveries
+                            </th>
+
+                            <th>
+                                Amount
+                            </th>
+                        </tr>
+                        {% for earn in sal_info.Earning_Description %}
+                        <tr id="dynamic-row-template">
+                            <td class="nor-col-serv">&infin; <input type="text" value="{{earn}}" name="earning[]"
+                                    autocomplete="off"></td>
+                            <td class="green-col"><input type="number"
+                                    value="{{sal_info.Earn_Amount|get_item:forloop.counter0}}" name="earn_amount[]"
+                                    autocomplete="off" min="0"></td>
+                            <td class="nor-col-serv">&infin; <input type="text"
+                                    value="{{sal_info.Deduction_Recoveries|get_item:forloop.counter0}}"
+                                    name="deduction[]" autocomplete="off"></td>
+                            <td class="green-col"><input type="number"
+                                    value="{{sal_info.Deduct_Amount|get_item:forloop.counter0}}" name="deduct_amount[]"
+                                    autocomplete="off" min="0"></td>
+                        </tr>
+                        {% endfor %}
+
+                        <tr>
+                            <td colspan="4" class="gap">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="totals">
+                                Total Earnings
+                            </td>
+
+                            <td class="green-col">
+                                <input type="text" id="totalEarn" value="Rs. {{total_earn}}">
+                            </td>
+
+                            <td class="totals">
+                                Total Deduction
+                            </td>
+
+                            <td class="green-col">
+                                <input type="text" id="totalDeduct" value="Rs. {{total_deduct}}">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="4" class="gap">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="totals">
+                                Net Pay:
+                            </td>
+
+                            <td class="green-col">
+                                <input type="text" id="netTotal" readonly value="Rs. {{net_pay}}">
+                            </td>
+                        </tr>
+                    </table>
+                    <button type="button" id="add-row">+</button>
+                </div>
+                <input type="submit" value="Update">
+            </form>
+
+            <div id="foots">
+                <div id="end-note">
+                    <p>
+                        &diams; This is a computer generated document and don't required any signature
+                    </p>
+                </div>
+
+                <div id="footer">
+                    <img src="/static/footer_1.PNG" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+
+
+    <script>
+        // Add a click event to the "Home" link
+        document.getElementById('home-link').addEventListener('click', function (e) {
+            var confirmLeave = confirm('Are you sure you want to leave this page?');
+            if (!confirmLeave) {
+                e.preventDefault();
+            }
+        });
+
+        function calculateAmount() {
+            let total_earn = 0;
+            let total_deduct = 0;
+
+            // Loop through all rows with the specified name attributes
+            $('input[name="earn_amount[]"]').each(function () {
+                const earn_amount = parseInt($(this).val()) || 0;
+                total_earn += earn_amount;
+            });
+
+            $('input[name="deduct_amount[]"]').each(function () {
+                const deduct_amount = parseInt($(this).val()) || 0;
+                total_deduct += deduct_amount;
+            });
+
+            const netTotal = total_earn - total_deduct;
+
+            // Update the total fields
+            $('#totalEarn').val('Rs. ' + total_earn);
+            $('#totalDeduct').val('Rs. ' + total_deduct);
+            $('#netTotal').val('Rs. ' + netTotal);
+        }
+
+
+        // Function to add a new row
+        function addRow() {
+            const template = $('#dynamic-row-template').clone();
+            template.removeAttr('id').show();
+            template.find('input[type="text"], input[type="number"]').val('');
+            $('#sal-desc-table tr').eq(-5).after(template);
+        }
+
+        $(document).ready(function () {
+            $('#add-row').click(function () {
+                addRow();
+            });
+
+            // Calculate amounts when input fields change
+            $(document).on('input', 'input[name="earn_amount[]"], input[name="deduct_amount[]"]', function () {
+                const row = $(this).closest('tr');
+                calculateAmount(row);
+            });
+        });
+    </script>
+</body>
+</html>

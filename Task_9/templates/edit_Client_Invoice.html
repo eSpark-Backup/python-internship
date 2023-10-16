@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Invoice</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <style>
+        #body {
+            margin: 40px;
+        }
+
+        #main-blue {
+            background-color: #01496D;
+            height: 20px;
+        }
+
+        #logo {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        #descr {
+            font-size: 35px;
+            color: #006496;
+            font-family: serif;
+            font-weight: bold;
+        }
+
+        #no-logs a {
+            text-decoration: none;
+        }
+
+        #no-logs a p {
+            margin-left: 10px;
+            display: inline;
+            text-align: right;
+            font-size: 20px;
+            font-family: sans-serif;
+            color: #00B0B4;
+        }
+
+        #no-logs a:hover p {
+            color: #008688;
+        }
+
+        header img {
+            width: 100%;
+
+        }
+
+        #inv-desc {
+            margin-top: 20px;
+        }
+
+        #inv-desc table {
+            width: 100%;
+        }
+
+        #inv-desc input {
+            border: none;
+            outline: none;
+        }
+
+        .green-row {
+            background-color: #00A0A0;
+        }
+
+        .green-row th {
+            font-family: 17px;
+            color: #ffffff;
+            font-weight: bold;
+            font-family: sans-serif;
+        }
+
+        .green-row td {
+            color: #ffffff;
+            font-weight: 550;
+            font-family: sans-serif;
+            font-size: 16px;
+        }
+
+        .green-row input {
+            background-color: #00A0A0;
+            color: #ffffff;
+            font-family: sans-serif;
+            font-size: 16px;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+
+        .nor-row {
+            font-weight: 550;
+            font-family: sans-serif;
+            font-size: 16px;
+        }
+
+        .nor-row input {
+            color: #00A0A0;
+            font-weight: 550;
+            font-family: sans-serif;
+            font-size: 16px;
+        }
+
+        .white-row th {
+            font-family: 17px;
+            color: #00A0A0;
+            font-weight: bold;
+            font-family: sans-serif;
+        }
+
+        .white-row td {
+            color: #00A0A0;
+            font-weight: bold;
+            font-family: sans-serif;
+            font-size: 16px;
+        }
+
+        .white-row input {
+            color: #00A0A0;
+            font-family: sans-serif;
+            font-size: 16px;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+
+        #cont-info {
+            margin-top: 10px;
+        }
+
+        #cont-info table {
+            width: 100%;
+        }
+
+        #cont-info input {
+            border: none;
+            outline: none;
+        }
+
+        #details {
+            margin-top: 20px;
+        }
+
+        #details table {
+            width: 100%;
+            font-size: 15px;
+            border-collapse: collapse;
+            font-weight: bold;
+        }
+
+        #details table .need-height {
+            height: 150px;
+        }
+
+        #details table th {
+            background-color: #00A0A0;
+            color: #ffffff;
+            text-align: center;
+            border: solid black 1px;
+            font-weight: bold;
+        }
+
+        #details table td {
+            text-align: center;
+            border: solid black 1px;
+            font-weight: bold;
+        }
+
+        #details table input {
+            border: none;
+            outline: none;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .sr-no {
+            width: 8%;
+            font-weight: bold;
+        }
+
+        .item {
+            width: 23%;
+            padding: 3px;
+        }
+
+        .item input {
+            width: 100%;
+        }
+
+        .specs {
+            width: 31%;
+            padding: 3px;
+        }
+
+        .specs input {
+            width: 100%;
+        }
+
+        .qty {
+            width: 7%;
+            padding: 3px;
+        }
+
+        .qty input {
+            width: 100%;
+        }
+
+        .price {
+            width: 12%;
+            padding: 3px;
+        }
+
+        .price input {
+            width: 100%;
+        }
+
+        .amount {
+            background-color: #00A0A0;
+            color: #ffffff;
+            width: 20%;
+            padding: 3px;
+        }
+
+        .amount input {
+            background-color: #00A0A0;
+            color: #ffffff;
+            width: 100%;
+        }
+
+        #details table #totals {
+            height: 30px;
+        }
+
+        #details table #totals #no-use {
+            border: none;
+            width: 0;
+            padding: 0;
+            margin: 0;
+        }
+
+        #teeess {
+            background-color: #00A0A0;
+            color: #ffffff;
+            font-weight: bold;
+        }
+
+        #end-note {
+            font-family: sans-serif;
+            font-size: 14px;
+            margin-top: 15%;
+        }
+
+        #greens {
+            padding: 3px;
+            background-color: #00B0B4;
+        }
+
+        #greys {
+            padding: 3px;
+            background-color: #B5B5B5;
+        }
+
+        #blues {
+            padding: 15px;
+            background-color: #01496D;
+        }
+
+        #whole-form input[type="submit"] {
+            margin: auto;
+            display: block;
+            background-color: #006496;
+            color: #ffffff;
+            border: #006496;
+            border-radius: 10px;
+            font-family: 'Segoe UI';
+            font-size: 20px;
+        }
+
+        #add-row {
+            padding-top: 0;
+            padding-bottom: 0;
+            background-color: #006496;
+            color: #ffffff;
+            border: #006496;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-size: 17px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div id="gen-body">
+        <div id="body">
+
+            <div id="heading">
+
+                <div id="main-blue">
+                </div>
+
+                <div id="logo">
+
+                    <span id="logo-img">
+                        <img src="/static/es_logo.png" alt="">
+                    </span>
+
+                    <div id="descr">
+                        CLIENT INVOICE
+                    </div>
+
+                    <div id="no-logs">
+                        <a href="/home" id="home-link">
+                            <p><b>Home</b></p>
+                        </a>
+                        <a href="/logout">
+                            <p><b>Logout</b></p>
+                        </a>
+                    </div>
+
+                </div>
+
+                <div id="main-blue">
+                </div>
+
+            </div>
+
+            <form action="" method="post" id="whole-form">
+                {% csrf_token %}
+
+                <div id="inv-desc">
+                    <table>
+                        <tr class="green-row">
+                            <th>
+                                INVOICE TO:
+                                <input type="text" value="{{inv_recipient}}" name="inv_recipient" autocomplete="off" required>
+                            </th>
+                            <th class="sec-col-inv">
+                                INVOICE DETAILS:&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                            </th>
+                        </tr>
+
+                        <tr class="nor-row">
+                            <td>
+                                ATTENTION:
+                                <input type="text" value="{{attention}}" name="attention" autocomplete="off" required>
+                            </td>
+                            <td class="sec-col-inv">
+                                INVOICE NO: {{invoice_no}}
+
+                            </td>
+                        </tr>
+
+                        <tr class="nor-row">
+                            <td>
+                                THIS INVOICE IS PREPARED BY:
+                                <input type="text" value="{{prep_by}}" name="prep_by" autocomplete="off" required>
+                            </td>
+                            <td class="sec-col-inv">
+                                DATE:
+                                <input type="date" value="{{date}}" name="date" autocomplete="off" required>
+
+                            </td>
+                        </tr>
+
+                    </table>
+                </div>
+
+                <div id="cont-info">
+                    <table>
+                        <tr class="green-row">
+                            <th>
+                                Contact Person:
+                                <input type="text" value="{{contact_per}}" name="contact_per" autocomplete="off" required>
+                            </th>
+                        </tr>
+
+                        <tr class="white-row">
+                            <th>
+                                Email:
+                                <input type="email" value="{{email}}" name="email" autocomplete="off" required>
+                            </th>
+                        </tr>
+                    </table>
+                </div>
+
+                <div id="details">
+                    <table>
+                        <tr>
+                            <th class="sr-no">Sr.No.</th>
+                            <th class="item"> Item Name</th>
+                            <th class="specs">Specification</th>
+                            <th class="qty">Qty</th>
+                            <th class="price">Unit Price</th>
+                            <th class="amount">Amount</th>
+                        </tr>
+                        {% for item in item_desc.items %}
+                        <tr id="dynamic-row-template" style="display: none;">
+                            <td class="sr-no">
+                                1
+                            </td>
+                            <td class="item"><input type="text" value="{{item}}" name="item[]" autocomplete="off"></td>
+                            <td class="specs"><input type="text" value="{{ item_desc.specs|get_item:forloop.counter0 }}" name="specs[]" autocomplete="off">
+                            </td>
+                            <td class="qty"><input type="number" value="{{ item_desc.qtys|get_item:forloop.counter0 }}" name="qty[]" autocomplete="off"></td>
+                            <td class="price"> <input type="number" value="{{ item_desc.prices|get_item:forloop.counter0 }}
+                                " name="price[]" autocomplete="off">
+                            </td>
+                            <td class="amount"><input type="text" id="amount[]" value="{{ item_desc.amounts|get_item:forloop.counter0 }}" readonly class="amnt"></td>
+                        </tr>
+                        <tr id="totals">
+                            <td id="no-use" colspan="2"></td>
+                            <td id="teeess" colspan="3">
+                                Total
+                            </td>
+                            <td class="amount">
+                                <input type="text" id="totalAmount" readonly value="Rs. {{total}}">
+                            </td>
+                        </tr>
+                    </table>
+                    <button type="button" id="add-row">+</button>
+
+                </div>
+
+                <input type="submit" value="Submit">
+
+            </form>
+
+            <div id="foots">
+                <div id="end-note">
+                    <p>
+                        &diams; This is a computer generated document and don't any signature
+                    </p>
+                </div>
+
+                <div id="footer">
+                    <div id="greens"></div>
+                    <div id="greys"></div>
+                    <div id="blues"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+    <script>
+        // Add a click event to the "Home" link
+        document.getElementById('home-link').addEventListener('click', function (e) {
+            var confirmLeave = confirm('Are you sure you want to leave this page?');
+            if (!confirmLeave) {
+                e.preventDefault();
+            }
+        });
+        $(document).ready(function () {
+            // Function to calculate the amount for a row
+            function calculateAmount() {
+                $('tr.dynamic-row').each(function (index) {
+                    const qty = parseInt($(this).find('input[name="qty[]"]').val()) || 0;
+                    const price = parseInt($(this).find('input[name="price[]"]').val()) || 0;
+                    const amount = qty * price;
+                    $(this).find('.amnt').val(amount);
+                });
+                calculateTotal();
+            }
+
+            function calculateTotal() {
+                let total = 0;
+                $('tr.dynamic-row').each(function (index) {
+                    const qty = parseInt($(this).find('input[name="qty[]"]').val()) || 0;
+                    const price = parseInt($(this).find('input[name="price[]"]').val()) || 0;
+                    const amount = qty * price;
+                    total += amount;
+                });
+                $('#totalAmount').val('Rs. ' + total);
+            }
+
+            // Function to add a new row
+            function addRow() {
+                const template = $('#dynamic-row-template').clone();
+                template.removeAttr('id').addClass('dynamic-row').show();
+                template.find('.sr-no').text($('tr.dynamic-row').length + 1);
+                $('#details table tr:last').before(template);
+            }
+
+            $('#add-row').click(function () {
+                addRow();
+            });
+
+            // Calculate amounts when input fields change
+            $(document).on('input', 'input[name="qty[]"], input[name="price[]"]', function () {
+                calculateAmount();
+            });
+
+            // Initial row
+            addRow();
+        });
+    </script>
+</body>
+
+</html>

@@ -584,6 +584,16 @@ def view_Client_Invoice(request):
             item_desc=invoice_data.item_desc
             total = sum(item_desc['amounts'])
 
+            request.session['inv_recipient'] = inv_recipient
+            request.session['attention'] = attention
+            request.session['invoice_no'] = inv_no
+            request.session['prep_by'] = prep_by
+            request.session['date'] = date
+            request.session['contact_per'] = contact_per
+            request.session['email'] = email
+            request.session['item_desc'] = item_desc
+            request.session['total'] = total
+
             return render(request, 'view_Client_Invoice.html', {
                 "inv_recipient":inv_recipient,
                 "attention":attention,
@@ -601,7 +611,89 @@ def view_Client_Invoice(request):
 
 @login_admin_successfull
 def edit_Client_Invoice(request):
-    return render(request,'search_Client_Invoice.html')
+    if request.method=='POST':
+        inv_no=request.POST['inv_no']
+
+        invoice_data = Client_Invoice_Table.objects.get(invoice_no=inv_no)
+
+        inv_recipient=request.POST["inv_recipient"]
+        attention=request.POST["attention"]
+        prep_by=request.POST["prep_by"]
+        date=request.POST["date"]
+        contact_per=request.POST["contact_per"]
+        email=request.POST["email"]
+        items=[item for item in request.POST.getlist('item[]') if item]
+        specs=[spec for spec in request.POST.getlist('specs[]') if spec]
+        qtys=[int(qty) for qty in request.POST.getlist('qty[]') if qty]
+        prices=[int(price) for price in request.POST.getlist('price[]') if price]
+
+        amounts=[]
+        for i in range(len(qtys)):
+            amounts.append(qtys[i]*prices[i])
+
+        total=sum(amounts)        
+        
+        item_desc={
+            'items':items,
+            'specs': specs,
+            'qtys':qtys,
+            'prices':prices,
+            'amounts':amounts
+        }
+
+        invoice_data.inv_recipient=inv_recipient
+        invoice_data.attention=attention
+        invoice_data.prep_by=prep_by
+        invoice_data.date=date
+        invoice_data.contact_per=contact_per
+        invoice_data.email=email
+        invoice_data.item_desc=item_desc
+
+        invoice_data.save()
+
+        request.session['inv_recipient'] = inv_recipient
+        request.session['attention'] = attention
+        request.session['invoice_no'] = inv_no
+        request.session['prep_by'] = prep_by
+        request.session['date'] = date
+        request.session['contact_per'] = contact_per
+        request.session['email'] = email
+        request.session['item_desc'] = item_desc
+        request.session['total'] = total            
+        
+        return render(request, 'view_Client_Invoice.html', {
+                "inv_recipient":inv_recipient,
+                "attention":attention,
+                "invoice_no":inv_no,
+                "prep_by":prep_by,
+                "date":date,
+                "contact_per":contact_per,
+                "email":email,
+                "item_desc": item_desc,
+                "total":total
+            })
+        
+    inv_recipient = request.session.get('inv_recipient')
+    attention = request.session.get('attention')
+    inv_no = request.session.get('invoice_no')
+    prep_by = request.session.get('prep_by')
+    date = request.session.get('date')
+    contact_per = request.session.get('contact_per')
+    email = request.session.get('email')
+    item_desc = request.session.get('item_desc')
+    total = request.session.get('total')
+
+    return render(request, 'edit_Client_Invoice.html', {
+                "inv_recipient":inv_recipient,
+                "attention":attention,
+                "invoice_no":inv_no,
+                "prep_by":prep_by,
+                "date":date,
+                "contact_per":contact_per,
+                "email":email,
+                "item_desc": item_desc,
+                "total":total
+            })
 
 def logout(request):
     if 'role' in request.session:

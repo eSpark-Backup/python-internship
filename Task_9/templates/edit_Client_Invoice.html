@@ -1,3 +1,4 @@
+{% load custom_filters %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,27 +11,14 @@
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <style>
         #body {
-            margin: 40px;
+            margin-bottom: 40px;
+            margin-right: 40px;
+            margin-left: 40px;
         }
 
-        #main-blue {
-            background-color: #01496D;
-            height: 20px;
-        }
-
-        #logo {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+        #no-logs {
             margin-top: 10px;
-            margin-bottom: 10px;
-        }
-
-        #descr {
-            font-size: 35px;
-            color: #006496;
-            font-family: serif;
-            font-weight: bold;
+            text-align: right;
         }
 
         #no-logs a {
@@ -38,10 +26,10 @@
         }
 
         #no-logs a p {
-            margin-left: 10px;
+            margin-right: 5px;
             display: inline;
             text-align: right;
-            font-size: 20px;
+            font-size: 22.5px;
             font-family: sans-serif;
             color: #00B0B4;
         }
@@ -49,11 +37,12 @@
         #no-logs a:hover p {
             color: #008688;
         }
-
-        header img {
+        
+        #header img {
             width: 100%;
-
+            margin-bottom: 25px;
         }
+
 
         #inv-desc {
             margin-top: 20px;
@@ -253,22 +242,16 @@
         #end-note {
             font-family: sans-serif;
             font-size: 14px;
-            margin-top: 15%;
+            margin-top: 5%;
+            margin-bottom: 0;
         }
 
-        #greens {
-            padding: 3px;
-            background-color: #00B0B4;
+        footer {
+            width: 100%;
         }
 
-        #greys {
-            padding: 3px;
-            background-color: #B5B5B5;
-        }
-
-        #blues {
-            padding: 15px;
-            background-color: #01496D;
+        footer img {
+            width: 100%;
         }
 
         #whole-form input[type="submit"] {
@@ -299,36 +282,14 @@
 
     <div id="gen-body">
         <div id="body">
+            <div id="no-logs">
+                <a href="/home" id="home-link">
+                    <p><b>Home</b></p>
+                </a>
+            </div>
 
-            <div id="heading">
-
-                <div id="main-blue">
-                </div>
-
-                <div id="logo">
-
-                    <span id="logo-img">
-                        <img src="/static/es_logo.png" alt="">
-                    </span>
-
-                    <div id="descr">
-                        CLIENT INVOICE
-                    </div>
-
-                    <div id="no-logs">
-                        <a href="/home" id="home-link">
-                            <p><b>Home</b></p>
-                        </a>
-                        <a href="/logout">
-                            <p><b>Logout</b></p>
-                        </a>
-                    </div>
-
-                </div>
-
-                <div id="main-blue">
-                </div>
-
+            <div id="header">
+                <img src="/static/header_1.PNG" alt="">
             </div>
 
             <form action="" method="post" id="whole-form">
@@ -339,7 +300,8 @@
                         <tr class="green-row">
                             <th>
                                 INVOICE TO:
-                                <input type="text" value="{{inv_recipient}}" name="inv_recipient" autocomplete="off" required>
+                                <input type="text" value="{{inv_recipient}}" name="inv_recipient" autocomplete="off"
+                                    required>
                             </th>
                             <th class="sec-col-inv">
                                 INVOICE DETAILS:&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
@@ -352,8 +314,9 @@
                                 <input type="text" value="{{attention}}" name="attention" autocomplete="off" required>
                             </td>
                             <td class="sec-col-inv">
-                                INVOICE NO: {{invoice_no}}
-
+                                INVOICE NO:
+                                <input type="text" value="{{invoice_no}}" name="inv_no" autocomplete="off" required
+                                    readonly>
                             </td>
                         </tr>
 
@@ -377,7 +340,8 @@
                         <tr class="green-row">
                             <th>
                                 Contact Person:
-                                <input type="text" value="{{contact_per}}" name="contact_per" autocomplete="off" required>
+                                <input type="text" value="{{contact_per}}" name="contact_per" autocomplete="off"
+                                    required>
                             </th>
                         </tr>
 
@@ -401,19 +365,24 @@
                             <th class="amount">Amount</th>
                         </tr>
                         {% for item in item_desc.items %}
-                        <tr id="dynamic-row-template" style="display: none;">
+                        <tr id="dynamic-row-template">
                             <td class="sr-no">
-                                1
                             </td>
                             <td class="item"><input type="text" value="{{item}}" name="item[]" autocomplete="off"></td>
-                            <td class="specs"><input type="text" value="{{ item_desc.specs|get_item:forloop.counter0 }}" name="specs[]" autocomplete="off">
+                            <td class="specs"><input type="text" value="{{ item_desc.specs|get_item:forloop.counter0 }}"
+                                    name="specs[]" autocomplete="off">
                             </td>
-                            <td class="qty"><input type="number" value="{{ item_desc.qtys|get_item:forloop.counter0 }}" name="qty[]" autocomplete="off"></td>
-                            <td class="price"> <input type="number" value="{{ item_desc.prices|get_item:forloop.counter0 }}
-                                " name="price[]" autocomplete="off">
+                            <td class="qty"><input type="number" value="{{ item_desc.qtys|get_item:forloop.counter0 }}"
+                                    name="qty[]" autocomplete="off"></td>
+                            <td class="price"> <input type="number"
+                                    value="{{ item_desc.prices|get_item:forloop.counter0 }}" name="price[]"
+                                    autocomplete="off">
                             </td>
-                            <td class="amount"><input type="text" id="amount[]" value="{{ item_desc.amounts|get_item:forloop.counter0 }}" readonly class="amnt"></td>
+                            <td class="amount"><input type="text" id="amount[]"
+                                    value="{{ item_desc.amounts|get_item:forloop.counter0 }}" readonly class="amnt">
+                            </td>
                         </tr>
+                        {% endfor %}
                         <tr id="totals">
                             <td id="no-use" colspan="2"></td>
                             <td id="teeess" colspan="3">
@@ -435,15 +404,13 @@
             <div id="foots">
                 <div id="end-note">
                     <p>
-                        &diams; This is a computer generated document and don't any signature
+                        &diams; This is a computer generated document and don't required any signature
                     </p>
                 </div>
 
-                <div id="footer">
-                    <div id="greens"></div>
-                    <div id="greys"></div>
-                    <div id="blues"></div>
-                </div>
+                <footer>
+                    <img src="/static/footer_1.PNG" alt="">
+                </footer>
             </div>
 
         </div>
@@ -462,23 +429,22 @@
                 e.preventDefault();
             }
         });
+
         $(document).ready(function () {
             // Function to calculate the amount for a row
-            function calculateAmount() {
-                $('tr.dynamic-row').each(function (index) {
-                    const qty = parseInt($(this).find('input[name="qty[]"]').val()) || 0;
-                    const price = parseInt($(this).find('input[name="price[]"]').val()) || 0;
-                    const amount = qty * price;
-                    $(this).find('.amnt').val(amount);
-                });
-                calculateTotal();
+            function calculateAmount(row) {
+                const qty = parseInt(row.find('input[name="qty[]"]').val()) || 0;
+                const price = parseInt(row.find('input[name="price[]"]').val()) || 0;
+                const amount = qty * price;
+                row.find('.amnt').val(amount);
             }
 
             function calculateTotal() {
                 let total = 0;
-                $('tr.dynamic-row').each(function (index) {
-                    const qty = parseInt($(this).find('input[name="qty[]"]').val()) || 0;
-                    const price = parseInt($(this).find('input[name="price[]"]').val()) || 0;
+                $('input[name="qty[]"]').each(function () {
+                    const qty = parseInt($(this).val()) || 0;
+                    const row = $(this).closest('tr');
+                    const price = parseInt(row.find('input[name="price[]"]').val()) || 0;
                     const amount = qty * price;
                     total += amount;
                 });
@@ -488,24 +454,39 @@
             // Function to add a new row
             function addRow() {
                 const template = $('#dynamic-row-template').clone();
-                template.removeAttr('id').addClass('dynamic-row').show();
-                template.find('.sr-no').text($('tr.dynamic-row').length + 1);
+                template.find('input').val('');
                 $('#details table tr:last').before(template);
             }
 
+
+            function generateSerialNumbers() {
+                const rows = document.getElementsByClassName('sr-no');
+
+                // Start from 1 to skip the header row
+                for (let i = 0; i < rows.length; i++) {
+                    rows[i + 1].textContent = i + 1; // Set the serial number
+                }
+            }
+
+            // Call the function to generate serial numbers
+
+
             $('#add-row').click(function () {
                 addRow();
+                generateSerialNumbers();
             });
 
             // Calculate amounts when input fields change
             $(document).on('input', 'input[name="qty[]"], input[name="price[]"]', function () {
-                calculateAmount();
+                calculateAmount($(this).closest('tr'));
+                calculateTotal();
             });
 
-            // Initial row
-            addRow();
+            generateSerialNumbers();
         });
+
     </script>
+
 </body>
 
 </html>

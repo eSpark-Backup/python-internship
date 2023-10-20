@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from .decorators import login_admin_successfull
+from .decorators import *
 from django.views.decorators.cache import cache_control
 from . models import eT_Invoice_Table,Salary_Slip_Table,Client_Invoice_Table
 
@@ -12,22 +12,52 @@ def login(request):
 
         if username == 'eSparkAdmin' and password == 'admin@espark':
             request.session['role'] = 'admin'
-            return redirect("home")
+            request.session['template_name'] = 'home_admin'  # Set the template_name for admin
+            return redirect("admin_home", template_name='home_admin')
+
+        if username == 'eSparkFinanceDept' and password == 'financeDept@espark':
+            request.session['role'] = 'finance'
+            request.session['template_name'] = 'home_finance'  # Set the template_name for finance
+            return redirect("finance_home", template_name='home_finance')
+
+        if username == 'eSparkHrDept' and password == 'hrDept@espark':
+            request.session['role'] = 'hr'
+            request.session['template_name'] = 'home_hr'  # Set the template_name for hr
+            return redirect("hr_home", template_name='home_hr')
 
         else:
             return render(request, 'login.html', {'error_message': 'Invalid username or password'})
-    response = render(request, 'login.html')
-    # Add Cache-Control header to prevent caching
-    response['Cache-Control'] = 'no-store, must-revalidate'
 
+    response = render(request, 'login.html')
+    response['Cache-Control'] = 'no-store, must-revalidate'
     return response
 
 @login_admin_successfull
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
-def home(request):
-    return render(request,'home.html')
+def admin_home(request, template_name):
+    try:
+        template_name='home_admin'
+        return render(request,f'{template_name}.html')
+    except:
+        return render(request, 'home_admin.html')
 
-@login_admin_successfull
+@login_finance_successfull
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+def finance_home(request, template_name):
+    template_name='home_finance'
+    return render(request,f'{template_name}.html')
+
+@login_hr_successfull
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+def hr_home(request, template_name):
+    template_name='home_hr'
+    return render(request,f'{template_name}.html')
+
+@login_adminorhr_successfull
+def add_emp(request):
+    return render(request,'Add_Emp.html')
+
+@login_adminorfinance_successfull
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def eT_Invoice(request):
     if request.method=='POST':
@@ -89,11 +119,11 @@ def eT_Invoice(request):
 
     return render(request,'eT_Invoice.html')
 
-@login_admin_successfull
+@login_adminorfinance_successfull
 def search_eT_Invoice(request):
     return render(request,'search_eT_Invoice.html')
 
-@login_admin_successfull
+@login_adminorfinance_successfull
 def view_eT_Invoice(request):
     if request.method=='POST':
         inv_no=request.POST['inv_no']
@@ -151,7 +181,7 @@ def view_eT_Invoice(request):
         else:
             return render(request, 'search_eT_Invoice.html', {'error_message': 'Invalid Invoice Number'})  
 
-@login_admin_successfull
+@login_adminorfinance_successfull
 def edit_eT_Invoice(request):
     if request.method=='POST':
         inv_no=request.POST['inv_no']
@@ -269,7 +299,7 @@ def edit_eT_Invoice(request):
             'total' : total
         })
 
-@login_admin_successfull
+@login_adminorfinance_successfull
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def Salary_Slip(request):
     if request.method=='POST':
@@ -324,12 +354,12 @@ def Salary_Slip(request):
 
     return render(request,'Salary_Slip.html')
 
-@login_admin_successfull
+@login_adminorfinance_successfull
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def search_Salary_Slip(request):
     return render(request,'search_Salary_Slip.html')
 
-@login_admin_successfull
+@login_adminorfinance_successfull
 def view_Salary_Slip(request):
     if request.method=='POST':
         emp_id=request.POST['emp_id']
@@ -394,7 +424,7 @@ def view_Salary_Slip(request):
         else:
             return render(request, 'search_Salary_Slip.html', {'error_message': 'Invalid Employee ID or Month'})
 
-@login_admin_successfull
+@login_adminorfinance_successfull
 def edit_Salary_Slip(request):
     if request.method=='POST':
         emp_id=request.POST['emp_id']
@@ -513,7 +543,7 @@ def edit_Salary_Slip(request):
         })
 
 
-@login_admin_successfull
+@login_adminorfinance_successfull
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def Client_Invoice(request):
     if request.method=='POST':
@@ -560,11 +590,11 @@ def Client_Invoice(request):
 
     return render(request,'Client_Invoice.html')
 
-@login_admin_successfull
+@login_adminorfinance_successfull
 def search_Client_Invoice(request):
     return render(request,'search_Client_Invoice.html')
 
-@login_admin_successfull
+@login_adminorfinance_successfull
 def view_Client_Invoice(request):
     if request.method=='POST':
         inv_no=request.POST['inv_no']
@@ -609,7 +639,7 @@ def view_Client_Invoice(request):
         else:
             return render(request, 'search_Client_Invoice.html', {'error_message': 'Invalid Invoice Number'})
 
-@login_admin_successfull
+@login_adminorfinance_successfull
 def edit_Client_Invoice(request):
     if request.method=='POST':
         inv_no=request.POST['inv_no']

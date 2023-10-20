@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Employee</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/css/Add_Emp.css">
+    
+</head>
+
+<body>
+    <div id="gen-pdf">
+        <div id="body">
+
+            <div id="heading">
+
+                <div id="logo">
+
+                    <span id="logo-img">
+                        <img src="/static/es_logo.png" alt="">
+                    </span>
+
+                    <div id="no-logs">
+                        <a href="/home/<str:template_name>/" id="home-link">
+                            <p><b>Home</b></p>
+                        </a>
+                        <a href="/logout">
+                            <p><b>Logout</b></p>
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <form action="" method="post" id="whole-form">
+                {% csrf_token %}
+
+                <div class="detls">
+                    <p>
+                        Employee Information
+                    </p>
+                </div>
+
+                <div class="detls-cont">
+                    <div class="detls-desc-left">
+                        <table>
+                            <tr>
+                                <td>
+                                    Employee ID :
+                                    <input type="text" placeholder="..." name="emp_id" autocomplete="off" required>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Employee Name :
+                                    <input type="text" placeholder="..." name="emp_name" autocomplete="off" required>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Designation :
+                                    <input type="text" placeholder="..." name="desig" autocomplete="off" required>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Department :
+                                    <input type="text" placeholder="..." name="desig" autocomplete="off" required>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="detls-desc-right">
+                        <table>
+                            <tr>
+                                <td>
+                                    Status :
+                                    <select class="option" name="status" required>
+                                        <option value="">Select Job Status</option>
+                                        <option value="Regular">Regular</option>
+                                        <option value="Part Time">Part time</option>
+                                        <option value="Internship">Internship</option>
+                                    </select>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Job Mode :
+                                    <select class="option" name="job_mode" required>
+                                        <option value="">Select Job Mode</option>
+                                        <option value="Onsite">Onsite</option>
+                                        <option value="Remote">Remote</option>
+                                    </select>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Administrative Appointment:
+                                    <input type="text" placeholder="..." name="a_apoint" autocomplete="off" required>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Foreign Firm Name:
+                                    <input type="text" placeholder="..." name="ff_name" autocomplete="off" required>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="detls">
+                    <p>
+                        General Information
+                    </p>
+                </div>
+
+                <div class="detls-cont">
+                    <div class="detls-desc-left">
+                        <table>
+                            <tr>
+                                <td>
+                                    Account Number :
+                                    <input type="text" placeholder="..." name="acc_no" autocomplete="off" required>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Joining Date :
+                                    <input type="date" id="join_date" placeholder="..." name="join_date"
+                                        autocomplete="off" required>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Probation Start Date :
+                                    <input type="date" placeholder="..." name="ps_date" autocomplete="off" required>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Resign Date :
+                                    <input type="date" id="res_date" placeholder="..." name="res_date"
+                                        autocomplete="off">
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="detls-desc-right">
+                        <table>
+
+                            <tr>
+                                <td>
+                                    Bank Name :
+                                    <select class="option" name="bank" required>
+                                        <option value="">Select Bank</option>
+                                        <option value="UBL">UBL</option>
+                                        <option value="HBL">HBL</option>
+                                        <option value="MCB">MCB</option>
+                                        <option value="NBP">NBP</option>
+                                        <option value="Bank Al Habib">Bank Al Habib</option>
+                                        <option value="Meezan Bank">Meezan Bank</option>
+                                        <option value="Bank Alfalah">Bank Alfalah</option>
+                                        <option value="Faysal Bank">Faysal Bank</option>
+                                        <option value="Askari Bank">Askari Bank</option>
+                                    </select>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Foreign Firm Joining Date :
+                                    <input type="date" placeholder="..." name="ff_join_date" autocomplete="off"
+                                        required>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Probation End Date :
+                                    <input type="date" placeholder="..." name="pe_date" autocomplete="off" required>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Total Service:
+                                    <input type="text" id="tot_serv" name="tot_serv" autocomplete="off" required
+                                        readonly>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="detls">
+                    <p>
+                        Salary Information
+                    </p>
+                </div>
+
+                <div class="detls-cont">
+                    <div class="detls-desc-left">
+                        <table>
+                            <tr>
+                                <td>
+                                    Salary :
+                                    <input type="number" placeholder="..." name="salary" autocomplete="off" required>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Joining Salary :
+                                    <input type="number" placeholder="..." name="join_sal" autocomplete="off" required>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Current Salary :
+                                    <input type="number" placeholder="..." name="curr_sal" autocomplete="off" required>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="detls-desc-right">
+                        <table>
+
+                            <tr>
+                                <td>
+                                    Medical :
+                                    <select class="option" name="medical" required>
+                                        <option value="">Select</option>
+                                        <option value="Plan A">Plan A</option>
+                                        <option value="Plan B">Plan B</option>
+                                        <option value="Plan C">Plan C</option>
+                                    </select>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Life Insurance :
+                                    <select class="option" name="insurance" required>
+                                        <option value="">Select</option>
+                                        <option value="Plan A">Plan A</option>
+                                        <option value="Plan B">Plan B</option>
+                                        <option value="Plan C">Plan C</option>
+                                    </select>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Fuel :
+                                    <select class="option" name="fuel" required>
+                                        <option value="">Select</option>
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="detls">
+                    <p>
+                        Personal Information
+                    </p>
+                </div>
+
+                <div class="detls-cont">
+                    <div class="detls-desc-left">
+                        <table>
+                            <tr>
+                                <td>
+                                    Date of Birth :
+                                    <input type="date" id="dob" name="dob" autocomplete="off" required>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Age :
+                                    <input type="text" id="age" name="age" autocomplete="off" required readonly>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    CNIC :
+                                    <input type="text" placeholder="..." name="cnic" autocomplete="off" required>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Address :
+                                    <input type="text" placeholder="..." name="address" autocomplete="off" required>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Contact Number :
+                                    <input type="tel" placeholder="..." name="cont_no" autocomplete="off" required>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Personal Email ID :
+                                    <input type="email" placeholder="..." name="pmail" autocomplete="off" required>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Religion :
+                                    <select class="option" name="dept" required>
+                                        <option value="">Select Religion</option>
+                                        <option value="Islam">Islam</option>
+                                        <option value="Hinduism">Hinduism</option>
+                                        <option value="Christianity">Christianity</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Blood Group :
+                                    <select class="option" name="bldgrp" required>
+                                        <option value="">Select Blood Group</option>
+                                        <option value="A+">A+</option>
+                                        <option value="A-">A-</option>
+                                        <option value="B+">B+</option>
+                                        <option value="B-">B-</option>
+                                        <option value="AB+">AB+</option>
+                                        <option value="AB-">AB-</option>
+                                        <option value="O+">O+</option>
+                                        <option value="O-">O-</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="detls-desc-right">
+                        <table>
+                            <tr>
+                                <td>
+                                    Father/Husband Name :
+                                    <input type="text" placeholder="..." name="desig" autocomplete="off" required>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Father Occupation:
+                                    <input type="text" placeholder="..." name="ff_name" autocomplete="off" required>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Marital Status :
+                                    <select class="option" name="dept" required>
+                                        <option value="">Select Marital Status</option>
+                                        <option value="Single">Single</option>
+                                        <option value="Married">Married</option>
+                                        <option value="Divorced">Divorced</option>
+                                        <option value="Widowed">Widowed</option>
+                                        <option value="Separated">Separated</option>
+                                    </select>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Number of Children:
+                                    <input type="text" placeholder="..." name="ff_name" autocomplete="off" required>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Emergency Number :
+                                    <input type="text" placeholder="..." name="desig" autocomplete="off" required>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Name of Person:
+                                    <input type="text" placeholder="..." name="a_apoint" autocomplete="off" required>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Relation with Person:
+                                    <input type="text" placeholder="..." name="ff_name" autocomplete="off" required>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <input type="submit" value="Submit">
+
+            </form>
+
+            <div id="footer">
+                <div id="greens"></div>
+                <div id="greys"></div>
+                <div id="blues"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+    <script src="/static/js/Add_Emp.js">
+    </script>
+
+
+</body>
+
+</html>

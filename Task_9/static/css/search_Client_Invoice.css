@@ -1,0 +1,129 @@
+body {
+    background: linear-gradient(rgb(255, 255, 255), rgba(98, 184, 199, 0.466));
+    background-size: cover;
+    background-repeat: repeat;
+    background-attachment: fixed;
+}
+
+#bodies {
+    margin: 30px;
+}
+
+#main-blue {
+    background-color: #01496D;
+    height: 20px;
+}
+
+#logo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#no-logs a {
+    text-decoration: none;
+}
+
+#no-logs a p {
+    display: inline;
+    margin-left: 10px;
+    text-align: right;
+    font-size: 25px;
+    font-family: serif;
+    color: #00B0B4;
+}
+
+#no-logs a:hover p {
+    color: #008688;
+}
+
+#main-body{
+    font-family: serif;
+    align-items: center;
+    text-align: center;
+    padding-top: 100px;
+}
+
+#input-container {
+    display: flex;
+    flex-direction: column;
+
+}
+
+input[type='text'] {
+    height: 30px;
+    background-color: #87d1db67;
+    border: none;
+    margin: 10px;
+    color: #00B0B4;
+}
+
+input[type='submit'] {
+    display: block;
+    margin: auto;
+    margin-top: 20px;
+    background-color: #00B0B4;
+    border: none;
+    width: 150px;
+    border-radius: 10px;
+    color: #ffffff;
+    font-size: 25px;
+    font-family: serif;
+}
+
+h1 {
+    color: #00B0B4;
+    margin: 20px;
+    font-size: 50px;
+}
+
+#inv-no {
+    outline: none;
+    size: 50px;
+    font-size: 20px;
+}
+
+#eT_Invoice {
+    margin: 20px;
+}
+
+label {
+    color: #00B0B4;
+    font-size: 30px;
+}
+
+#footer {
+    position: absolute;
+    bottom: 40px;
+    width: 97%;
+}
+
+#greens {
+    margin-top: 250px;
+    padding: 3px;
+    background-color: #00B0B4;
+}
+
+#greys {
+    padding: 3px;
+    background-color: #B5B5B5;
+}
+
+#blues {
+    padding: 15px;
+    background-color: #01496D;
+}
+
+#error{
+    margin-top: 10px;
+}
+
+.alert{
+    padding: 3px;
+    width: 20%;
+    margin: auto;
+    border: none;
+    border-radius: 0;
+}

@@ -1,0 +1,124 @@
+body {
+    background: linear-gradient(rgb(255, 255, 255), rgba(98, 184, 199, 0.466));
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+#body {
+    margin: 20px;
+}
+
+#heading {
+    margin-bottom: 20px;
+}
+
+#logo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#no-logs {
+    margin-right: 10px;
+}
+
+#no-logs a {
+    text-decoration: none;
+}
+
+#no-logs a p {
+    margin-left: 10px;
+    display: inline;
+    text-align: right;
+    font-size: 20px;
+    font-family: sans-serif;
+    color: #00B0B4;
+}
+
+#no-logs a:hover p {
+    color: #008688;
+}
+
+.detls {
+    margin-top: 2.5px;
+    background-color: #00A0A0;
+    width: 100%;
+    text-align: center;
+    color: #ffffff;
+    height: 35px;
+    font-size: 26px;
+    font-weight: 510;
+    font-family: sans-serif;
+}
+
+.detls-desc-left,
+.detls-desc-right {
+    width: 450px;
+    display: inline-block;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.detls-cont {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.detls-desc-left td,
+.detls-desc-right td {
+    font-family: sans-serif;
+    font-size: 14px;
+    text-align: left;
+    font-weight: 700;
+}
+
+.detls-desc-left input,
+.detls-cont .option,
+.detls-desc-right input {
+    border: none;
+    outline: none;
+    font-family: sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    color: #00A0A0;
+    background-color: #ffffff00;
+}
+
+.detls-cont .option {
+    border: 1px solid #000000;
+}
+
+#footer {
+    margin-top: 30px;
+}
+
+#greens {
+    padding: 3px;
+    background-color: #00B0B4;
+}
+
+#greys {
+    padding: 3px;
+    background-color: #B5B5B5;
+}
+
+#blues {
+    padding: 15px;
+    background-color: #01496D;
+}
+
+#whole-form input[type="submit"] {
+    margin-top: 10px;
+    margin: auto;
+    display: block;
+    background-color: #006496;
+    color: #ffffff;
+    border: #006496;
+    border-radius: 10px;
+    font-family: 'Segoe UI';
+    font-size: 23px;
+}

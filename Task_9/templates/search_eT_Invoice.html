@@ -9,6 +9,14 @@
     <title>Query eT Invoice</title>
 
     <link rel="stylesheet" href="/static/css/search_eT_Invoice.css">
+    <style>
+        #descr {
+            font-size: 48px;
+            color: #00a7aa;
+            font-family: serif;
+            font-weight: bold;
+        }
+    </style>
 
 </head>
 
@@ -21,6 +29,10 @@
                 <span id="logo-img">
                     <img src="/static/es_logo.png" alt="">
                 </span>
+
+                <div id="descr">
+                    eSpark Portal
+                </div>
 
                 <div id="no-logs">
                     <a href="{% if user_role == 'admin' %}{% url 'admin_home' %}{% elif user_role == 'finance' %}{% url 'finance_home' %}{% endif %}"  id="home-link">

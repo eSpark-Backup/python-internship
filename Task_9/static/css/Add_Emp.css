@@ -21,6 +21,13 @@ body {
     margin-bottom: 10px;
 }
 
+#portal{
+    font-size: 48px;
+    font-weight: bold;
+    font-family: serif;
+    color: #00a7aa;
+}
+
 #no-logs {
     margin-right: 10px;
 }

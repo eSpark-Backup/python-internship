@@ -33,7 +33,8 @@
                     </div>
 
                     <div id="no-logs">
-                        <a href="/home/<str:template_name>/" id="home-link">
+                        <a href="{% if user_role == 'admin' %}{% url 'admin_home' %}{% elif user_role == 'finance' %}{% url 'finance_home' %}{% endif %}"
+                            id="home-link">
                             <p><b>Home</b></p>
                         </a>
                         <a href="/logout">
@@ -63,28 +64,32 @@
                             <tr>
                                 <td>
                                     EMPLOYEE ID:
-                                    <input type="text" placeholder="..." name="emp_id" autocomplete="off" required>
+                                    <input type="text" placeholder="..." name="emp_id" id="emp_id" autocomplete="off"
+                                        required>
                                 </td>
                             </tr>
 
                             <tr>
                                 <td>
                                     EMPLOYEE NAME:
-                                    <input type="text" placeholder="..." name="emp_name" autocomplete="off" required>
+                                    <input type="text" placeholder="..." name="emp_name" id="emp_name"
+                                        autocomplete="off" readonly>
                                 </td>
                             </tr>
 
                             <tr>
                                 <td>
                                     DESIGNATION:
-                                    <input type="text" placeholder="..." name="desig" autocomplete="off" required>
+                                    <input type="text" placeholder="..." name="desig" id="desig" autocomplete="off"
+                                        readonly>
                                 </td>
                             </tr>
 
                             <tr>
                                 <td>
                                     TOTAL SERVICE:
-                                    <input type="text" placeholder="..." name="tot_serv" autocomplete="off" required>
+                                    <input type="text" placeholder="..." name="tot_serv" id="tot_serv"
+                                        autocomplete="off" readonly>
 
                                 </td>
                             </tr>
@@ -95,21 +100,23 @@
                             <tr>
                                 <td>
                                     JOINING DATE:
-                                    <input type="date" placeholder="..." name="join_date" autocomplete="off" required>
+                                    <input type="date" placeholder="..." name="join_date" id="join_date"
+                                        autocomplete="off" readonly>
                                 </td>
                             </tr>
 
                             <tr>
                                 <td>
                                     PAYROLL MONTH:
-                                    <input type="month" placeholder="..." name="payroll_month" autocomplete="off" required>
+                                    <input type="month" placeholder="..." name="payroll_month" autocomplete="off"
+                                        required>
                                 </td>
                             </tr>
 
                             <tr>
                                 <td>
                                     STATUS:
-                                    <input type="text" placeholder="..." name="status" autocomplete="off" required>
+                                    <input type="text" placeholder="..." name="status"  id="status" autocomplete="off" readonly>
                                 </td>
                             </tr>
                         </table>
@@ -121,21 +128,21 @@
                         <tr class="green-row">
                             <td>
                                 Email ID:
-                                <input type="text" placeholder="..." name="email" autocomplete="off" required>
+                                <input type="text" placeholder="..." id="email" name="email" autocomplete="off" readonly>
                             </td>
                         </tr>
 
                         <tr class="white-row">
                             <td>
                                 Phone Number:
-                                <input type="text" placeholder="..." name="phone_no" autocomplete="off" required>
+                                <input type="text" placeholder="..." id="cont_no" name="phone_no" autocomplete="off" readonly>
                             </td>
                         </tr>
 
                         <tr class="green-row">
                             <td>
                                 Bank Account:
-                                <input type="text" placeholder="..." name="bank_acc" autocomplete="off" required>
+                                <input type="text" placeholder="..." id="acc_no" name="bank_acc" autocomplete="off" readonly>
                             </td>
                         </tr>
 
@@ -253,6 +260,97 @@
 
     <script src="/static/js/Salary_Slip.js">
     </script>
+
+    <script>
+        $(document).ready(function () {
+            $('#emp_id').on('input', function () {
+                var emp_id = $(this).val(); var pattern = /^eS-.*-...*/;
+
+                if (pattern.test(emp_id)) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Salary_Slip/',
+                        data: {
+                            'emp_id': emp_id,
+                            csrfmiddlewaretoken: '{{ csrf_token }}'
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data) {
+                                // Fill other fields with retrieved data
+                                $('#emp_name').val(data.emp_name);
+                                $('#desig').val(data.desig);
+                                $('#join_date').val(data.join_date);
+                                $('#status').val(data.status);
+                                $('#acc_no').val(data.acc_no);
+                                $('#email').val(data.email);
+                                $('#cont_no').val(data.cont_no);
+
+
+                                // Function to calculate Total service from joining date and resign date
+                                function calculateTotalService() {
+                                    const joinDate = document.getElementById('join_date');
+                                    const totalServiceInput = document.getElementById('tot_serv');
+                                    const jdValue = joinDate.value;
+
+                                    if (jdValue) {
+                                        const jdDate = new Date(jdValue);
+                                        const today = new Date();
+                                        let totalYears = today.getFullYear() - jdDate.getFullYear();
+                                        let totalMonths = today.getMonth() - jdDate.getMonth();
+
+                                        if (today.getDate() < jdDate.getDate()) {
+                                            totalMonths--;
+                                        }
+
+                                        if (totalMonths < 0) {
+                                            if (totalYears > 0) {
+                                                totalMonths += 12;
+                                                totalYears--;
+                                            }
+                                            else {
+                                                totalYears = 0 //Example 0ct 2023- Nov 2023 -1 Month, 0 year not possible
+                                            }
+                                        }
+
+                                        let totalService = '';
+                                        if (totalYears > 0) {
+                                            totalService += totalYears + ' Year';
+                                            if (totalYears > 1) {
+                                                totalService += 's';
+                                            }
+                                            if (totalMonths > 0) {
+                                                totalService += ' ';
+                                            }
+                                        }
+                                        if (totalMonths > 0) {
+                                            totalService += totalMonths + ' Month';
+                                            if (totalMonths > 1) {
+                                                totalService += 's';
+                                            }
+                                        }
+
+                                        totalServiceInput.value = totalService;
+                                    }
+                                }
+
+                                // Add event listeners to the Date of Joining and Resignation input fields
+                                const joinDate = document.getElementById('join_date');
+                                joinDate.addEventListener('input', calculateTotalService);
+
+                                // Calculate the total service initially in case dates are pre-filled
+                                calculateTotalService();
+
+                                // Add more fields as needed
+                            }
+                        }
+                    });
+                }
+            });
+        });
+
+    </script>
+
 </body>
 
 </html>

@@ -49,3 +49,4 @@ $(document).ready(function () {
         calculateAmount(row);
     });
 });
+

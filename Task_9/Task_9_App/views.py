@@ -1,7 +1,8 @@
 from django.shortcuts import render,redirect
 from .decorators import *
+from django.http import JsonResponse
 from django.views.decorators.cache import cache_control
-from . models import eT_Invoice_Table,Salary_Slip_Table,Client_Invoice_Table
+from . models import eT_Invoice_Table, Salary_Slip_Table, Client_Invoice_Table, Employee_Table
 
 # Create your views here.
 
@@ -12,18 +13,15 @@ def login(request):
 
         if username == 'eSparkAdmin' and password == 'admin@espark':
             request.session['role'] = 'admin'
-            request.session['template_name'] = 'home_admin'  # Set the template_name for admin
-            return redirect("admin_home", template_name='home_admin')
+            return redirect("admin_home")
 
         if username == 'eSparkFinanceDept' and password == 'financeDept@espark':
             request.session['role'] = 'finance'
-            request.session['template_name'] = 'home_finance'  # Set the template_name for finance
-            return redirect("finance_home", template_name='home_finance')
+            return redirect("finance_home")
 
         if username == 'eSparkHrDept' and password == 'hrDept@espark':
             request.session['role'] = 'hr'
-            request.session['template_name'] = 'home_hr'  # Set the template_name for hr
-            return redirect("hr_home", template_name='home_hr')
+            return redirect("hr_home")
 
         else:
             return render(request, 'login.html', {'error_message': 'Invalid username or password'})
@@ -34,32 +32,371 @@ def login(request):
 
 @login_admin_successfull
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
-def admin_home(request, template_name):
-    try:
-        template_name='home_admin'
-        return render(request,f'{template_name}.html')
-    except:
+def admin_home(request):
         return render(request, 'home_admin.html')
 
 @login_finance_successfull
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
-def finance_home(request, template_name):
-    template_name='home_finance'
-    return render(request,f'{template_name}.html')
+def finance_home(request):
+    return render(request,'home_finance.html')
 
 @login_hr_successfull
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
-def hr_home(request, template_name):
-    template_name='home_hr'
-    return render(request,f'{template_name}.html')
+def hr_home(request):
+    return render(request,'home_hr.html')
 
 @login_adminorhr_successfull
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def add_emp(request):
-    return render(request,'Add_Emp.html')
+    user_role = request.session.get('role', '')
+    if request.method=='POST':
+        emp_id=request.POST['emp_id']
+        emp_name=request.POST['emp_name']
+        desig=request.POST['desig']
+        dept=request.POST['dept']
+        status=request.POST['status']
+        job_mode=request.POST['job_mode']
+        a_apoint=request.POST['a_apoint']
+        ff_name=request.POST['ff_name']
+        
+        acc_no=request.POST['acc_no']
+        join_date=request.POST['join_date']
+        ps_date=request.POST['ps_date']
+        res_date=request.POST['res_date']
+        bank=request.POST['bank']
+        ff_join_date=request.POST['ff_join_date']
+        pe_date=request.POST['pe_date']
+        tot_serv=request.POST['tot_serv']
+
+        salary=request.POST['salary']
+        join_sal=request.POST['join_sal']
+        curr_sal=request.POST['curr_sal']
+        medical=request.POST['medical']
+        insurance=request.POST['insurance']
+        fuel=request.POST['fuel']
+
+        dob=request.POST['dob']
+        age=request.POST['age']
+        cnic=request.POST['cnic']
+        address=request.POST['address']
+        cont_no=request.POST['cont_no']
+        email=request.POST['email']
+        religion=request.POST['religion']
+        bldgrp=request.POST['bldgrp']
+        fh_name=request.POST['fh_name']
+        f_occup=request.POST['f_occup']
+        marital=request.POST['marital']
+        childs=request.POST['childs']
+        em_contact=request.POST['em_contact']
+        em_name=request.POST['em_name']
+        em_relate=request.POST['em_relate']
+
+        general_info={
+            "acc_no": acc_no,
+            "join_date": join_date,
+            "ps_date": ps_date,
+            "res_date": res_date,
+            "bank": bank,
+            "ff_join_date": ff_join_date,
+            "pe_date": pe_date,
+            "tot_serv": tot_serv
+        }
+
+        salary_info={
+            "salary": salary,
+            "join_sal": join_sal,
+            "curr_sal": curr_sal,
+            "medical": medical,
+            "insurance": insurance,
+            "fuel": fuel
+        }
+
+        personal_info={
+            "dob": dob,
+            "age": age,
+            "cnic": cnic,
+            "address": address,
+            "cont_no": cont_no,
+            "email": email,
+            "religion": religion,
+            "bldgrp": bldgrp,
+            "fh_name": fh_name,
+            "f_occup": f_occup,
+            "marital": marital,
+            "childs": childs,
+            "em_contact": em_contact,
+            "em_name": em_name,
+            "em_relate": em_relate
+        }
+
+        new_emp= Employee_Table.objects.create(emp_id=emp_id,emp_name=emp_name,desig=desig,dept=dept,status=status,job_mode=job_mode,a_apoint=a_apoint,ff_name=ff_name,general_info=general_info,salary_info=salary_info,personal_info=personal_info
+        )
+
+        emp_id=new_emp.emp_id
+
+        request.session['emp_id']= emp_id
+        request.session['emp_name']= emp_name
+        request.session['desig']= desig
+        request.session['dept']= dept
+        request.session['status']= status
+        request.session['job_mode']= job_mode
+        request.session['a_apoint']= a_apoint
+        request.session['ff_name']= ff_name
+        request.session['general_info']= general_info
+        request.session['salary_info']= salary_info
+        request.session['personal_info']= personal_info
+
+        return render(request, 'view_employee.html', {
+                "emp_id":emp_id,
+                "emp_name":emp_name,
+                "desig":desig,
+                "dept":dept,
+                "status":status,
+                "job_mode":job_mode,
+                "a_apoint":a_apoint,
+                "ff_name":ff_name,
+                "general_info":general_info,
+                "salary_info":salary_info,
+                "personal_info":personal_info,
+                "user_role":user_role
+        })
+
+    return render(request,'add_employee.html', {'user_role':user_role})
+
+@login_adminorhr_successfull
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+def search_emp(request):
+    user_role = request.session.get('role', '')
+    return render(request,'search_employee.html', {'user_role':user_role})
+
+@login_adminorhr_successfull
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+def view_employee(request):
+    user_role = request.session.get('role', '')
+    if request.method=='POST':
+        emp_id=request.POST['emp_id']
+
+        try:
+            emp_data = Employee_Table.objects.get(emp_id=emp_id)
+        except Employee_Table.DoesNotExist:
+            emp_data = None
+
+        if emp_data!=None:
+            emp_id=emp_data.emp_id
+            emp_name=emp_data.emp_name
+            desig=emp_data.desig
+            dept=emp_data.dept
+            status=emp_data.status
+            job_mode=emp_data.job_mode
+            a_apoint=emp_data.a_apoint
+            ff_name=emp_data.ff_name
+            general_info=emp_data.general_info
+            salary_info=emp_data.salary_info
+            personal_info=emp_data.personal_info
+
+            request.session['emp_id']= emp_id
+            request.session['emp_name']= emp_name
+            request.session['desig']= desig
+            request.session['dept']= dept
+            request.session['status']= status
+            request.session['job_mode']= job_mode
+            request.session['a_apoint']= a_apoint
+            request.session['ff_name']= ff_name
+            request.session['general_info']= general_info
+            request.session['salary_info']= salary_info
+            request.session['personal_info']= personal_info
+            
+            return render(request, 'view_employee.html', {
+                "emp_id":emp_id,
+                "emp_name":emp_name,
+                "desig":desig,
+                "dept":dept,
+                "status":status,
+                "job_mode":job_mode,
+                "a_apoint":a_apoint,
+                "ff_name":ff_name,
+                "general_info":general_info,
+                "salary_info":salary_info,
+                "personal_info":personal_info,
+                "user_role":user_role
+        })
+        
+        else:
+            return render(request, 'search_employee.html', {'error_message': 'Invalid Employee ID', 'user_role':user_role})
+
+@login_adminorhr_successfull
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+def edit_employee(request):
+    user_role = request.session.get('role', '')
+    if request.method=='POST':
+        emp_id=request.POST['emp_id']
+
+        emp_data = Employee_Table.objects.get(emp_id=emp_id)
+
+        emp_id=request.POST['emp_id']
+        emp_name=request.POST['emp_name']
+        desig=request.POST['desig']
+        dept=request.POST['dept']
+        status=request.POST['status']
+        job_mode=request.POST['job_mode']
+        a_apoint=request.POST['a_apoint']
+        ff_name=request.POST['ff_name']
+        
+        acc_no=request.POST['acc_no']
+        join_date=request.POST['join_date']
+        ps_date=request.POST['ps_date']
+        res_date=request.POST['res_date']
+        bank=request.POST['bank']
+        ff_join_date=request.POST['ff_join_date']
+        pe_date=request.POST['pe_date']
+        tot_serv=request.POST['tot_serv']
+
+        salary=request.POST['salary']
+        join_sal=request.POST['join_sal']
+        curr_sal=request.POST['curr_sal']
+        medical=request.POST['medical']
+        insurance=request.POST['insurance']
+        fuel=request.POST['fuel']
+
+        dob=request.POST['dob']
+        age=request.POST['age']
+        cnic=request.POST['cnic']
+        address=request.POST['address']
+        cont_no=request.POST['cont_no']
+        email=request.POST['email']
+        religion=request.POST['religion']
+        bldgrp=request.POST['bldgrp']
+        fh_name=request.POST['fh_name']
+        f_occup=request.POST['f_occup']
+        marital=request.POST['marital']
+        childs=request.POST['childs']
+        em_contact=request.POST['em_contact']
+        em_name=request.POST['em_name']
+        em_relate=request.POST['em_relate']
+
+        general_info={
+            "acc_no": acc_no,
+            "join_date": join_date,
+            "ps_date": ps_date,
+            "res_date": res_date,
+            "bank": bank,
+            "ff_join_date": ff_join_date,
+            "pe_date": pe_date,
+            "tot_serv": tot_serv
+        }
+
+        salary_info={
+            "salary": salary,
+            "join_sal": join_sal,
+            "curr_sal": curr_sal,
+            "medical": medical,
+            "insurance": insurance,
+            "fuel": fuel
+        }
+
+        personal_info={
+            "dob": dob,
+            "age": age,
+            "cnic": cnic,
+            "address": address,
+            "cont_no": cont_no,
+            "email": email,
+            "religion": religion,
+            "bldgrp": bldgrp,
+            "fh_name": fh_name,
+            "f_occup": f_occup,
+            "marital": marital,
+            "childs": childs,
+            "em_contact": em_contact,
+            "em_name": em_name,
+            "em_relate": em_relate
+        }
+
+        emp_data.emp_id=emp_id
+        emp_data.emp_name=emp_name
+        emp_data.desig=desig
+        emp_data.dept=dept
+        emp_data.status=status
+        emp_data.job_mode=job_mode
+        emp_data.a_apoint=a_apoint
+        emp_data.ff_name=ff_name
+        emp_data.general_info=general_info
+        emp_data.salary_info=salary_info
+        emp_data.personal_info=personal_info
+        emp_data.save()
+
+        request.session['emp_id']= emp_id
+        request.session['emp_name']= emp_name
+        request.session['desig']= desig
+        request.session['dept']= dept
+        request.session['status']= status
+        request.session['job_mode']= job_mode
+        request.session['a_apoint']= a_apoint
+        request.session['ff_name']= ff_name
+        request.session['general_info']= general_info
+        request.session['salary_info']= salary_info
+        request.session['personal_info']= personal_info
+
+
+        return render(request, 'view_employee.html', {
+            "emp_id":emp_id,
+            "emp_name":emp_name,
+            "desig":desig,
+            "dept":dept,
+            "status":status,
+            "job_mode":job_mode,
+            "a_apoint":a_apoint,
+            "ff_name":ff_name,
+            "general_info":general_info,
+            "salary_info":salary_info,
+            "personal_info":personal_info,
+            "user_role":user_role
+    })
+
+    emp_id=request.session.get('emp_id')
+    emp_name=request.session.get('emp_name')
+    desig=request.session.get('desig')
+    dept=request.session.get('dept')
+    status=request.session.get('status')
+    job_mode=request.session.get('job_mode')
+    a_apoint=request.session.get('a_apoint')
+    ff_name=request.session.get('ff_name')
+    general_info=request.session.get('general_info')
+    salary_info=request.session.get('salary_info')
+    personal_info=request.session.get('personal_info')
+
+    return render(request, 'edit_employee.html', {
+                "emp_id":emp_id,
+                "emp_name":emp_name,
+                "desig":desig,
+                "dept":dept,
+                "status":status,
+                "job_mode":job_mode,
+                "a_apoint":a_apoint,
+                "ff_name":ff_name,
+                "general_info":general_info,
+                "salary_info":salary_info,
+                "personal_info":personal_info,
+                "user_role":user_role
+        })
 
 @login_adminorfinance_successfull
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def eT_Invoice(request):
+    user_role = request.session.get('role', '') #used to store role for the template to know the logged in user
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest' and request.method == 'POST':
+        emp_id = request.POST.get('emp_id')
+        try:
+            employee = Employee_Table.objects.get(emp_id=emp_id)
+            employee_details = {
+                'emp_name': employee.emp_name,
+                'desig': employee.desig,
+                'join_date':employee.general_info['join_date'],
+                'job_mode':employee.job_mode
+            }
+            return JsonResponse(employee_details)
+        except Employee_Table.DoesNotExist:
+            return JsonResponse({'error': 'Employee not found'}, status=404)
     if request.method=='POST':
         attention=request.POST['attention']
         company_name=request.POST['comp_name']
@@ -114,17 +451,22 @@ def eT_Invoice(request):
             'job_mode' : job_mode,
             'join_date' : join_date,
             'sal_info' : sal_info,
-            'total' : total
+            'total' : total, 
+            'user_role':user_role
         })
 
-    return render(request,'eT_Invoice.html')
+    return render(request,'eT_Invoice.html', {'user_role':user_role}) #user role is send to the template for it to know who is logged in for returning to home
 
 @login_adminorfinance_successfull
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def search_eT_Invoice(request):
-    return render(request,'search_eT_Invoice.html')
+    user_role = request.session.get('role', '')
+    return render(request,'search_eT_Invoice.html', {'user_role':user_role})
 
 @login_adminorfinance_successfull
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def view_eT_Invoice(request):
+    user_role = request.session.get('role', '')
     if request.method=='POST':
         inv_no=request.POST['inv_no']
 
@@ -175,14 +517,17 @@ def view_eT_Invoice(request):
             'job_mode' : emp_info['job_mode'],
             'join_date' : emp_info['join_date'],
             'sal_info' : sal_info,
-            'total' : total
+            'total' : total,
+            'user_role':user_role
         })
         
         else:
-            return render(request, 'search_eT_Invoice.html', {'error_message': 'Invalid Invoice Number'})  
+            return render(request, 'search_eT_Invoice.html', {'error_message': 'Invalid Invoice Number', 'user_role':user_role})  
 
 @login_adminorfinance_successfull
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def edit_eT_Invoice(request):
+    user_role = request.session.get('role', '')
     if request.method=='POST':
         inv_no=request.POST['inv_no']
 
@@ -262,7 +607,8 @@ def edit_eT_Invoice(request):
             'job_mode' : emp_info['job_mode'],
             'join_date' : emp_info['join_date'],
             'sal_info' : sal_info,
-            'total' : total
+            'total' : total, 
+            'user_role':user_role
         })
 
     inv_no=request.session.get('current_invoice_number')
@@ -296,12 +642,30 @@ def edit_eT_Invoice(request):
             'job_mode' : job_mode,
             'join_date' : join_date,
             'sal_info' : sal_info,
-            'total' : total
+            'total' : total,
+            'user_role':user_role
         })
 
 @login_adminorfinance_successfull
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def Salary_Slip(request):
+    user_role = request.session.get('role', '')
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest' and request.method == 'POST':
+        emp_id = request.POST.get('emp_id')
+        try:
+            employee = Employee_Table.objects.get(emp_id=emp_id)
+            employee_details = {
+                'emp_name': employee.emp_name,
+                'desig': employee.desig,
+                'join_date':employee.general_info['join_date'],
+                'acc_no':employee.general_info['acc_no'],
+                'status':employee.status,
+                'email':employee.personal_info['email'],
+                'cont_no':employee.personal_info['cont_no'],
+            }
+            return JsonResponse(employee_details)
+        except Employee_Table.DoesNotExist:
+            return JsonResponse({'error': 'Employee not found'}, status=404)
     if request.method=='POST':
         emp_id=request.POST['emp_id']
         emp_name=request.POST['emp_name']
@@ -348,19 +712,23 @@ def Salary_Slip(request):
             "sal_info":sal_info,
             "total_earn": total_earn,
             "total_deduct": total_deduc,
-            "net_pay": net_pay
+            "net_pay": net_pay, 
+            'user_role':user_role
          })
 
 
-    return render(request,'Salary_Slip.html')
+    return render(request,'Salary_Slip.html', {'user_role':user_role})
 
 @login_adminorfinance_successfull
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def search_Salary_Slip(request):
-    return render(request,'search_Salary_Slip.html')
+    user_role = request.session.get('role', '')
+    return render(request,'search_Salary_Slip.html', {'user_role':user_role})
 
 @login_adminorfinance_successfull
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def view_Salary_Slip(request):
+    user_role = request.session.get('role', '')
     if request.method=='POST':
         emp_id=request.POST['emp_id']
         month=request.POST['payroll_month']
@@ -418,14 +786,17 @@ def view_Salary_Slip(request):
             "sal_info":sal_info,
             "total_earn": total_earn,
             "total_deduct": total_deduc,
-            "net_pay": net_pay
+            "net_pay": net_pay, 
+            'user_role':user_role
             })
         
         else:
-            return render(request, 'search_Salary_Slip.html', {'error_message': 'Invalid Employee ID or Month'})
+            return render(request, 'search_Salary_Slip.html', {'error_message': 'Invalid Employee ID or Month', 'user_role':user_role})
 
 @login_adminorfinance_successfull
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def edit_Salary_Slip(request):
+    user_role = request.session.get('role', '')
     if request.method=='POST':
         emp_id=request.POST['emp_id']
         month=request.POST['payroll_month']
@@ -505,7 +876,8 @@ def edit_Salary_Slip(request):
             "sal_info":sal_info,
             "total_earn": total_earn,
             "total_deduct": total_deduc,
-            "net_pay": net_pay
+            "net_pay": net_pay, 
+            'user_role':user_role
         })
 
     emp_id = request.session.get('emp_id')
@@ -539,13 +911,15 @@ def edit_Salary_Slip(request):
             "sal_info":sal_info,
             "total_earn": total_earn,
             "total_deduct": total_deduc,
-            "net_pay": net_pay
+            "net_pay": net_pay, 
+            'user_role':user_role
         })
 
 
 @login_adminorfinance_successfull
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def Client_Invoice(request):
+    user_role = request.session.get('role', '')
     if request.method=='POST':
         inv_recipient=request.POST["inv_recipient"]
         attention=request.POST["attention"]
@@ -585,17 +959,22 @@ def Client_Invoice(request):
             "contact_per":contact_per,
             "email":email,
             "item_desc": item_desc,
-            "total":total
+            "total":total, 
+            'user_role':user_role
         })
 
-    return render(request,'Client_Invoice.html')
+    return render(request,'Client_Invoice.html', {'user_role':user_role})
 
 @login_adminorfinance_successfull
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def search_Client_Invoice(request):
-    return render(request,'search_Client_Invoice.html')
+    user_role = request.session.get('role', '')
+    return render(request,'search_Client_Invoice.html', {'user_role':user_role})
 
 @login_adminorfinance_successfull
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def view_Client_Invoice(request):
+    user_role = request.session.get('role', '')
     if request.method=='POST':
         inv_no=request.POST['inv_no']
 
@@ -633,14 +1012,17 @@ def view_Client_Invoice(request):
                 "contact_per":contact_per,
                 "email":email,
                 "item_desc": item_desc,
-                "total":total
+                "total":total, 
+                'user_role':user_role
             })
         
         else:
-            return render(request, 'search_Client_Invoice.html', {'error_message': 'Invalid Invoice Number'})
+            return render(request, 'search_Client_Invoice.html', {'error_message': 'Invalid Invoice Number', 'user_role':user_role})
 
 @login_adminorfinance_successfull
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def edit_Client_Invoice(request):
+    user_role = request.session.get('role', '')
     if request.method=='POST':
         inv_no=request.POST['inv_no']
 
@@ -700,7 +1082,8 @@ def edit_Client_Invoice(request):
                 "contact_per":contact_per,
                 "email":email,
                 "item_desc": item_desc,
-                "total":total
+                "total":total, 
+                'user_role':user_role
             })
         
     inv_recipient = request.session.get('inv_recipient')
@@ -722,7 +1105,8 @@ def edit_Client_Invoice(request):
                 "contact_per":contact_per,
                 "email":email,
                 "item_desc": item_desc,
-                "total":total
+                "total":total, 
+                'user_role':user_role
             })
 
 def logout(request):

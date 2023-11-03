@@ -33,7 +33,8 @@
                     </div>
 
                     <div id="no-logs">
-                        <a href="/home/<str:template_name>/" id="home-link">
+                        <a href="{% if user_role == 'admin' %}{% url 'admin_home' %}{% elif user_role == 'finance' %}{% url 'finance_home' %}{% endif %}"
+                            id="home-link">
                             <p><b>Home</b></p>
                         </a>
                         <a href="/logout">
@@ -133,21 +134,21 @@
                         <tr class="white-row">
                             <td>
                                 Employee ID No:
-                                <input type="text" placeholder="..." name="emp_id" required autocomplete="off">
+                                <input type="text" placeholder="..." name="emp_id" id="emp_id" required autocomplete="off">
                             </td>
                         </tr>
 
                         <tr class="green-row">
                             <td>
                                 Employee Name:
-                                <input type="text" placeholder="..." name="emp_name" required autocomplete="off">
+                                <input type="text" placeholder="..." name="emp_name" id="emp_name" required autocomplete="off">
                             </td>
                         </tr>
 
                         <tr class="white-row">
                             <td>
                                 Employee Designation:
-                                <input type="text" placeholder="..." name="emp_desig" required autocomplete="off">
+                                <input type="text" placeholder="..." id="desig" name="emp_desig" required autocomplete="off">
                             </td>
                         </tr>
 
@@ -161,14 +162,14 @@
                         <tr class="white-row">
                             <td>
                                 Job Mode:
-                                <input type="text" placeholder="..." name="job_mode" required autocomplete="off">
+                                <input type="text" placeholder="..." id="job_mode" name="job_mode" required autocomplete="off">
                             </td>
                         </tr>
 
                         <tr class="green-row">
                             <td>
                                 Joining Date:
-                                <input type="date" name="join_date" required autocomplete="off">
+                                <input type="date" name="join_date" id="join_date" required autocomplete="off">
                             </td>
                         </tr>
                     </table>
@@ -238,6 +239,36 @@
 
 
     <script src="/static/js/eT_Invoice.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#emp_id').on('input', function () {
+                var emp_id = $(this).val(); var pattern = /^eS-.*-...*/;
+
+                if (pattern.test(emp_id)) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/eT_Invoice/',
+                        data: {
+                            'emp_id': emp_id,
+                            csrfmiddlewaretoken: '{{ csrf_token }}'
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data) {
+                                // Fill other fields with retrieved data
+                                $('#emp_name').val(data.emp_name);
+                                $('#desig').val(data.desig);
+                                $('#join_date').val(data.join_date);
+                                $('#job_mode').val(data.job_mode);
+                            }
+                        }
+                    });
+                }
+            });
+        });
+
+    </script>
 
 </body>
 

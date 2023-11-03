@@ -20,14 +20,14 @@ class eT_Invoice_Table(models.Model):
 
         if not self.invoice_no:
             latest_invoice = eT_Invoice_Table.objects.filter(
-                invoice_no__startswith="ETI-"+current_year+"-"
+                invoice_no__startswith="ETI-"
             ).order_by("-invoice_no").first()
 
             if latest_invoice:
                 numeric_part = int(latest_invoice.invoice_no.split("-")[-1])
                 numeric_part += 1
             else:
-                numeric_part = 0
+                numeric_part = 1
 
             self.invoice_no = f"ETI-{current_year}-{numeric_part:06}"
 
@@ -53,7 +53,7 @@ class Salary_Slip_Table(models.Model):
     sal_info=models.JSONField()
 
     def __str__(self):
-        return self.invoice_no
+        return self.emp_id
 
 class Client_Invoice_Table(models.Model):
 
@@ -73,14 +73,14 @@ class Client_Invoice_Table(models.Model):
 
         if not self.invoice_no:
             latest_invoice = Client_Invoice_Table.objects.filter(
-                invoice_no__startswith="CI-"+current_year+"-"
+                invoice_no__startswith="CI-"
             ).order_by("-invoice_no").first()
 
             if latest_invoice:
                 numeric_part = int(latest_invoice.invoice_no.split("-")[-1])
                 numeric_part += 1
             else:
-                numeric_part = 0
+                numeric_part = 1
 
             self.invoice_no = f"CI-{current_year}-{numeric_part:06}"
 
@@ -88,3 +88,41 @@ class Client_Invoice_Table(models.Model):
 
     def __str__(self):
         return self.invoice_no
+
+
+class Employee_Table(models.Model):
+
+    emp_id=models.CharField(max_length=15,unique=True)
+    emp_name = models.CharField(max_length=50)
+    desig = models.CharField(max_length=30)
+    dept = models.CharField(max_length=30)
+    status=models.CharField(max_length=20)
+    job_mode=models.CharField(max_length=20)
+    a_apoint=models.CharField(max_length=30)
+    ff_name=models.CharField(max_length=50)
+    general_info=models.JSONField()
+    salary_info=models.JSONField()
+    personal_info=models.JSONField()
+
+    def save(self, *args, **kwargs):
+
+        import datetime
+        current_year = str(datetime.datetime.now().year)
+
+        if not self.emp_id:
+            latest_emp = Employee_Table.objects.filter(
+                emp_id__startswith="eS-"
+            ).order_by("-emp_id").first()
+
+            if latest_emp:
+                numeric_part = int(latest_emp.emp_id.split("-")[-1])
+                numeric_part += 1
+            else:
+                numeric_part = 1
+
+            self.emp_id = f"eS-{current_year}-{numeric_part:02}"
+
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.emp_id

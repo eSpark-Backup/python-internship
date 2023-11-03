@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <title>Query Employee</title>
+
+    <link rel="stylesheet" href="/static/css/search_eT_Invoice.css">
+
+</head>
+
+<body>
+    <div id="bodies">
+        <div id="heading">
+            <div id="main-blue">
+            </div>
+            <div id="logo">
+                <span id="logo-img">
+                    <img src="/static/es_logo.png" alt="">
+                </span>
+
+                <div id="no-logs">
+                    <a href="{% if user_role == 'admin' %}{% url 'admin_home' %}{% elif user_role == 'hr' %}{% url 'hr_home' %}{% endif %}"  id="home-link">
+                        <p><b>Home</b></p>
+                    </a>
+                    
+                    <a href="/logout">
+                        <p><b>Logout</b></p>
+                    </a>
+                </div>
+            </div>
+            <div id="main-blue">
+            </div>
+        </div>
+
+        <div id="main-body">
+            <h1>Query Employee</h1>
+            <div id="input-container">
+                <div id="eT_Invoice">
+                    <form method="post" action="{%url 'view_emp'%}">
+                        {% csrf_token %}
+                        <label>Enter Employee ID:</label>
+                        <input type="text" id="inv-no" name="emp_id" autocomplete="off">
+                        <div id="error">
+                            {% if error_message %}
+                            <div class="alert alert-danger" role="alert">{{ error_message }}</div>
+                            {% endif %}
+                        </div>
+                        <input type="submit" value="Query">
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div id="footer">
+            <div id="greens"></div>
+            <div id="greys"></div>
+            <div id="blues"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>

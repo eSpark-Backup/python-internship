@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Employee</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/css/view_employee.css">
+
+</head>
+
+<body>
+    <div id="gen-pdf">
+        <div id="body">
+
+            <div id="heading">
+
+                <div id="logo">
+
+                    <span id="logo-img">
+                        <img src="/static/es_logo.png" alt="">
+                    </span>
+
+                    <div id="no-logs">
+                        <a href="{% if user_role == 'admin' %}{% url 'admin_home' %}{% elif user_role == 'hr' %}{% url 'hr_home' %}{% endif %}"
+                            id="home-link">
+                            <p><b>Home</b></p>
+                        </a>
+                        <a href="/logout">
+                            <p><b>Logout</b></p>
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="detls">
+                <p>
+                    Employee Information
+                </p>
+            </div>
+
+            <div class="detls-cont">
+                <div class="detls-desc-left">
+                    <table>
+                        <tr>
+                            <td>
+                                Employee ID :
+                                <span class="ans">{{emp_id}}</span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                Employee Name :
+                                <span class="ans">{{emp_name}}</span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                Designation :
+                                <span class="ans">{{desig}}</span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                Department :
+                                <span class="ans">{{dept}}</span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="detls-desc-right">
+                    <table>
+                        <tr>
+                            <td>
+                                Status :
+                                <span class="ans">{{status}}</span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                Job Mode :
+                                <span class="ans">{{job_mode}}</span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                Administrative Appointment:
+                                <span class="ans">{{a_apoint}}</span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                Foreign Firm Name:
+                                <span class="ans">{{ff_name}}</span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="detls">
+                <p>
+                    General Information
+                </p>
+            </div>
+
+            <div class="detls-cont">
+                <div class="detls-desc-left">
+                    <table>
+                        <tr>
+                            <td>
+                                Account Number :
+                                <span class="ans">{{general_info.acc_no}}</span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                Joining Date :
+                                <span class="ans">{{general_info.join_date}}</span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                Probation Start Date :
+                                <span class="ans">{{general_info.ps_date}}</span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                Resign Date :
+                                <span class="ans">{{general_info.res_date}}</span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="detls-desc-right">
+                    <table>
+
+                        <tr>
+                            <td>
+                                Bank Name :
+                                <span class="ans">{{general_info.bank}}</span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                Foreign Firm Joining Date :
+                                <span class="ans">{{general_info.ff_join_date}}</span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                Probation End Date :
+                                <span class="ans">{{general_info.pe_date}}</span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                Total Service:
+                                <span class="ans">{{general_info.tot_serv}}</span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="detls">
+                <p>
+                    Salary Information
+                </p>
+            </div>
+
+            <div class="detls-cont">
+                <div class="detls-desc-left">
+                    <table>
+                        <tr>
+                            <td>
+                                Salary :
+                                <span class="ans">{{salary_info.salary}}</span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                Joining Salary :
+                                <span class="ans">{{salary_info.join_sal}}</span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                Current Salary :
+                                <span class="ans">{{salary_info.curr_sal}}</span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="detls-desc-right">
+                    <table>
+
+                        <tr>
+                            <td>
+                                Medical :
+                                <span class="ans">{{salary_info.medical}}</span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                Life Insurance :
+                                <span class="ans">{{salary_info.insurance}}</span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                Fuel :
+                                <span class="ans">{{salary_info.fuel}}</span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="detls">
+                <p>
+                    Personal Information
+                </p>
+            </div>
+
+            <div class="detls-cont">
+                <div class="detls-desc-left">
+                    <table>
+                        <tr>
+                            <td>
+                                Date of Birth :
+                                <span class="ans">{{personal_info.dob}}</span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                Age :
+                                <span class="ans">{{personal_info.age}}</span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                CNIC :
+                                <span class="ans">{{personal_info.cnic}}</span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                Address :
+                                <span class="ans">{{personal_info.address}}</span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                Contact Number :
+                                <span class="ans">{{personal_info.cont_no}}</span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                Personal Email ID :
+                                <span class="ans">{{personal_info.email}}</span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                Religion :
+                                <span class="ans">{{personal_info.religion}}</span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                Blood Group :
+                                <span class="ans">{{personal_info.bldgrp}}</span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="detls-desc-right">
+                    <table>
+                        <tr>
+                            <td>
+                                Father/Husband Name :
+                                <span class="ans">{{personal_info.fh_name}}</span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                Father Occupation:
+                                <span class="ans">{{personal_info.f_occup}}</span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                Marital Status :
+                                <span class="ans">{{personal_info.marital}}</span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                Number of Children:
+                                <span class="ans">{{personal_info.childs}}</span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                Emergency Number :
+                                <span class="ans">{{personal_info.em_contact}}</span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                Name of Person:
+                                <span class="ans">{{personal_info.em_name}}</span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                Relation with Person:
+                                <span class="ans">{{personal_info.em_relate}}</span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div id="options">
+                <a href="/edit_employee" id="edit">
+                    Edit
+                </a>
+            </div>
+
+            <div id="footer">
+                <div id="greens"></div>
+                <div id="greys"></div>
+                <div id="blues"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+    <script src="/static/js/Add_Emp.js">
+    </script>
+
+
+</body>
+
+</html>

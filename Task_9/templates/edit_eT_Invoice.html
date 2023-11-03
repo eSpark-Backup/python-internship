@@ -19,7 +19,7 @@
             <form id="whole-form" method="post" action="{%url 'edit_eT_Invoice'%}">
                 {% csrf_token %}
                 <div id="no-logs">
-                    <a href="/home/<str:template_name>/" id="home-link">
+                    <a href="{% if user_role == 'admin' %}{% url 'admin_home' %}{% elif user_role == 'finance' %}{% url 'finance_home' %}{% endif %}"  id="home-link">
                         <p><b>Home</b></p>
                     </a>
                 </div>

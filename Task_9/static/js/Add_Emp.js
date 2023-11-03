@@ -21,9 +21,35 @@ function calculateAge() {
 // Add an event listener to the Date of Birth input field
 const dobInput = document.getElementById('dob');
 dobInput.addEventListener('input', calculateAge);
+calculateAge();
 
+// Format CNIC input with hyphens
+const cnicInput = document.getElementById('cnic');
+cnicInput.addEventListener('input', function () {
+    let value = cnicInput.value.replace(/\D/g, '');
+    if (value.length > 0) {
+        if (value.length >= 5) {
+            value = value.replace(/(\d{5})(\d{7})(\d)/, '$1-$2-$3');
+        } else {
+            value = value.slice(0, 5);
+        }
+    }
+    cnicInput.value = value;
+});
 
-
+// Format Contact Number input with hyphens
+const contactInput = document.getElementById('cont_no');
+contactInput.addEventListener('input', function () {
+    let value = contactInput.value.replace(/\D/g, '');
+    if (value.length > 0) {
+        if (value.length >= 4) {
+            value = value.replace(/(\d{4})(\d{7})/, '$1-$2');
+        } else {
+            value = value.slice(0, 4);
+        }
+    }
+    contactInput.value = value;
+});
 
 // Function to calculate Total service from joining date and resign date
 function calculateTotalService() {

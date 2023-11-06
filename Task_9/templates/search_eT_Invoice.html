@@ -55,7 +55,7 @@
                     <form method="post" action="{%url 'view_eT_Invoice'%}">
                         {% csrf_token %}
                         <label>Enter eT Invoice Number:</label>
-                        <input type="text" id="inv-no" name="inv_no" autocomplete="off">
+                        <input type="text" id="inv-no" value="ETI-" name="inv_no" autocomplete="off">
                         <div id="error">
                             {% if error_message %}
                             <div class="alert alert-danger" role="alert">{{ error_message }}</div>

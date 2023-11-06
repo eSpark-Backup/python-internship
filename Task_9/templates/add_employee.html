@@ -17,6 +17,10 @@
             color: #009faa;
         }
 
+        .option:focus{
+            background-color: #0064B8;
+        }
+
     </style>
     
 
@@ -320,7 +324,7 @@
                                 <td>
                                     CNIC :
                                     <input type="text" id="cnic" pattern="[0-9]{5}-[0-9]{7}-[0-9]"
-                                        placeholder="e.g. 12345-1234567-1" name="cnic" autocomplete="off" required>
+                                        placeholder="e.g. 1234512345671" name="cnic" autocomplete="off" required>
                                 </td>
                             </tr>
 
@@ -335,7 +339,7 @@
                                 <td>
                                     Contact Number :
                                     <input type="text" id="cont_no" pattern="03[0-9]{2}-[0-9]{7}"
-                                        placeholder="e.g. 0335-1234567" name="cont_no" autocomplete="off" required>
+                                        placeholder="e.g. 03351234567" name="cont_no" autocomplete="off" required>
                                 </td>
                             </tr>
 
@@ -418,7 +422,7 @@
                                 <td>
                                     Emergency Number :
                                     <input type="text" id="em_contact" pattern="03[0-9]{2}-[0-9]{7}"
-                                        placeholder="e.g. 0335-1234567" name="em_contact" autocomplete="off" required>
+                                        placeholder="e.g. 03351234567" name="em_contact" autocomplete="off" required>
                                 </td>
                             </tr>
 
@@ -474,6 +478,31 @@
         }
         emcontactInput.value = value;
     });
+
+
+    // Function to capitalize the first letter of a string
+    function capitalizeFirstLetter(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
+    // Get all text input elements on the page
+    const textInputs = document.querySelectorAll('input[type="text"]');
+
+    // Add event listeners to all text input fields
+    textInputs.forEach(function (input) {
+        input.addEventListener('input', function () {
+            // Get the current input value
+            let inputValue = input.value.trim();
+
+            // Check if there is some input
+            if (inputValue !== '') {
+                // Capitalize the first letter and set the updated value
+                input.value = capitalizeFirstLetter(inputValue);
+            }
+        });
+    });
+
+
 </script>
 
 

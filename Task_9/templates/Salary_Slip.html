@@ -72,7 +72,7 @@
                             <tr>
                                 <td>
                                     EMPLOYEE ID:
-                                    <input type="text" placeholder="..." name="emp_id" id="emp_id" autocomplete="off"
+                                    <input type="text" value="eS-" name="emp_id" id="emp_id" autocomplete="off"
                                         required>
                                 </td>
                             </tr>
@@ -124,7 +124,8 @@
                             <tr>
                                 <td>
                                     STATUS:
-                                    <input type="text" placeholder="..." name="status"  id="status" autocomplete="off" readonly>
+                                    <input type="text" placeholder="..." name="status" id="status" autocomplete="off"
+                                        readonly>
                                 </td>
                             </tr>
                         </table>
@@ -136,21 +137,24 @@
                         <tr class="green-row">
                             <td>
                                 Email ID:
-                                <input type="text" placeholder="..." id="email" name="email" autocomplete="off" readonly>
+                                <input type="text" placeholder="..." id="email" name="email" autocomplete="off"
+                                    readonly>
                             </td>
                         </tr>
 
                         <tr class="white-row">
                             <td>
                                 Phone Number:
-                                <input type="text" placeholder="..." id="cont_no" name="phone_no" autocomplete="off" readonly>
+                                <input type="text" placeholder="..." id="cont_no" name="phone_no" autocomplete="off"
+                                    readonly>
                             </td>
                         </tr>
 
                         <tr class="green-row">
                             <td>
                                 Bank Account:
-                                <input type="text" placeholder="..." id="acc_no" name="bank_acc" autocomplete="off" readonly>
+                                <input type="text" placeholder="..." id="acc_no" name="bank_acc" autocomplete="off"
+                                    readonly>
                             </td>
                         </tr>
 
@@ -191,11 +195,11 @@
 
                         <tr id="dynamic-row-template">
                             <td class="nor-col-serv">&infin; <input type="text" placeholder="-" name="earning[]"
-                                    autocomplete="off"></td>
-                            <td class="green-col"><input type="number" placeholder="0" name="earn_amount[]"
+                                    autocomplete="off" class="dynamic-input"></td>
+                            <td class="green-col"><input type="number" placeholder="0" name="earn_amount[]" required
                                     autocomplete="off" min="0"></td>
                             <td class="nor-col-serv">&infin; <input type="text" placeholder="-" name="deduction[]"
-                                    autocomplete="off"></td>
+                                    autocomplete="off" class="dynamic-input"></td>
                             <td class="green-col"><input type="number" placeholder="0" name="deduct_amount[]"
                                     autocomplete="off" min="0"></td>
                         </tr>
@@ -264,12 +268,61 @@
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
 
-
-
-    <script src="/static/js/Salary_Slip.js">
-    </script>
-
     <script>
+        // Add a click event to the "Home" link
+        document.getElementById('home-link').addEventListener('click', function (e) {
+            var confirmLeave = confirm('Are you sure you want to leave this page?');
+            if (!confirmLeave) {
+                e.preventDefault();
+            }
+        });
+
+        function calculateAmount() {
+            let total_earn = 0;
+            let total_deduct = 0;
+
+            // Loop through all rows with the specified name attributes
+            $('input[name="earn_amount[]"]').each(function () {
+                const earn_amount = parseInt($(this).val()) || 0;
+                total_earn += earn_amount;
+            });
+
+            $('input[name="deduct_amount[]"]').each(function () {
+                const deduct_amount = parseInt($(this).val()) || 0;
+                total_deduct += deduct_amount;
+            });
+
+            const netTotal = total_earn - total_deduct;
+
+            // Update the total fields
+            $('#totalEarn').val('Rs. ' + total_earn);
+            $('#totalDeduct').val('Rs. ' + total_deduct);
+            $('#netTotal').val('Rs. ' + netTotal);
+        }
+
+
+        // Function to add a new row
+        function addRow() {
+            const template = $('#dynamic-row-template').clone();
+            template.removeAttr('id').show();
+            template.find('input[type="text"], input[type="number"]').val('');
+            $('#sal-desc-table tr').eq(-5).after(template);
+            attachEventListenersToDynamicRows();
+        }
+
+        $(document).ready(function () {
+            $('#add-row').click(function () {
+                addRow();
+            });
+
+            // Calculate amounts when input fields change
+            $(document).on('input', 'input[name="earn_amount[]"], input[name="deduct_amount[]"]', function () {
+                const row = $(this).closest('tr');
+                calculateAmount(row);
+            });
+        });
+
+
         $(document).ready(function () {
             $('#emp_id').on('input', function () {
                 var emp_id = $(this).val(); var pattern = /^eS-.*-...*/;
@@ -357,7 +410,48 @@
             });
         });
 
+        // Function to capitalize the first letter of a string
+        function capitalizeFirstLetter(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+
+        // Get the NOK input element
+        const nokInput = document.querySelector('input[name="nok"]');
+        const earnInput = document.querySelector('input[name="earning[]"]');
+        const deductInput = document.querySelector('input[name="deduction[]"]');
+
+        // Add an event listener to NOK input
+        if (nokInput) {
+            nokInput.addEventListener('input', function () {
+                // Get the current input value
+                let inputValue = nokInput.value.trim();
+
+                // Check if there is some input
+                if (inputValue !== '') {
+                    // Capitalize the first letter and set the updated value
+                    nokInput.value = capitalizeFirstLetter(inputValue);
+                }
+            });
+        }
+
+        // Function to attach event listeners to dynamic rows
+        function attachEventListenersToDynamicRows() {
+            const dynamicInputs = document.querySelectorAll('.dynamic-input');
+            dynamicInputs.forEach(function (input) {
+                input.addEventListener('input', function () {
+                    let inputValue = input.value.trim();
+                    if (inputValue !== '') {
+                        input.value = capitalizeFirstLetter(inputValue);
+                    }
+                });
+            });
+        }
+
+        // Attach event listeners to the existing dynamic rows when the page loads
+        attachEventListenersToDynamicRows();
+
     </script>
+
 
 </body>
 

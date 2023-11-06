@@ -142,8 +142,7 @@
                         <tr class="white-row">
                             <td>
                                 Employee ID No:
-                                <input type="text" placeholder="..." name="emp_id" id="emp_id" required
-                                    autocomplete="off">
+                                <input type="text" value="eS-" name="emp_id" id="emp_id" required autocomplete="off">
                             </td>
                         </tr>
 
@@ -151,7 +150,7 @@
                             <td>
                                 Employee Name:
                                 <input type="text" placeholder="..." name="emp_name" id="emp_name" required
-                                    autocomplete="off">
+                                    autocomplete="off" readonly>
                             </td>
                         </tr>
 
@@ -159,7 +158,7 @@
                             <td>
                                 Employee Designation:
                                 <input type="text" placeholder="..." id="desig" name="emp_desig" required
-                                    autocomplete="off">
+                                    autocomplete="off" readonly>
                             </td>
                         </tr>
 
@@ -174,14 +173,14 @@
                             <td>
                                 Job Mode:
                                 <input type="text" placeholder="..." id="job_mode" name="job_mode" required
-                                    autocomplete="off">
+                                    autocomplete="off" readonly>
                             </td>
                         </tr>
 
                         <tr class="green-row">
                             <td>
                                 Joining Date:
-                                <input type="date" name="join_date" id="join_date" required autocomplete="off">
+                                <input type="date" name="join_date" id="join_date" required autocomplete="off" readonly>
                             </td>
                         </tr>
                     </table>
@@ -203,7 +202,7 @@
                         </tr>
                         <tr id="dynamic-row-template">
                             <td class="nor-col-serv">&infin; <input type="text" placeholder="-" name="services[]"
-                                    autocomplete="off">
+                                    autocomplete="off" class="dynamic-input">
                             </td>
                             <td class="green-col" style="width: 15%;"><input type="number" name="hours[]"
                                     placeholder="0" autocomplete="off" min="0"></td>
@@ -246,13 +245,56 @@
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
 
-
-
-
-
-    <script src="/static/js/eT_Invoice.js"></script>
-
     <script>
+        // Add a click event to the "Home" link
+        document.getElementById('home-link').addEventListener('click', function (e) {
+            var confirmLeave = confirm('Are you sure you want to leave this page?');
+            if (!confirmLeave) {
+                e.preventDefault();
+            }
+        });
+        // Function to calculate the amount for a row
+        function calculateAmount(row) {
+            const hours = parseInt(row.find('input[name="hours[]"]').val()) || 0;
+            const hourlyRate = parseInt(row.find('input[name="hourly_rate[]"]').val()) || 0;
+            const amount = hours * hourlyRate;
+            row.find('.amount').val(amount);
+            calculateTotal();
+        }
+
+        function calculateTotal() {
+            let total = 0;
+            $('input[name="hours[]"]').each(function () {
+                const hours = parseInt($(this).val()) || 0;
+                const row = $(this).closest('tr');
+                const hourlyRate = parseInt(row.find('input[name="hourly_rate[]"]').val()) || 0;
+                const amount = hours * hourlyRate;
+                total += amount;
+            });
+            $('#totalAmount').val('Rs. ' + total);
+        }
+
+        // Function to add a new row
+        function addRow() {
+            const template = $('#dynamic-row-template').clone();
+            template.removeAttr('id').show();
+            template.find('input[type="text"], input[type="number"]').val('');
+
+            $('#sal-desc-table tr:last').before(template);
+            attachEventListenersToDynamicRows();
+        }
+
+        $(document).ready(function () {
+            $('#add-row').click(function () {
+                addRow();
+            });
+
+            // Calculate amounts when input fields change
+            $(document).on('input', 'input[name="hours[]"], input[name="hourly_rate[]"]', function () {
+                const row = $(this).closest('tr');
+                calculateAmount(row);
+            });
+        });
         $(document).ready(function () {
             $('#emp_id').on('input', function () {
                 var emp_id = $(this).val(); var pattern = /^eS-.*-...*/;
@@ -279,6 +321,44 @@
                 }
             });
         });
+
+        // Function to capitalize the first letter of a string
+        function capitalizeFirstLetter(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+
+        // Get all text input elements on the page
+        const textInputs = document.querySelectorAll('input[type="text"]');
+
+        // Add event listeners to all text input fields
+        textInputs.forEach(function (input) {
+            input.addEventListener('input', function () {
+                // Get the current input value
+                let inputValue = input.value.trim();
+
+                // Check if there is some input
+                if (inputValue !== '') {
+                    // Capitalize the first letter and set the updated value
+                    input.value = capitalizeFirstLetter(inputValue);
+                }
+            });
+        });
+
+        function attachEventListenersToDynamicRows() {
+            const dynamicInputs = document.querySelectorAll('.dynamic-input');
+            dynamicInputs.forEach(function (input) {
+                input.addEventListener('input', function () {
+                    let inputValue = input.value.trim();
+                    if (inputValue !== '') {
+                        input.value = capitalizeFirstLetter(inputValue);
+                    }
+                });
+            });
+        }
+
+        // Attach event listeners to the existing dynamic rows when the page loads
+        attachEventListenersToDynamicRows();
+
 
     </script>
 

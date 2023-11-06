@@ -56,7 +56,7 @@
                     <form method="post" action="{%url 'view_emp'%}">
                         {% csrf_token %}
                         <label>Enter Employee ID:</label>
-                        <input type="text" id="inv-no" name="emp_id" autocomplete="off">
+                        <input type="text" id="inv-no" value="eS-" name="emp_id" autocomplete="off">
                         <div id="error">
                             {% if error_message %}
                             <div class="alert alert-danger" role="alert">{{ error_message }}</div>

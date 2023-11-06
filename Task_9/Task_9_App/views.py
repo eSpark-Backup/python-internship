@@ -411,8 +411,8 @@ def eT_Invoice(request):
         job_mode=request.POST['job_mode']
         join_date=request.POST['join_date']
         services = [service for service in request.POST.getlist('services[]') if service]
-        hours = [hour for hour in request.POST.getlist('hours[]') if hour]
-        hourly_rates = [rate for rate in request.POST.getlist('hourly_rate[]') if rate]
+        hours = [hour if hour else 0 for hour in request.POST.getlist('hours[]') if hour]
+        hourly_rates = [rate if rate else 0 for rate in request.POST.getlist('hourly_rate[]') if rate]
 
         emp_info={
             'emp_id':emp_id,
@@ -545,9 +545,9 @@ def edit_eT_Invoice(request):
         proj_name=request.POST.get('proj_name')
         job_mode=request.POST.get('job_mode')
         join_date=request.POST.get('join_date')
-        services = [service for service in request.POST.getlist('services[]') if service]
-        hours = [hour for hour in request.POST.getlist('hours[]') if hour]
-        hourly_rates = [rate for rate in request.POST.getlist('hourly_rate[]') if rate]
+        services = [service  for service in request.POST.getlist('services[]') if service]
+        hours = [hour if hour else 0 for hour in request.POST.getlist('hours[]')]
+        hourly_rates = [rate if rate else 0 for rate in request.POST.getlist('hourly_rate[]')]
 
         emp_info={
             'emp_id':emp_id,
@@ -679,7 +679,7 @@ def Salary_Slip(request):
         bank_acc=request.POST['bank_acc']
         nok=request.POST['nok']
         earnings = [earning for earning in request.POST.getlist('earning[]') if earning]
-        earn_amount = [int(amount) for amount in request.POST.getlist('earn_amount[]') if amount]
+        earn_amount = [int(amount) if amount else 0 for amount in request.POST.getlist('earn_amount[]')]
         deductions = [deduction if deduction else '-' for deduction in request.POST.getlist('deduction[]')]
         deduct_amount = [int(amount) if amount else 0 for amount in request.POST.getlist('deduct_amount[]')]
         total_earn = sum(earn_amount)

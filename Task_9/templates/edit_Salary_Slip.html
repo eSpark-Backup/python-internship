@@ -296,43 +296,34 @@
         });
 
 
-        // Function to capitalize the first letter of a string
-        function capitalizeFirstLetter(str) {
-            return str.charAt(0).toUpperCase() + str.slice(1);
+        function capitalizeFirstLetter(input) {
+            let inputValue = input.value;
+            input.value = inputValue.charAt(0).toUpperCase() + inputValue.slice(1);
         }
 
-        // Get all text input elements on the page
-        const textInputs = document.querySelectorAll('input[type="text"]');
+        // Get the NOK input element
+        const nokInput = document.querySelector('input[name="nok"]');
 
-        // Add event listeners to all text input fields
-        textInputs.forEach(function (input) {
-            input.addEventListener('input', function () {
-                // Get the current input value
-                let inputValue = input.value.trim();
-
-                // Check if there is some input
-                if (inputValue !== '') {
-                    // Capitalize the first letter and set the updated value
-                    input.value = capitalizeFirstLetter(inputValue);
-                }
+        // Add an event listener to NOK input
+        if (nokInput) {
+            nokInput.addEventListener('input', function () {
+                capitalizeFirstLetter(nokInput)
             });
-        });
+        }
 
         // Function to attach event listeners to dynamic rows
         function attachEventListenersToDynamicRows() {
             const dynamicInputs = document.querySelectorAll('.dynamic-input');
             dynamicInputs.forEach(function (input) {
                 input.addEventListener('input', function () {
-                    let inputValue = input.value.trim();
-                    if (inputValue !== '') {
-                        input.value = capitalizeFirstLetter(inputValue);
-                    }
+                    capitalizeFirstLetter(input);
                 });
             });
         }
 
         // Attach event listeners to the existing dynamic rows when the page loads
         attachEventListenersToDynamicRows();
+
 
     </script>
 </body>

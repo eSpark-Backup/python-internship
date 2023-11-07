@@ -221,36 +221,29 @@
 
             generateSerialNumbers();
         });
-    // Function to capitalize the first letter of a string
-    function capitalizeFirstLetter(str) {
-        return str.charAt(0).toUpperCase() + str.slice(1);
-    }
 
-    // Get all text input elements on the page
-    const textInputs = document.querySelectorAll('input[type="text"]');
+        
+        // Function to capitalize the first letter of a string
+        function capitalizeFirstLetter(input) {
+            let inputValue = input.value;
+            input.value = inputValue.charAt(0).toUpperCase() + inputValue.slice(1);
+        }
 
-    // Add event listeners to all text input fields
-    textInputs.forEach(function (input) {
-        input.addEventListener('input', function () {
-            // Get the current input value
-            let inputValue = input.value.trim();
+        // Get all text input elements on the page
+        const textInputs = document.querySelectorAll('input[type="text"]');
 
-            // Check if there is some input
-            if (inputValue !== '') {
-                // Capitalize the first letter and set the updated value
-                input.value = capitalizeFirstLetter(inputValue);
-            }
+        // Add event listeners to all text input fields
+        textInputs.forEach(function (input) {
+            input.addEventListener('input', function () {
+                capitalizeFirstLetter(input)
+            });
         });
-    });
 
-    function attachEventListenersToDynamicRows() {
+        function attachEventListenersToDynamicRows() {
             const dynamicInputs = document.querySelectorAll('.dynamic-input');
             dynamicInputs.forEach(function (input) {
                 input.addEventListener('input', function () {
-                    let inputValue = input.value.trim();
-                    if (inputValue !== '') {
-                        input.value = capitalizeFirstLetter(inputValue);
-                    }
+                    capitalizeFirstLetter(input)
                 });
             });
         }

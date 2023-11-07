@@ -17,12 +17,12 @@
             color: #009faa;
         }
 
-        .option:focus{
+        .option:focus {
             background-color: #0064B8;
+            color: #ffffff;
         }
-
     </style>
-    
+
 
 </head>
 
@@ -237,21 +237,24 @@
                             <tr>
                                 <td>
                                     Salary :
-                                    <input type="number" placeholder="..." name="salary" autocomplete="off" min="0" required>
+                                    <input type="number" placeholder="..." name="salary" autocomplete="off" min="0"
+                                        required>
                                 </td>
                             </tr>
 
                             <tr>
                                 <td>
                                     Joining Salary :
-                                    <input type="number" placeholder="..." name="join_sal" autocomplete="off" min="0" required>
+                                    <input type="number" placeholder="..." name="join_sal" autocomplete="off" min="0"
+                                        required>
                                 </td>
                             </tr>
 
                             <tr>
                                 <td>
                                     Current Salary :
-                                    <input type="number" placeholder="..." name="curr_sal" autocomplete="off" min="0" required>
+                                    <input type="number" placeholder="..." name="curr_sal" autocomplete="off" min="0"
+                                        required>
                                 </td>
                             </tr>
                         </table>
@@ -464,46 +467,39 @@
 
     </script>
 
-<script>
-    // Format Contact Number input with hyphens
-    const emcontactInput = document.getElementById('em_contact');
-    emcontactInput.addEventListener('input', function () {
-        let value = emcontactInput.value.replace(/\D/g, '');
-        if (value.length > 0) {
-            if (value.length >= 4) {
-                value = value.replace(/(\d{4})(\d{7})/, '$1-$2');
-            } else {
-                value = value.slice(0, 4);
+    <script>
+        // Format Contact Number input with hyphens
+        const emcontactInput = document.getElementById('em_contact');
+        emcontactInput.addEventListener('input', function () {
+            let value = emcontactInput.value.replace(/\D/g, '');
+            if (value.length > 0) {
+                if (value.length >= 4) {
+                    value = value.replace(/(\d{4})(\d{7})/, '$1-$2');
+                } else {
+                    value = value.slice(0, 4);
+                }
             }
-        }
-        emcontactInput.value = value;
-    });
-
-
-    // Function to capitalize the first letter of a string
-    function capitalizeFirstLetter(str) {
-        return str.charAt(0).toUpperCase() + str.slice(1);
-    }
-
-    // Get all text input elements on the page
-    const textInputs = document.querySelectorAll('input[type="text"]');
-
-    // Add event listeners to all text input fields
-    textInputs.forEach(function (input) {
-        input.addEventListener('input', function () {
-            // Get the current input value
-            let inputValue = input.value.trim();
-
-            // Check if there is some input
-            if (inputValue !== '') {
-                // Capitalize the first letter and set the updated value
-                input.value = capitalizeFirstLetter(inputValue);
-            }
+            emcontactInput.value = value;
         });
-    });
 
 
-</script>
+        // Function to capitalize the first letter of a string
+        function capitalizeFirstLetter(input) {
+            let inputValue = input.value;
+            input.value = inputValue.charAt(0).toUpperCase() + inputValue.slice(1);
+        }
+
+        // Get all text input elements on the page
+        const textInputs = document.querySelectorAll('input[type="text"]');
+
+        // Add event listeners to all text input fields
+        textInputs.forEach(function (input) {
+            input.addEventListener('input', function () {
+                capitalizeFirstLetter(input);
+            });
+        });
+
+    </script>
 
 
 

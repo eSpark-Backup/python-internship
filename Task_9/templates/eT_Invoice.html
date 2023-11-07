@@ -74,7 +74,7 @@
                             <tr>
                                 <td>
                                     ATTENTION
-                                    <input type="text" placeholder="..." name="attention" required autocomplete="off">
+                                    <input type="text" placeholder="..." name="attention" required autocomplete="off" class="capitalize">
                                 </td>
                             </tr>
 
@@ -95,7 +95,7 @@
                             <tr>
                                 <td>
                                     Company Address:
-                                    <input type="text" placeholder="..." name="comp_addr" required autocomplete="off">
+                                    <input type="text" placeholder="..." name="comp_addr" required autocomplete="off" class="capitalize">
 
                                 </td>
                             </tr>
@@ -165,7 +165,7 @@
                         <tr class="green-row">
                             <td>
                                 Project Name:
-                                <input type="text" placeholder="..." name="proj_name" required autocomplete="off">
+                                <input type="text" placeholder="..." name="proj_name" required autocomplete="off" class="capitalize">
                             </td>
                         </tr>
 
@@ -285,6 +285,16 @@
         }
 
         $(document).ready(function () {
+            $('#emp_id').on('input', function () {
+                var emp_id = $(this).val();
+                var pattern = /^eS-(\d{4})$/; // Pattern to match "eS-YYYY"
+
+                if (pattern.test(emp_id)) {
+                    // Add the hyphen after the year part
+                    $(this).val(emp_id + '-');
+                }
+            });
+            
             $('#add-row').click(function () {
                 addRow();
             });
@@ -323,24 +333,19 @@
         });
 
         // Function to capitalize the first letter of a string
-        function capitalizeFirstLetter(str) {
-            return str.charAt(0).toUpperCase() + str.slice(1);
+        function capitalizeFirstLetter(input) {
+            let inputValue = input.value;
+            input.value = inputValue.charAt(0).toUpperCase() + inputValue.slice(1);
         }
 
+
         // Get all text input elements on the page
-        const textInputs = document.querySelectorAll('input[type="text"]');
+        const textInputs = document.querySelectorAll('.capitalize');
 
         // Add event listeners to all text input fields
         textInputs.forEach(function (input) {
             input.addEventListener('input', function () {
-                // Get the current input value
-                let inputValue = input.value.trim();
-
-                // Check if there is some input
-                if (inputValue !== '') {
-                    // Capitalize the first letter and set the updated value
-                    input.value = capitalizeFirstLetter(inputValue);
-                }
+                capitalizeFirstLetter(input)
             });
         });
 
@@ -348,10 +353,7 @@
             const dynamicInputs = document.querySelectorAll('.dynamic-input');
             dynamicInputs.forEach(function (input) {
                 input.addEventListener('input', function () {
-                    let inputValue = input.value.trim();
-                    if (inputValue !== '') {
-                        input.value = capitalizeFirstLetter(inputValue);
-                    }
+                    capitalizeFirstLetter(input)
                 });
             });
         }

@@ -15,6 +15,11 @@
             font-weight: bold;
             font-family: serif;
             color: #009faa;
+        }        
+        
+        .option:focus{
+            background-color: #0064B8;
+            color: #ffffff;
         }
 
     </style>
@@ -573,27 +578,21 @@
                 emcontactInput.value = value;
             });
 
-    // Function to capitalize the first letter of a string
-    function capitalizeFirstLetter(str) {
-        return str.charAt(0).toUpperCase() + str.slice(1);
-    }
+        // Function to capitalize the first letter of a string
+        function capitalizeFirstLetter(input) {
+            let inputValue = input.value;
+            input.value = inputValue.charAt(0).toUpperCase() + inputValue.slice(1);
+        }
 
-    // Get all text input elements on the page
-    const textInputs = document.querySelectorAll('input[type="text"]');
+        // Get all text input elements on the page
+        const textInputs = document.querySelectorAll('input[type="text"]');
 
-    // Add event listeners to all text input fields
-    textInputs.forEach(function (input) {
-        input.addEventListener('input', function () {
-            // Get the current input value
-            let inputValue = input.value.trim();
-
-            // Check if there is some input
-            if (inputValue !== '') {
-                // Capitalize the first letter and set the updated value
-                input.value = capitalizeFirstLetter(inputValue);
-            }
+        // Add event listeners to all text input fields
+        textInputs.forEach(function (input) {
+            input.addEventListener('input', function () {
+                capitalizeFirstLetter(input);
+            });
         });
-    });
 
     </script>
     

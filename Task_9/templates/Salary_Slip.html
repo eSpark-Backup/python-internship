@@ -16,6 +16,15 @@
             font-family: serif;
             font-weight: bold;
         }
+
+        #account-desc input {
+            width: 90%;
+            border: none;
+            outline: none;
+            font-family: sans-serif;
+            font-size: 16px;
+            font-weight: bold;
+        }
     </style>
 
 </head>
@@ -196,7 +205,7 @@
                         <tr id="dynamic-row-template">
                             <td class="nor-col-serv">&infin; <input type="text" placeholder="-" name="earning[]"
                                     autocomplete="off" class="dynamic-input"></td>
-                            <td class="green-col"><input type="number" placeholder="0" name="earn_amount[]" required
+                            <td class="green-col"><input type="number" placeholder="0" name="earn_amount[]"
                                     autocomplete="off" min="0"></td>
                             <td class="nor-col-serv">&infin; <input type="text" placeholder="-" name="deduction[]"
                                     autocomplete="off" class="dynamic-input"></td>
@@ -311,6 +320,16 @@
         }
 
         $(document).ready(function () {
+            $('#emp_id').on('input', function () {
+                var emp_id = $(this).val();
+                var pattern = /^eS-(\d{4})$/; // Pattern to match "eS-YYYY"
+
+                if (pattern.test(emp_id)) {
+                    // Add the hyphen after the year part
+                    $(this).val(emp_id + '-');
+                }
+            });
+
             $('#add-row').click(function () {
                 addRow();
             });
@@ -348,7 +367,7 @@
                                 $('#cont_no').val(data.cont_no);
 
 
-                                // Function to calculate Total service from joining date and resign date
+                                // Function to calculate Total service from joining date
                                 function calculateTotalService() {
                                     const joinDate = document.getElementById('join_date');
                                     const totalServiceInput = document.getElementById('tot_serv');
@@ -411,26 +430,18 @@
         });
 
         // Function to capitalize the first letter of a string
-        function capitalizeFirstLetter(str) {
-            return str.charAt(0).toUpperCase() + str.slice(1);
+        function capitalizeFirstLetter(input) {
+            let inputValue = input.value;
+            input.value = inputValue.charAt(0).toUpperCase() + inputValue.slice(1);
         }
 
         // Get the NOK input element
         const nokInput = document.querySelector('input[name="nok"]');
-        const earnInput = document.querySelector('input[name="earning[]"]');
-        const deductInput = document.querySelector('input[name="deduction[]"]');
 
         // Add an event listener to NOK input
         if (nokInput) {
             nokInput.addEventListener('input', function () {
-                // Get the current input value
-                let inputValue = nokInput.value.trim();
-
-                // Check if there is some input
-                if (inputValue !== '') {
-                    // Capitalize the first letter and set the updated value
-                    nokInput.value = capitalizeFirstLetter(inputValue);
-                }
+                capitalizeFirstLetter(nokInput)
             });
         }
 
@@ -439,10 +450,7 @@
             const dynamicInputs = document.querySelectorAll('.dynamic-input');
             dynamicInputs.forEach(function (input) {
                 input.addEventListener('input', function () {
-                    let inputValue = input.value.trim();
-                    if (inputValue !== '') {
-                        input.value = capitalizeFirstLetter(inputValue);
-                    }
+                    capitalizeFirstLetter(input);
                 });
             });
         }

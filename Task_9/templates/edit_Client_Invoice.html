@@ -1,0 +1,256 @@
+{% load custom_filters %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Invoice</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/css/edit_Client_Invoice.css">
+
+</head>
+
+<body>
+
+    <div id="gen-body">
+        <div id="body">
+            <div id="no-logs">
+                <a href="{% if user_role == 'admin' %}{% url 'admin_home' %}{% elif user_role == 'finance' %}{% url 'finance_home' %}{% endif %}"  id="home-link">
+                    <p><b>Home</b></p>
+                </a>
+            </div>
+
+            <div id="header">
+                <img src="/static/header_1.PNG" alt="">
+            </div>
+
+            <form action="" method="post" id="whole-form">
+                {% csrf_token %}
+
+                <div id="inv-desc">
+                    <table>
+                        <tr class="green-row">
+                            <th>
+                                INVOICE TO:
+                                <input type="text" value="{{inv_recipient}}" name="inv_recipient" autocomplete="off"
+                                    required>
+                            </th>
+                            <th class="sec-col-inv">
+                                INVOICE DETAILS:&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                            </th>
+                        </tr>
+
+                        <tr class="nor-row">
+                            <td>
+                                ATTENTION:
+                                <input type="text" value="{{attention}}" name="attention" autocomplete="off" required>
+                            </td>
+                            <td class="sec-col-inv">
+                                INVOICE NO:
+                                <input type="text" value="{{invoice_no}}" name="inv_no" autocomplete="off" required
+                                    readonly>
+                            </td>
+                        </tr>
+
+                        <tr class="nor-row">
+                            <td>
+                                THIS INVOICE IS PREPARED BY:
+                                <input type="text" value="{{prep_by}}" name="prep_by" autocomplete="off" required>
+                            </td>
+                            <td class="sec-col-inv">
+                                DATE:
+                                <input type="date" value="{{date}}" name="date" autocomplete="off" required>
+
+                            </td>
+                        </tr>
+
+                    </table>
+                </div>
+
+                <div id="cont-info">
+                    <table>
+                        <tr class="green-row">
+                            <th>
+                                Contact Person:
+                                <input type="text" value="{{contact_per}}" name="contact_per" autocomplete="off"
+                                    required>
+                            </th>
+                        </tr>
+
+                        <tr class="white-row">
+                            <th>
+                                Email:
+                                <input type="email" value="{{email}}" name="email" autocomplete="off" required>
+                            </th>
+                        </tr>
+                    </table>
+                </div>
+
+                <div id="details">
+                    <table>
+                        <tr>
+                            <th class="sr-no">Sr.No.</th>
+                            <th class="item"> Item Name</th>
+                            <th class="specs">Specification</th>
+                            <th class="qty">Qty</th>
+                            <th class="price">Unit Price</th>
+                            <th class="amount">Amount</th>
+                        </tr>
+                        {% for item in item_desc.items %}
+                        <tr id="dynamic-row-template">
+                            <td class="sr-no">
+                            </td>
+                            <td class="item"><input type="text" value="{{item}}" name="item[]" autocomplete="off" class="dynamic-input"></td>
+                            <td class="specs"><input type="text" value="{{ item_desc.specs|get_item:forloop.counter0 }}"
+                                    name="specs[]" autocomplete="off" class="dynamic-input">
+                            </td>
+                            <td class="qty"><input type="number" value="{{ item_desc.qtys|get_item:forloop.counter0 }}"
+                                    name="qty[]" autocomplete="off"></td>
+                            <td class="price"> <input type="number"
+                                    value="{{ item_desc.prices|get_item:forloop.counter0 }}" name="price[]"
+                                    autocomplete="off">
+                            </td>
+                            <td class="amount"><input type="text" id="amount[]"
+                                    value="{{ item_desc.amounts|get_item:forloop.counter0 }}" readonly class="amnt">
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        <tr id="totals">
+                            <td id="no-use" colspan="2"></td>
+                            <td id="teeess" colspan="3">
+                                Total
+                            </td>
+                            <td class="amount">
+                                <input type="text" id="totalAmount" readonly value="Rs. {{total}}">
+                            </td>
+                        </tr>
+                    </table>
+                    <button type="button" id="add-row">+</button>
+
+                </div>
+
+                <input type="submit" value="Submit">
+
+            </form>
+
+            <div id="foots">
+                <div id="end-note">
+                    <p>
+                        &diams; This is a computer generated document and don't required any signature
+                    </p>
+                </div>
+
+                <footer>
+                    <img src="/static/footer_1.PNG" alt="">
+                </footer>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+
+<script>
+            // Add a click event to the "Home" link
+            document.getElementById('home-link').addEventListener('click', function (e) {
+            var confirmLeave = confirm('Are you sure you want to leave this page?');
+            if (!confirmLeave) {
+                e.preventDefault();
+            }
+        });
+
+        $(document).ready(function () {
+            // Function to calculate the amount for a row
+            function calculateAmount(row) {
+                const qty = parseInt(row.find('input[name="qty[]"]').val()) || 0;
+                const price = parseInt(row.find('input[name="price[]"]').val()) || 0;
+                const amount = qty * price;
+                row.find('.amnt').val(amount);
+            }
+
+            function calculateTotal() {
+                let total = 0;
+                $('input[name="qty[]"]').each(function () {
+                    const qty = parseInt($(this).val()) || 0;
+                    const row = $(this).closest('tr');
+                    const price = parseInt(row.find('input[name="price[]"]').val()) || 0;
+                    const amount = qty * price;
+                    total += amount;
+                });
+                $('#totalAmount').val('Rs. ' + total);
+            }
+
+            // Function to add a new row
+            function addRow() {
+                const template = $('#dynamic-row-template').clone();
+                template.find('input').val('');
+                $('#details table tr:last').before(template);
+                attachEventListenersToDynamicRows();
+            }
+
+
+            function generateSerialNumbers() {
+                const rows = document.getElementsByClassName('sr-no');
+
+                // Start from 1 to skip the header row
+                for (let i = 0; i < rows.length; i++) {
+                    rows[i + 1].textContent = i + 1; // Set the serial number
+                }
+            }
+
+            // Call the function to generate serial numbers
+
+
+            $('#add-row').click(function () {
+                addRow();
+                generateSerialNumbers();
+            });
+
+            // Calculate amounts when input fields change
+            $(document).on('input', 'input[name="qty[]"], input[name="price[]"]', function () {
+                calculateAmount($(this).closest('tr'));
+                calculateTotal();
+            });
+
+            generateSerialNumbers();
+        });
+
+        
+        // Function to capitalize the first letter of a string
+        function capitalizeFirstLetter(input) {
+            let inputValue = input.value;
+            input.value = inputValue.charAt(0).toUpperCase() + inputValue.slice(1);
+        }
+
+        // Get all text input elements on the page
+        const textInputs = document.querySelectorAll('input[type="text"]');
+
+        // Add event listeners to all text input fields
+        textInputs.forEach(function (input) {
+            input.addEventListener('input', function () {
+                capitalizeFirstLetter(input)
+            });
+        });
+
+        function attachEventListenersToDynamicRows() {
+            const dynamicInputs = document.querySelectorAll('.dynamic-input');
+            dynamicInputs.forEach(function (input) {
+                input.addEventListener('input', function () {
+                    capitalizeFirstLetter(input)
+                });
+            });
+        }
+
+        // Attach event listeners to the existing dynamic rows when the page loads
+        attachEventListenersToDynamicRows();
+</script>
+</body>
+
+</html>

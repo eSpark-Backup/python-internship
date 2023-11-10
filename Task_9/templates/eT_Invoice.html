@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eSpark Portal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/css/eT_Invoice.css">
+    <style>
+        #descr {
+            font-size: 48px;
+            color: #00a7aa;
+            font-family: serif;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="gen-pdf">
+
+        <div id="body">
+
+            <div id="heading">
+
+                <div id="main-blue">
+                </div>
+
+                <div id="logo">
+
+                    <span id="logo-img">
+                        <img src="/static/es_logo.png" alt="">
+                    </span>
+
+                    <div id="descr">
+                        eSpark Portal
+                    </div>
+
+                    <div id="no-logs">
+                        <a href="{% if user_role == 'admin' %}{% url 'admin_home' %}{% elif user_role == 'finance' %}{% url 'finance_home' %}{% endif %}"
+                            id="home-link">
+                            <p><b>Home</b></p>
+                        </a>
+                        <a href="/logout">
+                            <p><b>Logout</b></p>
+                        </a>
+                    </div>
+
+                </div>
+
+                <div id="main-blue">
+                </div>
+
+            </div>
+
+            <form id="whole-form" method="post">
+                {% csrf_token %}
+
+                <div class="main-green">
+                    <h4>
+                        INVOICE
+                    </h4>
+                </div>
+
+                <div id="invoice-desc">
+
+                    <div id="invoice-desc-left">
+
+                        <table>
+                            <tr>
+                                <td>
+                                    ATTENTION
+                                    <input type="text" placeholder="..." name="attention" required autocomplete="off" class="capitalize">
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Company Name:
+                                    <input type="text" placeholder="..." name="comp_name" required autocomplete="off">
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Email:
+                                    <input type="email" placeholder="..." name="email" required autocomplete="off">
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Company Address:
+                                    <input type="text" placeholder="..." name="comp_addr" required autocomplete="off" class="capitalize">
+
+                                </td>
+                            </tr>
+                        </table>
+
+                    </div>
+
+                    <div id="invoice-desc-right">
+
+                        <table>
+                            <tr>
+                                <td>
+                                    Invoice No: ...
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Date:
+                                    <input type="date" name="date" required autocomplete="off">
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Invoice Month:
+                                    <input type="month" name="inv_month" required autocomplete="off">
+                                </td>
+                            </tr>
+                        </table>
+
+                    </div>
+
+                </div>
+
+                <div class="main-green">
+                    <h4>
+                        Employee Information
+                    </h4>
+                </div>
+
+                <div id="emp-desc">
+                    <table>
+                        <tr class="white-row">
+                            <td>
+                                Employee ID No:
+                                <input type="text" value="eS-" name="emp_id" id="emp_id" required autocomplete="off">
+                            </td>
+                        </tr>
+
+                        <tr class="green-row">
+                            <td>
+                                Employee Name:
+                                <input type="text" placeholder="..." name="emp_name" id="emp_name" required
+                                    autocomplete="off" readonly>
+                            </td>
+                        </tr>
+
+                        <tr class="white-row">
+                            <td>
+                                Employee Designation:
+                                <input type="text" placeholder="..." id="desig" name="emp_desig" required
+                                    autocomplete="off" readonly>
+                            </td>
+                        </tr>
+
+                        <tr class="green-row">
+                            <td>
+                                Project Name:
+                                <input type="text" placeholder="..." name="proj_name" required autocomplete="off" class="capitalize">
+                            </td>
+                        </tr>
+
+                        <tr class="white-row">
+                            <td>
+                                Job Mode:
+                                <input type="text" placeholder="..." id="job_mode" name="job_mode" required
+                                    autocomplete="off" readonly>
+                            </td>
+                        </tr>
+
+                        <tr class="green-row">
+                            <td>
+                                Joining Date:
+                                <input type="date" name="join_date" id="join_date" required autocomplete="off" readonly>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="sal-green">
+                    <h5>
+                        SALARY INFORMATION
+                    </h5>
+                </div>
+
+                <div id="sal-desc">
+                    <table id="sal-desc-table">
+                        <tr id="sal-table-green-row">
+                            <th style="width: 40%;">Services</th>
+                            <th style="width: 15%;">Hours</th>
+                            <th style="width: 15%;">Hourly Rate (Per Hour)</th>
+                            <th style="width: 30%;">Amount</th>
+                        </tr>
+                        <tr id="dynamic-row-template">
+                            <td class="nor-col-serv">&infin; <input type="text" placeholder="-" name="services[]"
+                                    autocomplete="off" class="dynamic-input">
+                            </td>
+                            <td class="green-col" style="width: 15%;"><input type="number" name="hours[]"
+                                    placeholder="0" autocomplete="off" min="0"></td>
+                            <td class="nor-col" style="width: 15%;"><input type="number" name="hourly_rate[]"
+                                    placeholder="0" autocomplete="off" min="0"></td>
+                            <td class="green-col"><input type="text" class="amount" readonly value="0"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"></td>
+                            <td id="sal-total">Total Amount</td>
+                            <td class="green-col"><input type="text" id="totalAmount" readonly value="Rs. 0"></td>
+                        </tr>
+                    </table>
+                    <button type="button" id="add-row"> + </button>
+                </div>
+                <input type="submit" value="Submit">
+            </form>
+
+
+
+            <div id="foots">
+                <div id="end-note">
+                    <p>
+                        &diams; This is a computer generated document and don't required any signature
+                    </p>
+                </div>
+
+                <div id="footer">
+                    <div id="greens"></div>
+                    <div id="greys"></div>
+                    <div id="blues"></div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+    <script>
+        // Add a click event to the "Home" link
+        document.getElementById('home-link').addEventListener('click', function (e) {
+            var confirmLeave = confirm('Are you sure you want to leave this page?');
+            if (!confirmLeave) {
+                e.preventDefault();
+            }
+        });
+        // Function to calculate the amount for a row
+        function calculateAmount(row) {
+            const hours = parseInt(row.find('input[name="hours[]"]').val()) || 0;
+            const hourlyRate = parseInt(row.find('input[name="hourly_rate[]"]').val()) || 0;
+            const amount = hours * hourlyRate;
+            row.find('.amount').val(amount);
+            calculateTotal();
+        }
+
+        function calculateTotal() {
+            let total = 0;
+            $('input[name="hours[]"]').each(function () {
+                const hours = parseInt($(this).val()) || 0;
+                const row = $(this).closest('tr');
+                const hourlyRate = parseInt(row.find('input[name="hourly_rate[]"]').val()) || 0;
+                const amount = hours * hourlyRate;
+                total += amount;
+            });
+            $('#totalAmount').val('Rs. ' + total);
+        }
+
+        // Function to add a new row
+        function addRow() {
+            const template = $('#dynamic-row-template').clone();
+            template.removeAttr('id').show();
+            template.find('input[type="text"], input[type="number"]').val('');
+
+            $('#sal-desc-table tr:last').before(template);
+            attachEventListenersToDynamicRows();
+        }
+
+        $(document).ready(function () {
+            $('#emp_id').on('input', function () {
+                var emp_id = $(this).val();
+                var pattern = /^eS-(\d{4})$/; // Pattern to match "eS-YYYY"
+
+                if (pattern.test(emp_id)) {
+                    // Add the hyphen after the year part
+                    $(this).val(emp_id + '-');
+                }
+            });
+            
+            $('#add-row').click(function () {
+                addRow();
+            });
+
+            // Calculate amounts when input fields change
+            $(document).on('input', 'input[name="hours[]"], input[name="hourly_rate[]"]', function () {
+                const row = $(this).closest('tr');
+                calculateAmount(row);
+            });
+        });
+        $(document).ready(function () {
+            $('#emp_id').on('input', function () {
+                var emp_id = $(this).val(); var pattern = /^eS-.*-...*/;
+
+                if (pattern.test(emp_id)) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/eT_Invoice/',
+                        data: {
+                            'emp_id': emp_id,
+                            csrfmiddlewaretoken: '{{ csrf_token }}'
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data) {
+                                // Fill other fields with retrieved data
+                                $('#emp_name').val(data.emp_name);
+                                $('#desig').val(data.desig);
+                                $('#join_date').val(data.join_date);
+                                $('#job_mode').val(data.job_mode);
+                            }
+                        }
+                    });
+                }
+            });
+        });
+
+        // Function to capitalize the first letter of a string
+        function capitalizeFirstLetter(input) {
+            let inputValue = input.value;
+            input.value = inputValue.charAt(0).toUpperCase() + inputValue.slice(1);
+        }
+
+
+        // Get all text input elements on the page
+        const textInputs = document.querySelectorAll('.capitalize');
+
+        // Add event listeners to all text input fields
+        textInputs.forEach(function (input) {
+            input.addEventListener('input', function () {
+                capitalizeFirstLetter(input)
+            });
+        });
+
+        function attachEventListenersToDynamicRows() {
+            const dynamicInputs = document.querySelectorAll('.dynamic-input');
+            dynamicInputs.forEach(function (input) {
+                input.addEventListener('input', function () {
+                    capitalizeFirstLetter(input)
+                });
+            });
+        }
+
+        // Attach event listeners to the existing dynamic rows when the page loads
+        attachEventListenersToDynamicRows();
+
+
+    </script>
+
+</body>
+
+</html>

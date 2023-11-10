@@ -1,0 +1,275 @@
+#body {
+    margin: 40px;
+}
+
+#main-blue {
+    background-color: #01496D;
+    height: 20px;
+}
+
+#logo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#no-logs a {
+    text-decoration: none;
+}
+
+#no-logs a p {
+    margin-left: 10px;
+    display: inline;
+    text-align: right;
+    font-size: 20px;
+    font-family: sans-serif;
+    color: #00B0B4;
+}
+
+#no-logs a:hover p {
+    color: #008688;
+}
+
+header img {
+    width: 100%;
+
+}
+
+#inv-desc {
+    margin-top: 20px;
+}
+
+#inv-desc table {
+    width: 100%;
+}
+
+#inv-desc input {
+    border: none;
+    outline: none;
+}
+
+.green-row {
+    background-color: #00A0A0;
+}
+
+.green-row th {
+    font-family: 17px;
+    color: #ffffff;
+    font-weight: bold;
+    font-family: sans-serif;
+}
+
+.green-row td {
+    color: #ffffff;
+    font-weight: 550;
+    font-family: sans-serif;
+    font-size: 16px;
+}
+
+.green-row input {
+    background-color: #00A0A0;
+    color: #ffffff;
+    font-family: sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    margin-left: 5px;
+}
+
+.nor-row {
+    font-weight: 550;
+    font-family: sans-serif;
+    font-size: 16px;
+}
+
+.nor-row input {
+    color: #00A0A0;
+    font-weight: 550;
+    font-family: sans-serif;
+    font-size: 16px;
+}
+
+.white-row th {
+    font-family: 17px;
+    color: #00A0A0;
+    font-weight: bold;
+    font-family: sans-serif;
+}
+
+.white-row td {
+    color: #00A0A0;
+    font-weight: bold;
+    font-family: sans-serif;
+    font-size: 16px;
+}
+
+.white-row input {
+    color: #00A0A0;
+    font-family: sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    margin-left: 5px;
+}
+
+#cont-info {
+    margin-top: 10px;
+}
+
+#cont-info table {
+    width: 100%;
+}
+
+#cont-info input {
+    border: none;
+    outline: none;
+}
+
+#details {
+    margin-top: 20px;
+}
+
+#details table {
+    width: 100%;
+    font-size: 15px;
+    border-collapse: collapse;
+    font-weight: bold;
+}
+
+#details table .need-height {
+    height: 150px;
+}
+
+#details table th {
+    background-color: #00A0A0;
+    color: #ffffff;
+    text-align: center;
+    border: solid black 1px;
+    font-weight: bold;
+}
+
+#details table td {
+    text-align: center;
+    border: solid black 1px;
+    font-weight: bold;
+}
+
+#details table input {
+    border: none;
+    outline: none;
+    text-align: center;
+    font-weight: bold;
+}
+
+.sr-no {
+    width: 8%;
+    font-weight: bold;
+}
+
+.item {
+    width: 23%;
+    padding: 3px;
+}
+
+.item input {
+    width: 100%;
+}
+
+.specs {
+    width: 31%;
+    padding: 3px;
+}
+
+.specs input {
+    width: 100%;
+}
+
+.qty {
+    width: 7%;
+    padding: 3px;
+}
+
+.qty input {
+    width: 100%;
+}
+
+.price {
+    width: 12%;
+    padding: 3px;
+}
+
+.price input {
+    width: 100%;
+}
+
+.amount {
+    background-color: #00A0A0;
+    color: #ffffff;
+    width: 20%;
+    padding: 3px;
+}
+
+.amount input {
+    background-color: #00A0A0;
+    color: #ffffff;
+    width: 100%;
+}
+
+#details table #totals {
+    height: 30px;
+}
+
+#details table #totals #no-use {
+    border: none;
+    width: 0;
+    padding: 0;
+    margin: 0;
+}
+
+#teeess {
+    background-color: #00A0A0;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+#end-note {
+    font-family: sans-serif;
+    font-size: 14px;
+    margin-top: 15%;
+}
+
+#greens {
+    padding: 3px;
+    background-color: #00B0B4;
+}
+
+#greys {
+    padding: 3px;
+    background-color: #B5B5B5;
+}
+
+#blues {
+    padding: 15px;
+    background-color: #01496D;
+}
+
+#whole-form input[type="submit"] {
+    margin: auto;
+    display: block;
+    background-color: #006496;
+    color: #ffffff;
+    border: #006496;
+    border-radius: 10px;
+    font-family: 'Segoe UI';
+    font-size: 20px;
+}
+
+#add-row {
+    padding-top: 0;
+    padding-bottom: 0;
+    background-color: #006496;
+    color: #ffffff;
+    border: #006496;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 17px;
+}

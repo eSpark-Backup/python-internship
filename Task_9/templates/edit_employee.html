@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eSpark Portal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/css/Add_Emp.css">
+    <style>
+        #portal {
+            font-size: 48px;
+            font-weight: bold;
+            font-family: serif;
+            color: #009faa;
+        }        
+        
+        .option:focus{
+            background-color: #0064B8;
+            color: #ffffff;
+        }
+
+    </style>
+    
+</head>
+
+<body>
+    <div id="gen-pdf">
+        <div id="body">
+
+            <div id="heading">
+
+                <div id="logo">
+
+                    <span id="logo-img">
+                        <img src="/static/es_logo.png" alt="">
+                    </span>
+
+                    <div id="portal">
+                        eSpark Portal
+                    </div>
+
+                    <div id="no-logs">
+                        <a href="{% if user_role == 'admin' %}{% url 'admin_home' %}{% elif user_role == 'hr' %}{% url 'hr_home' %}{% endif %}"  id="home-link">
+                            <p><b>Home</b></p>
+                        </a>
+                        <a href="/logout">
+                            <p><b>Logout</b></p>
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <form action="" method="post" id="whole-form">
+                {% csrf_token %}
+
+                <div class="detls">
+                    <p>
+                        Employee Information
+                    </p>
+                </div>
+
+                <div class="detls-cont">
+                    <div class="detls-desc-left">
+                        <table>
+                            <tr>
+                                <td>
+                                    Employee ID :
+                                    <input type="text" value="{{emp_id}}" name="emp_id" autocomplete="off" required readonly>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Employee Name :
+                                    <input type="text" value="{{emp_name}}" name="emp_name" autocomplete="off" required>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Designation :
+                                    <input type="text" value="{{desig}}" name="desig" autocomplete="off" required>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Department :
+                                    <input type="text" value="{{dept}}" name="dept" autocomplete="off" required>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="detls-desc-right">
+                        <table>
+                            <tr>
+                                <td>
+                                    Status :
+                                    <select class="option" name="status" required autocomplete="off">
+                                        <option value="">Select Job Status</option>
+                                        <option value="Regular" {% if status == 'Regular' %}selected{% endif %}>Regular</option>  <!--autoselecting the status if there is any to be displayed as value-->
+                                        <option value="Part Time" {% if status == 'Part Time' %}selected{% endif %}>Part time</option>
+                                        <option value="Internship" {% if status == 'Internship' %}selected{% endif %}>Internship</option>
+                                    </select>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Job Mode :
+                                    <select class="option" name="job_mode" required autocomplete="off">
+                                        <option value="">Select Job Mode</option>
+                                        <option value="Onsite" {% if job_mode == 'Onsite' %}selected{% endif %}>Onsite</option>
+                                        <option value="Remote" {% if job_mode == 'Remote' %}selected{% endif %}>Remote</option>
+                                    </select>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Administrative Appointment:
+                                    <input type="text" value="{{a_apoint}}" name="a_apoint" autocomplete="off">
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Foreign Firm Name:
+                                    <input type="text" value="{{ff_name}}" name="ff_name" autocomplete="off">
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="detls">
+                    <p>
+                        General Information
+                    </p>
+                </div>
+
+                <div class="detls-cont">
+                    <div class="detls-desc-left">
+                        <table>
+                            <tr>
+                                <td>
+                                    Account Number :
+                                    <input type="text" value="{{general_info.acc_no}}" name="acc_no" autocomplete="off" required>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Joining Date :
+                                    <input type="date" id="join_date" value="{{general_info.join_date}}" name="join_date"
+                                        autocomplete="off" required>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Probation Start Date :
+                                    <input type="date" value="{{general_info.ps_date}}" name="ps_date" autocomplete="off" required>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Resign Date :
+                                    <input type="date" id="res_date" value="{{general_info.res_date}}" name="res_date"
+                                        autocomplete="off">
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="detls-desc-right">
+                        <table>
+
+                            <tr>
+                                <td>
+                                    Bank Name :
+                                    <select class="option" name="bank" required autocomplete="off">
+                                        <option value="">Select Bank</option>
+                                        <option value="UBL" {% if general_info.bank == 'UBL' %}selected{% endif %}>UBL</option>
+                                        <option value="HBL" {% if general_info.bank == 'HBL' %}selected{% endif %}>HBL</option>
+                                        <option value="MCB" {% if general_info.bank == 'MCB' %}selected{% endif %}>MCB</option>
+                                        <option value="NBP" {% if general_info.bank == 'NBP' %}selected{% endif %}>NBP</option>
+                                        <option value="Bank Al Habib" {% if general_info.bank == 'Bank Al Habib' %}selected{% endif %}>Bank Al Habib</option>
+                                        <option value="Meezan Bank" {% if general_info.bank == 'Meezan Bank' %}selected{% endif %}>Meezan Bank</option>
+                                        <option value="Bank Alfalah" {% if general_info.bank == 'Bank Alfalah' %}selected{% endif %}>Bank Alfalah</option>
+                                        <option value="Faysal Bank" {% if general_info.bank == 'Faysal Bank' %}selected{% endif %}>Faysal Bank</option>
+                                        <option value="Askari Bank" {% if general_info.bank == 'Askari Bank' %}selected{% endif %}>Askari Bank</option>
+                                    </select>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Foreign Firm Joining Date :
+                                    <input type="date" value="{{general_info.ff_join_date}}" name="ff_join_date" autocomplete="off">
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Probation End Date :
+                                    <input type="date" value="{{general_info.pe_date}}" name="pe_date" autocomplete="off">
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Total Service:
+                                    <input type="text" id="tot_serv" name="tot_serv" autocomplete="off" readonly>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="detls">
+                    <p>
+                        Salary Information
+                    </p>
+                </div>
+
+                <div class="detls-cont">
+                    <div class="detls-desc-left">
+                        <table>
+                            <tr>
+                                <td>
+                                    Salary :
+                                    <input type="number" value="{{salary_info.salary}}" min="0" name="salary" autocomplete="off" required>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Joining Salary :
+                                    <input type="number" value="{{salary_info.join_sal}}" min="0" name="join_sal" autocomplete="off" required>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Current Salary :
+                                    <input type="number" value="{{salary_info.curr_sal}}" min="0" name="curr_sal" autocomplete="off" required>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="detls-desc-right">
+                        <table>
+
+                            <tr>
+                                <td>
+                                    Medical :
+                                    <select class="option" name="medical" autocomplete="off">
+                                        <option value="">Select</option>
+                                        <option value="Plan A" {% if salary_info.medical == 'Plan A' %}selected{% endif %}>Plan A</option>
+                                        <option value="Plan B" {% if salary_info.medical == 'Plan B' %}selected{% endif %}>Plan B</option>
+                                        <option value="Plan C" {% if salary_info.medical == 'Plan C' %}selected{% endif %}>Plan C</option>
+                                    </select>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Life Insurance :
+                                    <select class="option" name="insurance" autocomplete="off">
+                                        <option value="">Select</option>
+                                        <option value="Plan A" {% if salary_info.insurance == 'Plan A' %}selected{% endif %}>Plan A</option>
+                                        <option value="Plan B" {% if salary_info.insurance == 'Plan B' %}selected{% endif %}>Plan B</option>
+                                        <option value="Plan C" {% if salary_info.insurance == 'Plan C' %}selected{% endif %}>Plan C</option>
+                                    </select>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Fuel :
+                                    <select class="option" name="fuel" autocomplete="off">
+                                        <option value="">Select</option>
+                                        <option value="Yes" {% if salary_info.fuel == 'Yes' %}selected{% endif %}>Yes</option>
+                                        <option value="No" {% if salary_info.fuel == 'No' %}selected{% endif %}>No</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="detls">
+                    <p>
+                        Personal Information
+                    </p>
+                </div>
+
+                <div class="detls-cont">
+                    <div class="detls-desc-left">
+                        <table>
+                            <tr>
+                                <td>
+                                    Date of Birth :
+                                    <input type="date" id="dob" value="{{personal_info.dob}}" name="dob" autocomplete="off" >
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Age :
+                                    <input type="text" id="age" name="age" autocomplete="off" readonly>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    CNIC :
+                                    <input type="text" pattern="[0-9]{5}-[0-9]{7}-[0-9]"placeholder="e.g. 1234512345671" value="{{personal_info.cnic}}" name="cnic" id="cnic" autocomplete="off" >
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Address :
+                                    <input type="text" value="{{personal_info.address}}" name="address" autocomplete="off" required>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Contact Number :
+                                    <input type="text" pattern="03[0-9]{2}-[0-9]{7}" placeholder="e.g. 03351234567" value="{{personal_info.cont_no}}" name="cont_no" id="cont_no" autocomplete="off" required>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Personal Email ID :
+                                    <input type="email" value="{{personal_info.email}}" name="email" autocomplete="off" required>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Religion :
+                                    <input type="text" name="religion" value="{{personal_info.religion}}">
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Blood Group :
+                                    <input type="text" name="bldgrp" value="{{personal_info.bldgrp}}">
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="detls-desc-right">
+                        <table>
+                            <tr>
+                                <td>
+                                    Father/Husband Name :
+                                    <input type="text" value="{{personal_info.fh_name}}" name="fh_name" autocomplete="off" required>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Father Occupation:
+                                    <input type="text" value="{{personal_info.f_occup}}" name="f_occup" autocomplete="off" required>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Marital Status :
+                                    <select class="option" name="marital" required autocomplete="off">
+                                        <option value="">Select Marital Status</option>
+                                        <option value="Single" {% if personal_info.marital == 'Single' %}selected{% endif %}>Single</option>
+                                        <option value="Married" {% if personal_info.marital == 'Married' %}selected{% endif %}>Married</option>
+                                        <option value="Divorced" {% if personal_info.marital == 'Divorced' %}selected{% endif %}>Divorced</option>
+                                        <option value="Widowed" {% if personal_info.marital == 'Widowed' %}selected{% endif %}>Widowed</option>
+                                        <option value="Separated" {% if personal_info.marital == 'Separated' %}selected{% endif %}>Separated</option>
+                                    </select>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Number of Children:
+                                    <input type="number" value="{{personal_info.childs}}" min="0" name="childs" autocomplete="off">
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Emergency Number :
+                                    <input  type="text" pattern="03[0-9]{2}-[0-9]{7}" placeholder="e.g. 03351234567" value="{{personal_info.em_contact}}" name="em_contact" id="em_contact" autocomplete="off" required>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Name of Person:
+                                    <input type="text" value="{{personal_info.em_name}}" name="em_name" autocomplete="off" required>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Relation with Person:
+                                    <input type="text" value="{{personal_info.em_relate}}" name="em_relate" autocomplete="off" required>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <input type="submit" value="Update">
+
+            </form>
+
+            <div id="footer">
+                <div id="greens"></div>
+                <div id="greys"></div>
+                <div id="blues"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+    <script>
+        // Function to calculate age from date of birth
+        function calculateAge() {
+            console.log("calculateAge function is running");
+            const dobInput = document.getElementById('dob');
+            const ageInput = document.getElementById('age');
+            const dobValue = dobInput.value;
+
+            if (dobValue) {
+                const dobDate = new Date(dobValue);
+                const today = new Date();
+                const age = today.getFullYear() - dobDate.getFullYear();
+
+                // Check if the birthday has occurred this year
+                if (today.getMonth() < dobDate.getMonth() || (today.getMonth() === dobDate.getMonth() && today.getDate() < dobDate.getDate())) {
+                    age--;
+                }
+
+                ageInput.value = age + ' Years';
+            }
+        }
+
+        // Add an event listener to the Date of Birth input field
+        const dobInput = document.getElementById('dob');
+        dobInput.addEventListener('input', calculateAge);
+        calculateAge();
+
+
+
+        // Function to calculate Total service from joining date and resign date
+        function calculateTotalService() {
+            const joinDate = document.getElementById('join_date');
+            const resignDate = document.getElementById('res_date');
+            const totalServiceInput = document.getElementById('tot_serv');
+            const jdValue = joinDate.value;
+            const rdValue = resignDate.value;
+
+            if (jdValue) {
+                const jdDate = new Date(jdValue);
+                const today = new Date();
+                let totalYears = today.getFullYear() - jdDate.getFullYear();
+                let totalMonths = today.getMonth() - jdDate.getMonth();
+
+                if (today.getDate() < jdDate.getDate()) {
+                    totalMonths--;
+                }
+
+                if (rdValue) {
+                    const rdDate = new Date(rdValue);
+                    totalYears = rdDate.getFullYear() - jdDate.getFullYear();
+                    totalMonths = rdDate.getMonth() - jdDate.getMonth();
+                    if (rdDate.getDate() < jdDate.getDate()) {
+                        totalMonths--;
+                    }
+                }
+
+                if (totalMonths < 0) {
+                    if (totalYears > 0) {
+                        totalMonths += 12;
+                        totalYears--;
+                    }
+                    else {
+                        totalYears = 0 //Example 0ct 2023- Nov 2023 -1 Month, 0 year not possible
+                    }
+                }
+
+                let totalService = '';
+                if (totalYears > 0) {
+                    totalService += totalYears + ' Year';
+                    if (totalYears > 1) {
+                        totalService += 's';
+                    }
+                    if (totalMonths > 0) {
+                        totalService += ' ';
+                    }
+                }
+                if (totalMonths > 0) {
+                    totalService += totalMonths + ' Month';
+                    if (totalMonths > 1) {
+                        totalService += 's';
+                    }
+                }
+
+                totalServiceInput.value = totalService;
+            }
+            }
+
+            // Add event listeners to the Date of Joining and Resignation input fields
+            const joinDate = document.getElementById('join_date');
+            const resignDate = document.getElementById('res_date');
+            joinDate.addEventListener('input', calculateTotalService);
+            resignDate.addEventListener('input', calculateTotalService);
+
+            // Calculate the total service initially in case dates are pre-filled
+            calculateTotalService();
+
+
+            // Format CNIC input with hyphens
+            const cnicInput = document.getElementById('cnic');
+            cnicInput.addEventListener('input', function () {
+                let value = cnicInput.value.replace(/\D/g, '');
+                if (value.length > 0) {
+                    if (value.length >= 5) {
+                        value = value.replace(/(\d{5})(\d{7})(\d)/, '$1-$2-$3');
+                    } else {
+                        value = value.slice(0, 5);
+                    }
+                }
+                cnicInput.value = value;
+            });
+
+            // Format Contact Number input with hyphens
+            const contactInput = document.getElementById('cont_no');
+            contactInput.addEventListener('input', function () {
+                let value = contactInput.value.replace(/\D/g, '');
+                if (value.length > 0) {
+                    if (value.length >= 4) {
+                        value = value.replace(/(\d{4})(\d{7})/, '$1-$2');
+                    } else {
+                        value = value.slice(0, 4);
+                    }
+                }
+                contactInput.value = value;
+            });
+
+            // Format Contact Number input with hyphens
+            const emcontactInput = document.getElementById('em_contact');
+            emcontactInput.addEventListener('input', function () {
+                let value = emcontactInput.value.replace(/\D/g, '');
+                if (value.length > 0) {
+                    if (value.length >= 4) {
+                        value = value.replace(/(\d{4})(\d{7})/, '$1-$2');
+                    } else {
+                        value = value.slice(0, 4);
+                    }
+                }
+                emcontactInput.value = value;
+            });
+
+        // Function to capitalize the first letter of a string
+        function capitalizeFirstLetter(input) {
+            let inputValue = input.value;
+            input.value = inputValue.charAt(0).toUpperCase() + inputValue.slice(1);
+        }
+
+        // Get all text input elements on the page
+        const textInputs = document.querySelectorAll('input[type="text"]');
+
+        // Add event listeners to all text input fields
+        textInputs.forEach(function (input) {
+            input.addEventListener('input', function () {
+                capitalizeFirstLetter(input);
+            });
+        });
+
+    </script>
+    
+    
+    </body>
+    
+    </html>

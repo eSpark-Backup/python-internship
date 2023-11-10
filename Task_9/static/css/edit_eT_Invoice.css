@@ -1,0 +1,282 @@
+#body {
+    margin-bottom: 40px;
+    margin-right: 40px;
+    margin-left: 40px;
+}
+
+#no-logs {
+    margin-top: 10px;
+    text-align: right;
+}
+
+#no-logs a {
+    text-decoration: none;
+}
+
+#no-logs a p {
+    margin-right: 5px;
+    display: inline;
+    text-align: right;
+    font-size: 22.5px;
+    font-family: sans-serif;
+    color: #00B0B4;
+}
+
+#no-logs a:hover p {
+    color: #008688;
+}
+
+#main-blue {
+    background-color: #01496D;
+    width: 100%;
+    height: 20px;
+}
+
+.main-green {
+    background-color: #018E91;
+    width: 100%;
+    text-align: center;
+    color: #ffffff;
+    height: 35px;
+}
+
+#crucial-ele {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#logo-img img {
+    width: 120px;
+    height: 120px;
+}
+
+#contacts {
+    margin-top: 10px;
+    text-align: right;
+}
+
+table {
+    width: 100%;
+}
+
+#invoice-desc {
+    display: flex;
+    justify-content: space-between;
+}
+
+#invoice-desc-left,
+#invoice-desc-right {
+    display: inline-block;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+#invoice-desc-left td,
+#invoice-desc-right td {
+    display: inline-block;
+    font-family: sans-serif;
+    font-size: 15px;
+    text-align: left;
+    font-weight: 700;
+}
+
+#invoice-desc .ans,
+#invoice-desc .ans input {
+    border: none;
+    outline: none;
+    color: #00A0A0;
+    font-size: 16px;
+    margin-left: 5px;
+    font-weight: bold;
+}
+
+.white-row td,
+.white-row td input {
+    display: inline-block;
+    color: #00A0A0;
+    font-weight: bold;
+    font-family: sans-serif;
+    font-size: 16px;
+}
+
+.green-row,
+.green-row input {
+    background-color: #018E91;
+}
+
+.green-row td,
+.green-row td input {
+    border: none;
+    outline: none;
+    display: inline-block;
+    color: #ffffff;
+    font-weight: bold;
+    font-family: sans-serif;
+    font-size: 16px;
+}
+
+#emp-desc .ans input {
+    border: none;
+    outline: none;
+    margin-left: 20px;
+}
+
+.sal-green {
+    background-color: #018E91;
+    width: 100%;
+    text-align: center;
+    color: #ffffff;
+    height: 30px;
+    margin-top: 30px;
+    padding-top: 3px;
+    font-size: 25px;
+}
+
+#sal-table-green-row {
+    background-color: #018E91;
+}
+
+#sal-table-green-row th {
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 16px;
+    text-align: center;
+    font-family: sans-serif;
+}
+
+#sal-desc-table th:nth-child(1),
+#sal-desc-table td:nth-child(1) {
+    width: 30%;
+}
+
+#sal-desc-table th:nth-child(3),
+#sal-desc-table td:nth-child(3) {
+    width: 25%;
+}
+
+.green-col,
+.green-col input {
+    border: none;
+    outline: none;
+    background-color: #018E91;
+    text-align: center;
+    background-color: #018E91;
+    color: #ffffff;
+    font-family: sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.nor-col,
+.nor-col input {
+    text-align: center;
+    font-family: sans-serif;
+    font-size: 16px;
+    border: none;
+    outline: none;
+}
+
+
+.nor-col-serv input {
+    border: none;
+    outline: none;
+    text-align: left;
+    font-family: sans-serif;
+    font-size: 16px;
+}
+
+#no-use {
+    color: #ffffff;
+    height: 30px;
+}
+
+#sal-total {
+    text-align: center;
+    color: #00B0B4;
+    font-family: sans-serif;
+    font-weight: bold;
+}
+
+#end-note {
+    font-family: sans-serif;
+    font-size: 14px;
+    margin-top: 3%;
+}
+
+#greens {
+    padding: 3px;
+    background-color: #00B0B4;
+}
+
+#greys {
+    padding: 3px;
+    background-color: #B5B5B5;
+}
+
+#blues {
+    padding: 15px;
+    background-color: #01496D;
+}
+
+button {
+    margin: auto;
+    display: block;
+    background-color: #006496;
+    color: #ffffff;
+    border: #006496;
+    border-radius: 10px;
+    font-family: 'Arial';
+    font-size: 20px;
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
+
+#whole-form input[type="submit"] {
+    margin: auto;
+    display: block;
+    background-color: #006496;
+    color: #ffffff;
+    border: #006496;
+    border-radius: 10px;
+    font-family: 'Segoe UI';
+    font-size: 20px;
+}
+
+#add-row {
+    display:inline-block;
+    padding-top: 0;
+    padding-bottom: 0;
+    background-color: #006496;
+    color: #ffffff;
+    border: #006496;
+    border-radius: 0;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 17px;
+}
+
+@media print {
+    @page {
+        size: A4;
+        margin: 0;
+    }
+
+    #no-logs {
+        margin: 0;
+        visibility: hidden;
+    }
+
+    button {
+        visibility: hidden;
+    }
+
+    #foots {
+        position: absolute;
+        bottom: 40px;
+        width: 90%;
+    }
+
+}

@@ -1,9 +1,13 @@
 from django.shortcuts import render,redirect
+from django.http import HttpResponse
 from .decorators import *
 from django.http import JsonResponse
 from django.views.decorators.cache import cache_control
 from . models import eT_Invoice_Table, Salary_Slip_Table, Client_Invoice_Table, Employee_Table
-
+from io import BytesIO
+import os
+from pdfminer.high_level import extract_text
+import zipfile
 # Create your views here.
 
 def login(request):
@@ -44,6 +48,53 @@ def finance_home(request):
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def hr_home(request):
     return render(request,'home_hr.html')
+
+@login_adminorhr_successfull
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+def ats_system(request):
+    if request.method == 'POST':
+        files = request.FILES.getlist('files')  
+        keywords_list = request.POST.getlist('keywords[]')
+
+        try:
+            matching_files = []
+            for file in files:
+                file_data = file.read()
+
+                # Convert byte data to a file-like object
+                file_like_object = BytesIO(file_data)
+
+                # Extract text from the file-like object
+                text = extract_text(file_like_object)
+                
+                # calculating the percentage of matched words
+                total_keywords = len(keywords_list)
+                matched = 0
+                for keyword in keywords_list:
+                    if keyword.upper() in text.upper():
+                        matched += 1
+                success_percent = (matched / total_keywords) * 100
+
+                # if the percentage calculated is more than or equal to 50%, add the file to the list
+                if success_percent >= 50:
+                    matching_files.append((file.name, file_data))
+
+            if matching_files:
+                # Create a ZIP file containing all matching files
+                zip_buffer = BytesIO()
+                with zipfile.ZipFile(zip_buffer, 'w') as zip_file:
+                    for filename, file_data in matching_files:
+                        zip_file.writestr(filename, file_data)
+
+                # Set response headers for the ZIP file
+                response = HttpResponse(zip_buffer.getvalue(), content_type='application/zip')
+                response['Content-Disposition'] = 'attachment; filename=successfull_candidates.zip'
+                return response
+        except Exception as e:
+            print(e)
+            return render(request, 'ats_sys.html', {'error_message': 'Folder does not contain pdf files.'})
+
+    return render(request, 'ats_sys.html')
 
 @login_adminorhr_successfull
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)

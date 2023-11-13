@@ -6,6 +6,7 @@ urlpatterns=[
     path('home/admin/', views.admin_home, name='admin_home'),
     path('home/finance/', views.finance_home, name='finance_home'),
     path('home/hr/', views.hr_home, name='hr_home'),
+    path('ats_system/',views.ats_system, name='ats_system'),
     path('add_employee/',views.add_emp,name='add_emp'),
     path('query_employee/',views.search_emp,name='query_emp'),
     path('view_employee/',views.view_employee,name='view_emp'),

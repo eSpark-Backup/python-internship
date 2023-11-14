@@ -40,15 +40,21 @@ body {
     color: #008688;
 }
 
+#portal {
+    font-size: 50px;
+    font-weight: bold;
+    font-family: serif;
+    color: #009faa;
+}
+
 #options {
     text-align: center;
+    margin-top: 200px;
 }
 
 #form-but {
     display: inline-block;
     margin: auto;
-    margin-top: 200px;
-    margin-bottom: 30px;
     margin-right: 30px;
     width: 400px;
 }
@@ -112,6 +118,38 @@ body {
     border-radius: 10px;
 }
 
+#ats-but {
+    display: block;
+    margin: auto;
+    width: 400px;
+}
+
+#ats-but a {
+    text-decoration: none;
+}
+
+#ats-but a p {
+    font-family: serif;
+    text-align: center;
+    font-size: 30px;
+    background-color: #00B0B4;
+    width: 400px;
+    color: #ffffff;
+    border: 2px solid #00B0B4;
+    border-radius: 10px;
+}
+
+#ats-but a:hover p {
+    font-family: serif;
+    text-align: center;
+    font-size: 30px;
+    background-color: #00B0B4;
+    width: 400px;
+    color: #cecece;
+    border: 2px solid #00B0B4;
+    border-radius: 10px;
+}
+
 #footer {
     position: absolute;
     bottom: 40px;
@@ -119,7 +157,6 @@ body {
 }
 
 #greens {
-    margin-top: 250px;
     padding: 3px;
     background-color: #00B0B4;
 }

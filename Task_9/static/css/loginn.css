@@ -14,7 +14,23 @@ body {
     height: 20px;
 }
 
-#div-form{
+#logo {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    display: inline-block;
+}
+
+#portal {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 35%;
+    font-size: 48px;
+    color: #00a7aa;
+    font-family: serif;
+    font-weight: bold;
+}
+
+#div-form {
     background-color: #00A0A0;
     width: 600px;
     height: 400px;
@@ -23,7 +39,7 @@ body {
     margin-top: 95px;
 }
 
-#div-form h2{
+#div-form h2 {
     padding-top: 10px;
     color: #ffffff;
     font-weight: bold;
@@ -38,7 +54,7 @@ body {
     font-family: serif;
 }
 
-.login-data input{
+.login-data input {
     border: none;
     outline: none;
     background-color: #ffffff7a;
@@ -48,7 +64,7 @@ body {
 .button {
     margin: 10px;
     padding: 3px;
-    background: #006dd3;
+    background: #0158aa;
     border: none;
     color: #ffffff;
     font-size: 20px;
@@ -58,7 +74,7 @@ body {
 }
 
 #greens {
-    margin-top: 200px;
+    margin-top: 190px;
     padding: 3px;
     background-color: #00B0B4;
 }
@@ -73,6 +89,6 @@ body {
     background-color: #01496D;
 }
 
-.alert{
+.alert {
     padding: 3px;
 }

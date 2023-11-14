@@ -22,7 +22,7 @@ body {
     margin-bottom: 10px;
 }
 
-#portal{
+#portal {
     font-size: 50px;
     font-weight: bold;
     font-family: serif;
@@ -47,8 +47,8 @@ body {
     color: #008688;
 }
 
-#options{
-    text-align: center;            
+#options {
+    text-align: center;
     margin-top: 160px;
 }
 
@@ -80,7 +80,7 @@ body {
     font-size: 30px;
     background-color: #00B0B4;
     width: 400px;
-    color: #cecece;
+    color: #ececec;
     border: 2px solid #00B0B4;
     border-radius: 10px;
 }
@@ -113,7 +113,39 @@ body {
     font-size: 30px;
     background-color: #00B0B4;
     width: 400px;
-    color: #cecece;
+    color: #ececec;
+    border: 2px solid #00B0B4;
+    border-radius: 10px;
+}
+
+#ats-but {
+    display: block;
+    margin: auto;
+    width: 400px;
+}
+
+#ats-but a {
+    text-decoration: none;
+}
+
+#ats-but a p {
+    font-family: serif;
+    text-align: center;
+    font-size: 30px;
+    background-color: #00B0B4;
+    width: 400px;
+    color: #ffffff;
+    border: 2px solid #00B0B4;
+    border-radius: 10px;
+}
+
+#ats-but a:hover p {
+    font-family: serif;
+    text-align: center;
+    font-size: 30px;
+    background-color: #00B0B4;
+    width: 400px;
+    color: #ececec;
     border: 2px solid #00B0B4;
     border-radius: 10px;
 }
@@ -125,7 +157,6 @@ body {
 }
 
 #greens {
-    margin-top: 250px;
     padding: 3px;
     background-color: #00B0B4;
 }

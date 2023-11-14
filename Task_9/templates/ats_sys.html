@@ -58,29 +58,36 @@
         }
 
         #inputs {
-            background-color: #00a0a042;
+            background-color: #00A0A0;
             width: 40%;
             margin: auto;
-            margin-top: 95px;
+            margin-top: 85px;
             padding-top: 2%;
             padding-bottom: 2%;
+            margin-bottom: 7.4%;
         }
 
         #inputs h2 {
             text-align: center;
-            color: #0095a0;
+            color: #ffffff;
             font-weight: bold;
             font-family: serif;
             font-size: 40px;
         }
 
-        #files {
-            display: block;
-            margin: auto;
-            width: 40%;
+        #choose-perc {
+            display: flexbox;
+            justify-items: center;
+            text-align: center;
             margin-top: 2%;
-            padding: 5px;
-            color: #0095a0;
+        }
+
+        #files {
+            outline: none;
+            display: inline-block;
+            width: 300px;
+            padding: 2px;
+            color: #ffffff;
             font-size: 20px;
             border-radius: 5px;
             text-align: center;
@@ -88,6 +95,7 @@
 
 
         #files::file-selector-button {
+            outline: none;
             background-color: #00478ab7;
             color: #ffffff;
             padding: 5px;
@@ -96,22 +104,37 @@
             border: none;
         }
 
+        #percent {
+            display: inline-block;
+            width: 195px;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            padding: 3px;
+            outline: none;
+            border: none;
+            background-color: #ffffff7a;
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: 450;
+        }
+
         .keyword {
             display: block;
-            width: 400px;
+            width: 500px;
             margin: auto;
             margin-top: 5px;
             margin-bottom: 5px;
             padding: 3px;
             outline: none;
             border: none;
-            background-color: #269da560;
+            background-color: #ffffff7a;
             color: #ffffff;
             font-size: 18px;
             font-weight: 450;
         }
 
         #submit {
+            outline: none;
             display: block;
             margin: auto;
             margin-bottom: 2%;
@@ -125,9 +148,7 @@
         }
 
         #footer {
-            position: absolute;
-            bottom: 35px;
-            width: 97%;
+            width: 100%;
         }
 
         #greens {
@@ -154,9 +175,22 @@
 
         .alert {
             padding: 3px;
-            width: 50%;
+            width: 40%;
             margin: auto;
             margin-bottom: 10px
+        }
+
+        #add-row {
+            padding-top: 0;
+            padding-bottom: 0;
+            outline: none;
+            margin-left: 16.5%;
+            background-color: #0158aa;
+            color: #ffffff;
+            border: #0158aa;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-size: 17px;
+            margin-top: 2px;
         }
     </style>
 
@@ -199,7 +233,11 @@
             </h2>
             <form id="folderForm" enctype="multipart/form-data" method="post">
                 {% csrf_token %}
-                <input type="file" name="files" webkitdirectory directory multiple id="files" required>
+                <div id="choose-perc">
+                    <input type="file" name="files" webkitdirectory directory multiple id="files" required>
+                    <input type="number" name="percent" id="percent" placeholder="Matching criteria %" min="50" max="100" step="10"
+                        required>
+                </div>
                 <input type="text" name="keywords[]" class="keyword" placeholder="Enter keyword" required
                     autocomplete="off">
                 <input type="text" name="keywords[]" class="keyword" placeholder="Enter keyword" required
@@ -209,7 +247,8 @@
                 <input type="text" name="keywords[]" class="keyword" placeholder="Enter keyword" required
                     autocomplete="off">
                 <input type="text" name="keywords[]" class="keyword" placeholder="Enter keyword" required
-                    autocomplete="off">
+                    autocomplete="off" id="dynamic-sample">
+                <button type="button" id="add-row"> + </button>
                 <div id="error">
                     {% if error_message %}
                     <div class="alert alert-danger" role="alert">{{ error_message }}</div>
@@ -232,6 +271,17 @@
         crossorigin="anonymous"></script>
 
     <script>
+
+        // Function to add a new row
+        function addRow() {
+            const template = $('#dynamic-sample').clone();
+            template.removeAttr('id').show();
+            template.val('');
+
+            $('#folderForm input[type="text"]:last').after(template);
+            attachEventListenersToDynamicRows();
+        }
+
         $(document).ready(function () {
             $('#folderForm').on('submit', function () {
                 // Store a reference to the form
@@ -246,7 +296,12 @@
                     $('#files').val('');
                 }, 500);
             });
+
+            $('#add-row').click(function () {
+                addRow();
+            });
         });
+
     </script>
 
 

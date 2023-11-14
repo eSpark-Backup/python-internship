@@ -8,7 +8,6 @@ from io import BytesIO
 import os
 from pdfminer.high_level import extract_text
 import zipfile
-# Create your views here.
 
 def login(request):
     if request.method == 'POST':
@@ -55,6 +54,7 @@ def ats_system(request):
     if request.method == 'POST':
         files = request.FILES.getlist('files')  
         keywords_list = request.POST.getlist('keywords[]')
+        percentage=int(request.POST['percent'])
 
         try:
             matching_files = []
@@ -76,7 +76,7 @@ def ats_system(request):
                 success_percent = (matched / total_keywords) * 100
 
                 # if the percentage calculated is more than or equal to 50%, add the file to the list
-                if success_percent >= 50:
+                if success_percent >= percentage:
                     matching_files.append((file.name, file_data))
 
             if matching_files:
@@ -88,12 +88,13 @@ def ats_system(request):
 
                 # Set response headers for the ZIP file
                 response = HttpResponse(zip_buffer.getvalue(), content_type='application/zip')
-                response['Content-Disposition'] = 'attachment; filename=successfull_candidates.zip'
+                response['Content-Disposition'] = 'attachment; filename=shortlisted_candidates.zip'
                 return response
+            else:
+                return render(request, 'ats_sys.html', {'error_message': f'No file matches {percentage}% of the keywords.'})
         except Exception as e:
-            print(e)
             return render(request, 'ats_sys.html', {'error_message': 'Folder does not contain pdf files.'})
-
+            
     return render(request, 'ats_sys.html')
 
 @login_adminorhr_successfull

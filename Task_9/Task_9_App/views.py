@@ -55,10 +55,12 @@ def ats_system(request):
         files = request.FILES.getlist('files')  
         keywords_list = request.POST.getlist('keywords[]')
         percentage=int(request.POST['percent'])
-
-        try:
-            matching_files = []
-            for file in files:
+        input_values = {'keywords': keywords_list, 'percent': percentage}
+        pdfs=0
+        matching_files = []        
+            
+        for file in files:
+            try:
                 file_data = file.read()
 
                 # Convert byte data to a file-like object
@@ -75,25 +77,26 @@ def ats_system(request):
                         matched += 1
                 success_percent = (matched / total_keywords) * 100
 
-                # if the percentage calculated is more than or equal to 50%, add the file to the list
                 if success_percent >= percentage:
                     matching_files.append((file.name, file_data))
+                pdfs+=1
+            except:
+                continue
+        if matching_files:
+            # Create a ZIP file containing all matching files
+            zip_buffer = BytesIO()
+            with zipfile.ZipFile(zip_buffer, 'w') as zip_file:
+                for filename, file_data in matching_files:
+                    zip_file.writestr(filename, file_data)
 
-            if matching_files:
-                # Create a ZIP file containing all matching files
-                zip_buffer = BytesIO()
-                with zipfile.ZipFile(zip_buffer, 'w') as zip_file:
-                    for filename, file_data in matching_files:
-                        zip_file.writestr(filename, file_data)
-
-                # Set response headers for the ZIP file
-                response = HttpResponse(zip_buffer.getvalue(), content_type='application/zip')
-                response['Content-Disposition'] = 'attachment; filename=shortlisted_candidates.zip'
-                return response
-            else:
-                return render(request, 'ats_sys.html', {'error_message': f'No file matches {percentage}% of the keywords.'})
-        except Exception as e:
-            return render(request, 'ats_sys.html', {'error_message': 'Folder does not contain pdf files.'})
+            # Set response headers for the ZIP file
+            response = HttpResponse(zip_buffer.getvalue(), content_type='application/zip')
+            response['Content-Disposition'] = 'attachment; filename=shortlisted_candidates.zip'
+            return response
+        elif pdfs>0:
+            return JsonResponse({'error_message': f'No file matches {percentage}% of the keywords.'})
+        else:
+            return JsonResponse({'error_message': 'Folder does not contain pdf files.'})
             
     return render(request, 'ats_sys.html')
 

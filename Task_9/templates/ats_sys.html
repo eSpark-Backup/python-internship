@@ -235,8 +235,8 @@
                 {% csrf_token %}
                 <div id="choose-perc">
                     <input type="file" name="files" webkitdirectory directory multiple id="files" required>
-                    <input type="number" name="percent" id="percent" placeholder="Matching criteria %" min="50" max="100" step="10"
-                        required>
+                    <input type="number" name="percent" id="percent" placeholder="Matching criteria %" min="50"
+                        max="100" step="10" required value="{{inpu_values.percent}}">
                 </div>
                 <input type="text" name="keywords[]" class="keyword" placeholder="Enter keyword" required
                     autocomplete="off">
@@ -283,20 +283,28 @@
         }
 
         $(document).ready(function () {
-            $('#folderForm').on('submit', function () {
-                // Store a reference to the form
-                var form = this;
+            $('#folderForm').on('submit', function (event) {
+                // Get the CSRF token from the form
+                var csrf_token = $('input[name="csrfmiddlewaretoken"]').val();
 
-                // Reload the page after a short delay (adjust the delay as needed)
-                setTimeout(function () {
-                    // Reset the form after the form is submitted
-                    form.reset();
-
-                    // Clear the file input
-                    $('#files').val('');
-                }, 500);
+                // Perform an AJAX request to submit the form data
+                $.ajax({
+                    url: '/ats_system/',
+                    type: 'POST',
+                    data: new FormData(this),
+                    processData: false,
+                    contentType: false,
+                    headers: {
+                        'X-CSRFToken': csrf_token
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        event.preventDefault(); // Prevent the default form submission
+                        // Handle the JSON response
+                        $('#error').html('<div class="alert alert-danger" role="alert">' + data.error_message + '</div>');
+                    }
+                });
             });
-
             $('#add-row').click(function () {
                 addRow();
             });

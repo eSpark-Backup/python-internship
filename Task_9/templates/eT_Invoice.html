@@ -74,7 +74,8 @@
                             <tr>
                                 <td>
                                     ATTENTION
-                                    <input type="text" placeholder="..." name="attention" required autocomplete="off" class="capitalize">
+                                    <input type="text" placeholder="..." name="attention" required autocomplete="off"
+                                        class="capitalize">
                                 </td>
                             </tr>
 
@@ -95,7 +96,8 @@
                             <tr>
                                 <td>
                                     Company Address:
-                                    <input type="text" placeholder="..." name="comp_addr" required autocomplete="off" class="capitalize">
+                                    <input type="text" placeholder="..." name="comp_addr" required autocomplete="off"
+                                        class="capitalize">
 
                                 </td>
                             </tr>
@@ -143,7 +145,15 @@
                             <td>
                                 Employee ID No:
                                 <input type="text" value="eS-" name="emp_id" id="emp_id" required autocomplete="off">
+                                <select name="emp_id" id="emp_id_select" required>
+                                    <option value="">Select Employee ID</option>
+                                    <!-- Options will be dynamically added here via JavaScript -->
+                                </select>
                             </td>
+                            <!-- <td>
+                                Employee ID No:
+                                <input type="text" value="eS-" name="emp_id" id="emp_id" required autocomplete="off">
+                            </td> -->
                         </tr>
 
                         <tr class="green-row">
@@ -165,7 +175,8 @@
                         <tr class="green-row">
                             <td>
                                 Project Name:
-                                <input type="text" placeholder="..." name="proj_name" required autocomplete="off" class="capitalize">
+                                <input type="text" placeholder="..." name="proj_name" required autocomplete="off"
+                                    class="capitalize">
                             </td>
                         </tr>
 
@@ -226,7 +237,7 @@
             <div id="foots">
                 <div id="end-note">
                     <p>
-                        &diams; This is a computer generated document and don't required any signature
+                        &diams; This is a computer generated document and don't require any signature
                     </p>
                 </div>
 
@@ -245,6 +256,7 @@
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
 
+
     <script>
         // Add a click event to the "Home" link
         document.getElementById('home-link').addEventListener('click', function (e) {
@@ -253,6 +265,7 @@
                 e.preventDefault();
             }
         });
+
         // Function to calculate the amount for a row
         function calculateAmount(row) {
             const hours = parseInt(row.find('input[name="hours[]"]').val()) || 0;
@@ -285,28 +298,36 @@
         }
 
         $(document).ready(function () {
-            $('#emp_id').on('input', function () {
-                var emp_id = $(this).val();
-                var pattern = /^eS-(\d{4})$/; // Pattern to match "eS-YYYY"
-
-                if (pattern.test(emp_id)) {
-                    // Add the hyphen after the year part
-                    $(this).val(emp_id + '-');
+            // Fetch employee data and populate the dropdown when the page loads
+            $.ajax({
+                type: 'GET',
+                url: '/eT_Invoice/',
+                dataType: 'json',
+                success: function (data) {
+                    const select = $('#emp_id_select');
+                    select.empty();
+                    select.append('<option value="" selected>Select Employee ID</option>');
+                    for (const employee of data) {
+                        select.append(`<option value="${employee.emp_id}">${employee.emp_id} - ${employee.emp_name}</option>`);
+                    }
                 }
             });
-            
+
+            // Attach event listener to the "Add Row" button
             $('#add-row').click(function () {
                 addRow();
             });
 
-            // Calculate amounts when input fields change
-            $(document).on('input', 'input[name="hours[]"], input[name="hourly_rate[]"]', function () {
-                const row = $(this).closest('tr');
-                calculateAmount(row);
-            });
-        });
-        $(document).ready(function () {
+            // Event listener for the emp_id input field
             $('#emp_id').on('input', function () {
+                var emp_id = $(this).val();
+                var pattern = /^eS-\d{4}$/;
+                if (pattern.test(emp_id)) {
+                    // Add the hyphen after the year part
+                    $(this).val(emp_id + '-');
+                }
+            
+                $('#emp_id').on('input', function () {
                 var emp_id = $(this).val(); var pattern = /^eS-.*-...*/;
 
                 if (pattern.test(emp_id)) {
@@ -330,14 +351,50 @@
                     });
                 }
             });
+            });
+
+            // Event listener for the emp_id dropdown
+            $('#emp_id_select').change(function () {
+                var selectedEmpId = $(this).val();
+                // Set the emp_id field with the selected employee ID
+                $('#emp_id').val(selectedEmpId);
+                // Fetch employee data when employee ID is selected from dropdown
+                fetchEmployeeData(selectedEmpId);
+            });
+
+            // Calculate amounts when input fields change
+            $(document).on('input', 'input[name="hours[]"], input[name="hourly_rate[]"]', function () {
+                const row = $(this).closest('tr');
+                calculateAmount(row);
+            });
         });
+
+        function fetchEmployeeData(empId) {
+            $.ajax({
+                type: 'POST',
+                url: '/eT_Invoice/',
+                data: {
+                    'emp_id': empId,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                dataType: 'json',
+                success: function (data) {
+                    if (data) {
+                        // Fill other fields with retrieved data
+                        $('#emp_name').val(data.emp_name);
+                        $('#desig').val(data.desig);
+                        $('#join_date').val(data.join_date);
+                        $('#job_mode').val(data.job_mode);
+                    }
+                }
+            });
+        }
 
         // Function to capitalize the first letter of a string
         function capitalizeFirstLetter(input) {
             let inputValue = input.value;
             input.value = inputValue.charAt(0).toUpperCase() + inputValue.slice(1);
         }
-
 
         // Get all text input elements on the page
         const textInputs = document.querySelectorAll('.capitalize');
@@ -360,10 +417,7 @@
 
         // Attach event listeners to the existing dynamic rows when the page loads
         attachEventListenersToDynamicRows();
-
-
     </script>
-
 </body>
 
 </html>

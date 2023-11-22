@@ -5,9 +5,11 @@ from django.http import JsonResponse
 from django.views.decorators.cache import cache_control
 from . models import eT_Invoice_Table, Salary_Slip_Table, Client_Invoice_Table, Employee_Table
 from io import BytesIO
-import os
+import base64
 from pdfminer.high_level import extract_text
 import zipfile
+# import fitz  # PyMuPDF
+# import re
 
 def login(request):
     if request.method == 'POST':
@@ -51,15 +53,40 @@ def hr_home(request):
 @login_adminorhr_successfull
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def ats_system(request):
+    user_role = request.session.get('role', '')
     if request.method == 'POST':
         files = request.FILES.getlist('files')  
         keywords_list = request.POST.getlist('keywords[]')
         percentage=int(request.POST['percent'])
-        input_values = {'keywords': keywords_list, 'percent': percentage}
         pdfs=0
         matching_files = []        
             
         for file in files:
+            # experience_dates = []
+
+            # # Assuming 'file' is an InMemoryUploadedFile
+            # content = file.read()
+
+            # doc = fitz.open("pdf", content)  # Open the PDF document using PyMuPDF
+
+            # for page_num in range(doc.page_count):
+            #     page = doc[page_num]
+            #     blocks = page.get_text("blocks")
+
+            #     in_experience = False
+            #     for i, b in enumerate(blocks):
+            #         text = b[4]  # Text content
+
+            #         # Check for the presence of "EXPERIENCE" in the block text
+            #         if 'experience' in text.lower():
+            #             in_experience = True
+            #         elif in_experience:
+            #             # Use a regular expression to find year patterns
+            #             date_matches = re.findall(r'\b\d{4}\b', text)
+            #             if date_matches:
+            #                 experience_dates.append(date_matches)
+            # print(experience_dates)
+            # doc.close()
             try:
                 file_data = file.read()
 
@@ -90,15 +117,15 @@ def ats_system(request):
                     zip_file.writestr(filename, file_data)
 
             # Set response headers for the ZIP file
-            response = HttpResponse(zip_buffer.getvalue(), content_type='application/zip')
+            response = JsonResponse({'download_url': 'data:application/zip;base64,' + base64.b64encode(zip_buffer.getvalue()).decode()})
             response['Content-Disposition'] = 'attachment; filename=shortlisted_candidates.zip'
             return response
-        elif pdfs>0:
+        elif pdfs > 0:
             return JsonResponse({'error_message': f'No file matches {percentage}% of the keywords.'})
         else:
             return JsonResponse({'error_message': 'Folder does not contain pdf files.'})
             
-    return render(request, 'ats_sys.html')
+    return render(request, 'ats_sys.html',{'user_role':user_role})
 
 @login_adminorhr_successfull
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
@@ -439,6 +466,11 @@ def edit_employee(request):
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def eT_Invoice(request):
     user_role = request.session.get('role', '') #used to store role for the template to know the logged in user
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest' and request.method == 'GET':
+        employees = Employee_Table.objects.all()
+        emp_data = [{'emp_id': employee.emp_id, 'emp_name': employee.emp_name} for employee in employees]
+        return JsonResponse(emp_data, safe=False)
+    
     if request.headers.get('x-requested-with') == 'XMLHttpRequest' and request.method == 'POST':
         emp_id = request.POST.get('emp_id')
         try:
@@ -452,6 +484,7 @@ def eT_Invoice(request):
             return JsonResponse(employee_details)
         except Employee_Table.DoesNotExist:
             return JsonResponse({'error': 'Employee not found'}, status=404)
+        
     if request.method=='POST':
         attention=request.POST['attention']
         company_name=request.POST['comp_name']

@@ -1,377 +1,135 @@
-# <!DOCTYPE html>
-# <html lang="en">
+# import fitz  # PyMuPDF
 
-# <head>
-#     <meta charset="UTF-8">
-#     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-#     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-#         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-#     <title>eSpark Portal</title>
-#     <style>
-#         body {
-#             background: linear-gradient(rgb(255, 255, 255), rgba(98, 184, 199, 0.466));
-#             background-size: cover;
-#             background-repeat: repeat;
-#             background-attachment: fixed;
-#         }
+# def extract_text_by_heading(pdf_path):
+#     doc = fitz.open(pdf_path)
 
-#         #bodies {
-#             margin: 30px;
-#         }
+#     text_blocks = []
 
-#         #main-blue {
-#             background-color: #01496D;
-#             height: 20px;
-#         }
+#     for page_num in range(doc.page_count):
+#         page = doc[page_num]
+#         blocks = page.get_text("blocks")
+#         for b in blocks:
+#             if 'experience' in b[4].lower():
+#                 text = b[4]  # Text content
+#                 fontsize = b[1]  # Font size
 
-#         #logo {
-#             display: flex;
-#             align-items: center;
-#             justify-content: space-between;
-#             margin-top: 10px;
-#             margin-bottom: 10px;
-#         }
+#             # # Assuming the heading is in a larger font size (adjust as needed)
+#             # if fontsize > 12 and heading.lower() in text.lower():
+#             #     text_blocks.append(text)
 
-#         #portal {
-#             font-size: 50px;
-#             font-weight: bold;
-#             font-family: serif;
-#             color: #009faa;
-#         }
+#     doc.close()
+#     return text
 
-#         #no-logs a {
-#             text-decoration: none;
-#         }
+# # Example usage
+# pdf_path = "C:/Users/eSpark/Downloads/python_dev.pdf"
+# heading = "Experience"  # Replace with your desired heading
+# result = extract_text_by_heading(pdf_path)
 
-#         #no-logs a p {
-#             text-align: right;
-#             font-size: 25px;
-#             font-family: sans-serif;
-#             color: #00B0B4;
-#         }
-
-#         #no-logs a:hover p {
-#             text-align: right;
-#             font-size: 25px;
-#             font-family: sans-serif;
-#             color: #008688;
-#         }
-
-#         #inputs {
-#             background-color: #00A0A0;
-#             width: 40%;
-#             margin: auto;
-#             margin-top: 85px;
-#             padding-top: 2%;
-#             padding-bottom: 2%;
-#             margin-bottom: 7.4%;
-#         }
-
-#         #inputs h2 {
-#             text-align: center;
-#             color: #ffffff;
-#             font-weight: bold;
-#             font-family: serif;
-#             font-size: 40px;
-#         }
-
-#         #choose-perc {
-#             display: flexbox;
-#             justify-items: center;
-#             text-align: center;
-#             margin-top: 2%;
-#         }
-
-#         #files {
-#             outline: none;
-#             display: inline-block;
-#             width: 300px;
-#             padding: 2px;
-#             color: #ffffff;
-#             font-size: 20px;
-#             border-radius: 5px;
-#             text-align: center;
-#         }
-
-
-#         #files::file-selector-button {
-#             outline: none;
-#             background-color: #00478ab7;
-#             color: #ffffff;
-#             padding: 5px;
-#             border-radius: 5px;
-#             text-align: center;
-#             border: none;
-#         }
-
-#         #percent {
-#             display: inline-block;
-#             width: 195px;
-#             margin-top: 5px;
-#             margin-bottom: 5px;
-#             padding: 3px;
-#             outline: none;
-#             border: none;
-#             background-color: #ffffff7a;
-#             color: #ffffff;
-#             font-size: 18px;
-#             font-weight: 450;
-#         }
-
-#         .keyword {
-#             display: block;
-#             width: 500px;
-#             margin: auto;
-#             margin-top: 5px;
-#             margin-bottom: 5px;
-#             padding: 3px;
-#             outline: none;
-#             border: none;
-#             background-color: #ffffff7a;
-#             color: #ffffff;
-#             font-size: 18px;
-#             font-weight: 450;
-#         }
-
-#         #submit {
-#             outline: none;
-#             display: block;
-#             margin: auto;
-#             margin-bottom: 2%;
-#             padding: 3px;
-#             background: #0158aa;
-#             border: none;
-#             color: #ffffff;
-#             font-size: 20px;
-#             width: 150px;
-#             border-radius: 10px;
-#         }
-
-#         #footer {
-#             width: 100%;
-#         }
-
-#         #greens {
-#             padding: 3px;
-#             background-color: #00B0B4;
-#         }
-
-#         #greys {
-#             padding: 3px;
-#             background-color: #B5B5B5;
-#         }
-
-#         #blues {
-#             padding: 15px;
-#             background-color: #01496D;
-#         }
-
-#         #error {
-#             margin: auto;
-#             width: 100%;
-#             text-align: center;
-#             margin-top: 2%;
-#         }
-
-#         .alert {
-#             padding: 3px;
-#             width: 40%;
-#             margin: auto;
-#             margin-bottom: 10px
-#         }
-
-#         #add-row {
-#             padding-top: 0;
-#             padding-bottom: 0;
-#             outline: none;
-#             margin-left: 16.5%;
-#             background-color: #0158aa;
-#             color: #ffffff;
-#             border: #0158aa;
-#             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-#             font-size: 17px;
-#             margin-top: 2px;
-#         }
-#     </style>
-
-# </head>
-
-# <body>
-#     <div id="bodies">
-
-#         <div id="heading">
-#             <div id="main-blue">
-#             </div>
-
-#             <div id="logo">
-
-#                 <span id="logo-img">
-#                     <img src="/static/es_logo.png" alt="">
-#                 </span>
-
-#                 <div id="portal">
-#                     eSpark Portal
-#                 </div>
-
-#                 <div id="no-logs">
-#                     <a href="/logout">
-#                         <p><b>Logout</b></p>
-#                     </a>
-#                 </div>
-
-#             </div>
-
-#             <div id="main-blue">
-#             </div>
-#         </div>
-
-
-#         <div id="inputs">
-
-#             <h2>
-#                 ATS System
-#             </h2>
-#             <form id="folderForm" enctype="multipart/form-data" method="post">
-#                 {% csrf_token %}
-#                 <div id="choose-perc">
-#                     <input type="file" name="files" webkitdirectory directory multiple id="files" required>
-#                     <input type="number" name="percent" id="percent" placeholder="Matching criteria %" min="50"
-#                         max="100" step="10" required value="{{inpu_values.percent}}">
-#                 </div>
-#                 <input type="text" name="keywords[]" class="keyword" placeholder="Enter keyword" required
-#                     autocomplete="off">
-#                 <input type="text" name="keywords[]" class="keyword" placeholder="Enter keyword" required
-#                     autocomplete="off">
-#                 <input type="text" name="keywords[]" class="keyword" placeholder="Enter keyword" required
-#                     autocomplete="off">
-#                 <input type="text" name="keywords[]" class="keyword" placeholder="Enter keyword" required
-#                     autocomplete="off">
-#                 <input type="text" name="keywords[]" class="keyword" placeholder="Enter keyword" required
-#                     autocomplete="off" id="dynamic-sample">
-#                 <button type="button" id="add-row"> + </button>
-#                 <div id="error">
-#                     {% if error_message %}
-#                     <div class="alert alert-danger" role="alert">{{ error_message }}</div>
-#                     {% endif %}
-#                 </div>
-#                 <input type="submit" value="Submit" id="submit">
-#             </form>
-#         </div>
-
-#         <div id="footer">
-#             <div id="greens"></div>
-#             <div id="greys"></div>
-#             <div id="blues"></div>
-#         </div>
-#     </div>
-
-#     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-#     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-#         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-#         crossorigin="anonymous"></script>
-
-#     <script>
-
-#         // Function to add a new row
-#         function addRow() {
-#             const template = $('#dynamic-sample').clone();
-#             template.removeAttr('id').show();
-#             template.val('');
-
-#             $('#folderForm input[type="text"]:last').after(template);
-#             attachEventListenersToDynamicRows();
-#         }
-
-#         $(document).ready(function () {
-            # $('#folderForm').on('submit', function (event) {
-            #     event.preventDefault(); // Prevent the default form submission
-
-            #     // Get the CSRF token from the form
-            #     var csrf_token = $('input[name="csrfmiddlewaretoken"]').val();
-
-            #     // Perform an AJAX request to submit the form data
-            #     $.ajax({
-            #         url: '/ats_system/',
-            #         type: 'POST',
-            #         data: new FormData(this),
-            #         processData: false,
-            #         contentType: false,
-            #         headers: {
-            #             'X-CSRFToken': csrf_token
-            #         },
-            #         dataType: 'json',
-            #         success: function (data) {
-            #             // Handle the JSON response
-            #             $('#error').html('<div class="alert alert-danger" role="alert">' + data.error_message + '</div>');
-            #         }
-            #     });
-            # });
-
-
-#             $('#add-row').click(function () {
-#                 addRow();
-#             });
-#         });
-
-#     </script>
-
-
-# </body>
-
-# </html>
+# for text_block in result:
+#     print(text_block)
 
 
 
 
-# @login_adminorhr_successfull
-# @cache_control(no_cache=True, must_revalidate=True, no_store=True)
-# def ats_system(request):
-#     if request.method == 'POST':
-#         files = request.FILES.getlist('files')
-#         keywords_list = request.POST.getlist('keywords[]')
-#         percentage=int(request.POST['percent'])
-#         pdfs=0
-#         matching_files = []
-        
-#         for file in files:
-#             try:
-#                 file_data = file.read()
 
-#                 # Convert byte data to a file-like object
-#                 file_like_object = BytesIO(file_data)
+# import fitz  # PyMuPDF
+# import re
 
-#                 # Extract text from the file-like object
-#                 text = extract_text(file_like_object)
-                
-#                 # calculating the percentage of matched words
-#                 total_keywords = len(keywords_list)
-#                 matched = 0
-#                 for keyword in keywords_list:
-#                     if keyword.upper() in text.upper():
-#                         matched += 1
-#                 success_percent = (matched / total_keywords) * 100
+# def extract_dates_from_experience(pdf_path):
+#     doc = fitz.open(pdf_path)
+#     experience_dates = []
 
-#                 if success_percent >= percentage:
-#                     matching_files.append((file.name, file_data))
-#                 pdfs+=1
-#             except:
-#                 continue
-#         if matching_files:
-#             print('in matching files')
-#             # Create a ZIP file containing all matching files
-#             zip_buffer = BytesIO()
-#             with zipfile.ZipFile(zip_buffer, 'w') as zip_file:
-#                 for filename, file_data in matching_files:
-#                     zip_file.writestr(filename, file_data)
+#     for page_num in range(doc.page_count):
+#         page = doc[page_num]
+#         blocks = page.get_text("blocks")
+
+#         in_experience = False
+#         for i, b in enumerate(blocks):
+#             text = b[4]  # Text content
+
+#             # Check for the presence of "EXPERIENCE" in the block text
+#             if 'experience' in text.lower(): #and not in_experience:
+#                 in_experience = True
+#             elif in_experience:
+#                 # Use a regular expression to find year patterns
+#                 date_matches = re.findall(r'\b\d{4}\b', text)
+#                 if date_matches!=[]:
+#                     experience_dates.append(date_matches)
+#                 # if date_matches!=[]:
+#                     # experience_dates.append(b[4])
+#     doc.close()
+#     return experience_dates
+
+# pdf_path = "C:/Users/eSpark/Downloads/cv2.pdf"
+# result = extract_dates_from_experience(pdf_path)
+# print(result)
+
+
+import fitz  # PyMuPDF
+import re
+
+
+def scrape(keyword, filePath):
+    results = []  # list of lists that store the information as [text, font size, font name, color, index]
+    pdf = fitz.open(filePath)  # filePath is a string that contains the path to the pdf
+    for page in pdf:
+        dict_info = page.get_text("dict")
+        blocks = dict_info["blocks"]
+
+        for block_num,block in enumerate(blocks):
+            if "lines" in block.keys():
+                spans = block["lines"]                
+                for span in spans:
+                    data = span["spans"]
+                    for line in data:
+                        if keyword in line["text"].lower():
+                            if len(line['text'])<=25:
+                                results.append(
+                                    [line["text"], line["size"], line["font"], line["color"], (block_num)]
+                          )
             
-#             print('generating respoinse')
-#             # Set response headers for the ZIP file
-#             response = HttpResponse(zip_buffer.getvalue(), content_type='application/zip')
-#             response['Content-Disposition'] = 'attachment; filename=shortlisted_candidates.zip'
-#             return response
-#         elif pdfs>0:
-#            return JsonResponse({'error_message': f'No file matches {percentage}% of the keywords.'})
-#         else:
-#             return JsonResponse({'error_message': 'Folder does not contain pdf files.'})
+    new_res=[]
+    if len(results)>1:
+        for i in range(len(results)-1):
+            if results[i][1]==results[i+1][1]:
+                new_res.append(results[i])
+            elif results[i][1]>results[i+1][1]:
+                new_res.append(results[i])
+            else:
+                continue
+    experience=''
+    if new_res:
+        index=new_res[0][-1]
+        size=new_res[0][1]
+        font=new_res[0][2]
+        color=new_res[0][3] 
+        out=0
+        for page in pdf:
+            dict_info = page.get_text("dict")
+            blocks = dict_info["blocks"]
             
-#     return render(request, 'ats_sys.html')
+            for block_num in range(index,len(blocks)):
+                block=blocks[block_num]
+                if "lines" in block.keys():
+                    spans = block["lines"]                
+                    for span in spans:
+                        data = span["spans"]
+                        for line in data:
+                            if line['size']==size and line['font']==font and line['color']==color:
+                                out+=1
+                                break
+                            else:
+                                experience+='\n'+line['text']
+                        if out>0:
+                            break
+
+    print(new_res)
+    print(experience)
+
+    # else:
+    #     print(results)
+    pdf.close()
+    
+
+filePath="C:/Users/eSpark/Downloads/cv.pdf"
+scrape('experience', filePath)

@@ -39,21 +39,24 @@
             color: #009faa;
         }
 
+        #no-logs {
+            margin-right: 10px;
+        }
+
         #no-logs a {
             text-decoration: none;
         }
 
         #no-logs a p {
+            margin-left: 10px;
+            display: inline;
             text-align: right;
-            font-size: 25px;
+            font-size: 22px;
             font-family: sans-serif;
             color: #00B0B4;
         }
 
         #no-logs a:hover p {
-            text-align: right;
-            font-size: 25px;
-            font-family: sans-serif;
             color: #008688;
         }
 
@@ -92,7 +95,6 @@
             border-radius: 5px;
             text-align: center;
         }
-
 
         #files::file-selector-button {
             outline: none;
@@ -192,6 +194,29 @@
             font-size: 17px;
             margin-top: 2px;
         }
+
+        #loading-spinner {
+            width: fit-content;
+            margin: auto;
+        }
+
+        #loading-spinner img {
+            height: 65px;
+<<<<<<< HEAD
+            animation: rotate 5s infinite linear;
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+=======
+>>>>>>> f8195520daad2f45924e8727aad03e2079bfd29d
+        }
     </style>
 
 </head>
@@ -214,6 +239,10 @@
                 </div>
 
                 <div id="no-logs">
+                    <a href="{% if user_role == 'admin' %}{% url 'admin_home' %}{% elif user_role == 'hr' %}{% url 'hr_home' %}{% endif %}"
+                        id="home-link">
+                        <p><b>Home</b></p>
+                    </a>
                     <a href="/logout">
                         <p><b>Logout</b></p>
                     </a>
@@ -236,8 +265,14 @@
                 <div id="choose-perc">
                     <input type="file" name="files" webkitdirectory directory multiple id="files" required>
                     <input type="number" name="percent" id="percent" placeholder="Matching criteria %" min="50"
-                        max="100" step="10" required value="{{inpu_values.percent}}">
+                        max="100" step="10" required value="{{inputs.percent}}">
                 </div>
+                <!-- {% if inputs %}
+                {% for keyword in inputs.keywords %}
+                <input type="text" name="keywords[]" class="keyword" placeholder="Enter keyword" required
+                    autocomplete="off" value="{{ keyword }}">
+                {% endfor %}
+                {% else %} -->
                 <input type="text" name="keywords[]" class="keyword" placeholder="Enter keyword" required
                     autocomplete="off">
                 <input type="text" name="keywords[]" class="keyword" placeholder="Enter keyword" required
@@ -248,6 +283,7 @@
                     autocomplete="off">
                 <input type="text" name="keywords[]" class="keyword" placeholder="Enter keyword" required
                     autocomplete="off" id="dynamic-sample">
+                <!-- {% endif %} -->
                 <button type="button" id="add-row"> + </button>
                 <div id="error">
                     {% if error_message %}
@@ -255,6 +291,9 @@
                     {% endif %}
                 </div>
                 <input type="submit" value="Submit" id="submit">
+                <div id="loading-spinner" style="display: none;">
+                    <img src="/static/loading.png" alt="">
+                </div>
             </form>
         </div>
 
@@ -284,27 +323,60 @@
 
         $(document).ready(function () {
             $('#folderForm').on('submit', function (event) {
-                // Get the CSRF token from the form
-                var csrf_token = $('input[name="csrfmiddlewaretoken"]').val();
+                // Prevent the default form submission
+                event.preventDefault();
 
-                // Perform an AJAX request to submit the form data
+                // Show the loading spinner when the form is submitted
+                $('#loading-spinner').show();
+
+                // Serialize the form data
+                var formData = new FormData(this);
+
+                // Make an asynchronous AJAX request
                 $.ajax({
-                    url: '/ats_system/',
                     type: 'POST',
-                    data: new FormData(this),
+                    url: $(this).attr('action'),
+                    data: formData,
                     processData: false,
                     contentType: false,
-                    headers: {
-                        'X-CSRFToken': csrf_token
-                    },
-                    dataType: 'json',
                     success: function (data) {
-                        event.preventDefault(); // Prevent the default form submission
-                        // Handle the JSON response
-                        $('#error').html('<div class="alert alert-danger" role="alert">' + data.error_message + '</div>');
-                    }
+                        // Hide the loading spinner after a successful response
+                        $('#loading-spinner').hide();
+
+                        // Check if the response contains an error message
+                        if (data.error_message) {
+                            // Display the error message
+                            $('#error').html('<div class="alert alert-danger" role="alert">' + data.error_message + '</div>');
+                            setTimeout(function () {
+                                $('#error').html(''); // Remove the error message
+                            }, 3000);
+                        } else if (data.download_url) {
+                            // Trigger a click on a hidden link to initiate the download
+                            var link = document.createElement('a');
+                            link.href = data.download_url;
+                            link.download = 'shortlisted_candidates.zip';
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                        }
+                    },
                 });
             });
+
+            // $('#folderForm').on('submit', function () {
+            //     // Store a reference to the form
+            //     var form = this;
+
+            //     // Reload the page after a short delay (adjust the delay as needed)
+            //     setTimeout(function () {
+            //         // Reset the form after the form is submitted
+            //         form.reset();
+
+            //         // Clear the file input
+            //         $('#files').val('');
+            //     }, 500);
+            // });
+
             $('#add-row').click(function () {
                 addRow();
             });

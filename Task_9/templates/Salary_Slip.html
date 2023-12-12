@@ -25,6 +25,77 @@
             font-size: 16px;
             font-weight: bold;
         }
+
+        #search-option {
+            width: 400px;
+            height: auto;
+            position: absolute;
+            top: 230px;
+            /* Adjust the top position as needed */
+            left: 600px;
+            /* Adjust the right position as needed */
+            margin-left: 0;
+        }
+
+        #search_emp {
+            width: 500px;
+            position: absolute;
+            /* Adjust the top position as needed */
+            right: 200px;
+            /* Adjust the right position as needed */
+            margin-left: 0;
+        }
+
+        #emp_id_select {
+            display: block;
+            outline: none;
+            font-family: sans-serif;
+            font-weight: 550;
+            color: #00B0B4;
+            position: absolute;
+            right: 0px;
+            padding: 9px 4px 9px 40px;
+            background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' class='bi bi-search' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'%3E%3C/path%3E%3C/svg%3E") no-repeat 13px center;
+        }
+
+        .options {
+            display: none;
+            max-height: 100px;
+            background-color: #ececece8;
+            border-radius: 5px;
+            overflow-y: auto;
+            overflow-x: auto;
+            padding: 5px;
+            width: 300px;
+            position: absolute;
+            top: 35px;
+            right: 150px;
+        }
+
+        .options::-webkit-scrollbar {
+            width: 7px;
+        }
+
+        .options::-webkit-scrollbar-thumb {
+            border-radius: 25px;
+            background: #c0c0c0;
+        }
+
+        .options li {
+            display: flex;
+            padding-left: 5px;
+            padding-right: 5px;
+            border-radius: 5px;
+            font-family: sans-serif;
+            font-weight: 550;
+            color: #00B0B4;
+            cursor: pointer;
+            align-items: center;
+        }
+
+        .options li:hover {
+            background-color: #d1d1d1;
+        }
     </style>
 
 </head>
@@ -80,9 +151,18 @@
                         <table>
                             <tr>
                                 <td>
-                                    EMPLOYEE ID:
-                                    <input type="text" value="eS-" name="emp_id" id="emp_id" autocomplete="off"
-                                        required>
+                                    Employee ID No:
+                                    <input type="text" value="eS-" name="emp_id" id="emp_id" required
+                                        autocomplete="off">
+                                    <div id="search-option">
+                                        <div id="search_emp" class="search">
+                                            <input type="search" name="emp_name" id="emp_id_select"
+                                                placeholder="Search Employee" autocomplete="off">
+                                        </div>
+                                        <ul class="options">
+                                            <li></li>
+                                        </ul>
+                                    </div>
                                 </td>
                             </tr>
 
@@ -427,7 +507,47 @@
                     });
                 }
             });
+            $('#emp_id_select').on('input', function () {
+                var emp_name = $(this).val();
+
+                if (emp_name) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/eT_Invoice/',
+                        data: {
+                            'emp_name': emp_name,
+                            csrfmiddlewaretoken: '{{ csrf_token }}'
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+                            const optionsList = $('.options');
+
+                            optionsList.empty(); // Clear existing options
+
+                            // Populate options with retrieved data
+                            if (data.emp_name.length > 0) {
+                                data.emp_name.forEach(function (emp, index) {
+                                    optionsList.append('<li data-emp-id="' + data.emp_id[index] + '">' + data.emp_id[index] + ' - ' + emp + ' - ' + data.desig[index] + '</li>');
+                                    optionsList.show()
+                                });
+                            } else {
+                                optionsList.empty();
+                                optionsList.append('<li>No matching results found</li>');
+                                optionsList.show()
+                            }
+                        }
+                    });
+                } else {
+                    $('.options').hide(); // Clear the list if input is empty
+                }
+            });
+            // Use event delegation to handle clicks on li elements
+            $('.options').on('click', 'li', function () {
+                var empId = $(this).data('emp-id');
+                fetchEmployeeData(empId);
+            });
         });
+
 
         // Function to capitalize the first letter of a string
         function capitalizeFirstLetter(input) {
@@ -457,7 +577,89 @@
 
         // Attach event listeners to the existing dynamic rows when the page loads
         attachEventListenersToDynamicRows();
+        function fetchEmployeeData(empId) {
+            $.ajax({
+                type: 'POST',
+                url: '/Salary_Slip/',
+                data: {
+                    'emp_id': empId,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                dataType: 'json',
+                success: function (data) {
+                    if (data) {
+                        // Fill other fields with retrieved data
+                        $('#emp_id').val(data.emp_id);
+                        $('#emp_name').val(data.emp_name);
+                        $('#desig').val(data.desig);
+                        $('#join_date').val(data.join_date);
+                        $('#status').val(data.status);
+                        $('#acc_no').val(data.acc_no);
+                        $('#email').val(data.email);
+                        $('#cont_no').val(data.cont_no);
+                        $('.options').hide()
+                        $('#emp_id_select').val('')
 
+
+                        // Function to calculate Total service from joining date
+                        function calculateTotalService() {
+                            const joinDate = document.getElementById('join_date');
+                            const totalServiceInput = document.getElementById('tot_serv');
+                            const jdValue = joinDate.value;
+
+                            if (jdValue) {
+                                const jdDate = new Date(jdValue);
+                                const today = new Date();
+                                let totalYears = today.getFullYear() - jdDate.getFullYear();
+                                let totalMonths = today.getMonth() - jdDate.getMonth();
+
+                                if (today.getDate() < jdDate.getDate()) {
+                                    totalMonths--;
+                                }
+
+                                if (totalMonths < 0) {
+                                    if (totalYears > 0) {
+                                        totalMonths += 12;
+                                        totalYears--;
+                                    }
+                                    else {
+                                        totalYears = 0 //Example 0ct 2023- Nov 2023 -1 Month, 0 year not possible
+                                    }
+                                }
+
+                                let totalService = '';
+                                if (totalYears > 0) {
+                                    totalService += totalYears + ' Year';
+                                    if (totalYears > 1) {
+                                        totalService += 's';
+                                    }
+                                    if (totalMonths > 0) {
+                                        totalService += ' ';
+                                    }
+                                }
+                                if (totalMonths > 0) {
+                                    totalService += totalMonths + ' Month';
+                                    if (totalMonths > 1) {
+                                        totalService += 's';
+                                    }
+                                }
+
+                                totalServiceInput.value = totalService;
+                            }
+                        }
+
+                        // Add event listeners to the Date of Joining and Resignation input fields
+                        const joinDate = document.getElementById('join_date');
+                        joinDate.addEventListener('input', calculateTotalService);
+
+                        // Calculate the total service initially in case dates are pre-filled
+                        calculateTotalService();
+
+                        // Add more fields as needed
+                    }
+                }
+            });
+        }
     </script>
 
 

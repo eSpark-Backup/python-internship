@@ -8,6 +8,7 @@ from io import BytesIO
 import base64
 from pdfminer.high_level import extract_text
 import zipfile
+from datetime import datetime, timedelta
 # import fitz  # PyMuPDF
 # import re
 
@@ -38,6 +39,26 @@ def login(request):
 @login_admin_successfull
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def admin_home(request):
+        if request.method=='POST':
+            month_or_year=request.POST['month-year']
+            duration=int(request.POST['duration'])
+            print(month_or_year,duration)
+            if month_or_year and duration:
+                today = datetime.now()
+                if month_or_year == 'Month':
+                    print('in if')
+                    delete_date = today - timedelta(days=duration * 30)
+                elif month_or_year == 'Year':
+                    delete_date = today - timedelta(days=duration * 365)
+                else:
+                    # Handle the case where the selected time unit is not valid
+                    pass
+
+                # Delete records older than delete_date
+                Client_Invoice_Table.objects.filter(current_date__lt=delete_date).delete()
+                eT_Invoice_Table.objects.filter(current_date__lt=delete_date).delete()
+                Salary_Slip_Table.objects.filter(current_date__lt=delete_date).delete()
+            return redirect('admin_home')
         return render(request, 'home_admin.html')
 
 @login_finance_successfull
@@ -466,26 +487,51 @@ def edit_employee(request):
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def eT_Invoice(request):
     user_role = request.session.get('role', '') #used to store role for the template to know the logged in user
-    if request.headers.get('x-requested-with') == 'XMLHttpRequest' and request.method == 'GET':
-        employees = Employee_Table.objects.all()
-        emp_data = [{'emp_id': employee.emp_id, 'emp_name': employee.emp_name} for employee in employees]
-        return JsonResponse(emp_data, safe=False)
-    
+
     if request.headers.get('x-requested-with') == 'XMLHttpRequest' and request.method == 'POST':
         emp_id = request.POST.get('emp_id')
-        try:
-            employee = Employee_Table.objects.get(emp_id=emp_id)
-            employee_details = {
-                'emp_name': employee.emp_name,
-                'desig': employee.desig,
-                'join_date':employee.general_info['join_date'],
-                'job_mode':employee.job_mode
-            }
-            return JsonResponse(employee_details)
-        except Employee_Table.DoesNotExist:
-            return JsonResponse({'error': 'Employee not found'}, status=404)
-        
+        emp_name=request.POST.get('emp_name')
+        if emp_id:
+            try:
+                employee = Employee_Table.objects.get(emp_id=emp_id)
+                employee_details = {
+                    'emp_id':emp_id,
+                    'emp_name': employee.emp_name,
+                    'desig': employee.desig,
+                    'join_date':employee.general_info['join_date'],
+                    'job_mode':employee.job_mode
+                }
+                return JsonResponse(employee_details)
+            except Employee_Table.DoesNotExist:
+                return JsonResponse({'error': 'Employee not found'})
+        if emp_name:
+            try:
+                employee_names = Employee_Table.objects.values('emp_name').distinct()
+                
+                employee_names_list = [employee['emp_name'] for employee in employee_names]
+                selected_emp=[]
+                for emp in employee_names_list:
+                    if emp_name.lower() in emp.lower():
+                        selected_emp.append(emp)
+                employee_details={
+                    'emp_id':[],
+                    'emp_name':[],
+                    'desig':[],
+                    'join_date':[],
+                    'job_mode':[],
+                }
+                for emp in  selected_emp:
+                    employee=Employee_Table.objects.get(emp_name=emp)
+                    employee_details['emp_id'].append(employee.emp_id)
+                    employee_details['emp_name'].append(employee.emp_name)
+                    employee_details['desig'].append(employee.desig)
+                    employee_details['job_mode'].append(employee.job_mode)
+                    employee_details['join_date'].append(employee.general_info['join_date'])
+                return JsonResponse(employee_details)
+            except:
+                return JsonResponse({'error': 'Employee not found'})
     if request.method=='POST':
+        print('in norm')
         attention=request.POST['attention']
         company_name=request.POST['comp_name']
         email=request.POST['email']
@@ -740,20 +786,55 @@ def Salary_Slip(request):
     user_role = request.session.get('role', '')
     if request.headers.get('x-requested-with') == 'XMLHttpRequest' and request.method == 'POST':
         emp_id = request.POST.get('emp_id')
-        try:
-            employee = Employee_Table.objects.get(emp_id=emp_id)
-            employee_details = {
-                'emp_name': employee.emp_name,
-                'desig': employee.desig,
-                'join_date':employee.general_info['join_date'],
-                'acc_no':employee.general_info['acc_no'],
-                'status':employee.status,
-                'email':employee.personal_info['email'],
-                'cont_no':employee.personal_info['cont_no'],
-            }
-            return JsonResponse(employee_details)
-        except Employee_Table.DoesNotExist:
-            return JsonResponse({'error': 'Employee not found'}, status=404)
+        emp_name=request.POST.get('emp_name')
+        if emp_id:
+            try:
+                employee = Employee_Table.objects.get(emp_id=emp_id)
+                employee_details = {
+                    'emp_id':emp_id,
+                    'emp_name': employee.emp_name,
+                    'desig': employee.desig,
+                    'join_date':employee.general_info['join_date'],
+                    'acc_no':employee.general_info['acc_no'],
+                    'status':employee.status,
+                    'email':employee.personal_info['email'],
+                    'cont_no':employee.personal_info['cont_no'],
+                }
+                return JsonResponse(employee_details)
+            except Employee_Table.DoesNotExist:
+                return JsonResponse({'error': 'Employee not found'})
+        if emp_name:
+            try:
+                employee_names = Employee_Table.objects.values('emp_name').distinct()
+                
+                employee_names_list = [employee['emp_name'] for employee in employee_names]
+                selected_emp=[]
+                for emp in employee_names_list:
+                    if emp_name.lower() in emp.lower():
+                        selected_emp.append(emp)
+                employee_details={
+                    'emp_id':[],
+                    'emp_name':[],
+                    'desig':[],
+                    'join_date':[],
+                    'acc_no':[],
+                    'status':[],
+                    'cont_no':[],
+                    'email':[],
+                }
+                for emp in  selected_emp:
+                    employee=Employee_Table.objects.get(emp_name=emp)
+                    employee_details['emp_id'].append(employee.emp_id)
+                    employee_details['emp_name'].append(employee.emp_name)
+                    employee_details['desig'].append(employee.desig)
+                    employee_details['join_date'].append(employee.general_info['join_date'])
+                    employee_details['acc_no'].append(employee.general_info['acc_no'])
+                    employee_details['status'].append(employee.status)
+                    employee_details['email'].append(employee.personal_info['email'])
+                    employee_details['cont_no'].append(employee.personal_info['cont_no'])
+                return JsonResponse(employee_details)
+            except:
+                return JsonResponse({'error': 'Employee not found'})
     if request.method=='POST':
         emp_id=request.POST['emp_id']
         emp_name=request.POST['emp_name']

@@ -4,11 +4,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <title>eSpark Portal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/static/css/home_admin.css">
+    <style>
+        #footer {
+            margin-left: 30px;
+            position: absolute;
+            bottom: 40px;
+            width: 97%;
+        }
 
+        #no-logs {
+            margin-right: 10px;
+        }
+
+        #no-logs a {
+            text-decoration: none;
+        }
+
+        #no-logs a p {
+            margin-left: 10px;
+            display: inline;
+            text-align: right;
+            font-size: 20px;
+            font-family: sans-serif;
+            color: #00B0B4;
+        }
+
+        #no-logs a:hover p {
+            font-size: 20px;
+            font-family: sans-serif;
+            color: #008688;
+        }
+
+        #query-but button {
+            outline: none;
+            font-family: serif;
+            text-align: center;
+            font-weight: bold;
+            font-size: 30px;
+            background-color: #00B0B4;
+            width: 400px;
+            color: #ffffff;
+            border: 2px solid #00B0B4;
+            border-radius: 10px;
+        }
+
+        #query-but button:hover {
+            font-family: serif;
+            text-align: center;
+            font-size: 30px;
+            background-color: #00B0B4;
+            width: 400px;
+            color: #ececec;
+            border: 2px solid #00B0B4;
+            border-radius: 10px;
+        }
+
+        .modal {
+            color: #ffffff;
+        }
+
+        .modal-content {
+            background: #ffffff60;
+        }
+
+        .form-control {
+            margin-bottom: 15px;
+        }
+
+        #deleteModalLabel {
+            margin-left: 160px;
+            color: #ffffff;
+        }
+
+        #month-year,
+        #duration {
+            margin: auto;
+            margin-bottom: 10px;
+            width: 400px;
+            border: none;
+            outline: none;
+            padding: 7px;
+            border-radius: 10px;
+            font-size: 19px;
+        }
+
+        .option:focus {
+            background-color: #0064B8;
+            color: #ffffff;
+        }
+
+        .modal-header h1 {
+            font-size: 25px;
+        }
+    </style>
 </head>
 
 <body>
@@ -29,6 +127,9 @@
                 </div>
 
                 <div id="no-logs">
+                    <a href="/home/admin" id="home-link">
+                        <p><b>Home</b></p>
+                    </a>
                     <a href="/logout">
                         <p><b>Logout</b></p>
                     </a>
@@ -56,6 +157,9 @@
                 <a href="/Salary_Slip">
                     <p><b>Generate Salary Slip</b></p>
                 </a>
+                <a href="/ats_system">
+                    <p><b>ATS System</b></p>
+                </a>
             </div>
             <div id="query-but">
                 <a href="/query_employee">
@@ -70,26 +174,52 @@
                 <a href="/query_Salary_Slip">
                     <p><b>Query Salary Slip</b></p>
                 </a>
+                <button type="button" data-bs-toggle="modal" data-bs-target="#deleteModal" id="delete-button">Delete
+                    Records</button>
             </div>
-            <div id="ats-but">
-                <a href="/ats_system">
-                    <p><b>ATS System</b></p>
-                </a>
+            <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title" id="deleteModalLabel">Delete Records</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="" method="post">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <select name="month-year" id="month-year" class="option" required
+                                        autocomplete="off">
+                                        <option value="">Select</option>
+                                        <option value="Month">Month</option>
+                                        <option value="Year">Year</option>
+                                    </select>
+                                    <input type="number" class="form-control" id="duration" name="duration"
+                                        placeholder="Enter Number" required autocomplete="off" min="1">
+                                    <input type="submit" class="btn btn-primary" name="delete" id="delete"
+                                        value="Delete" style="margin-top: 10px;"></input>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-        </div>
-
-        <div id="footer">
-            <div id="greens"></div>
-            <div id="greys"></div>
-            <div id="blues"></div>
         </div>
 
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-        crossorigin="anonymous"></script>
+    <div id="footer">
+        <div id="greens"></div>
+        <div id="greys"></div>
+        <div id="blues"></div>
+    </div>
+
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 </body>
 

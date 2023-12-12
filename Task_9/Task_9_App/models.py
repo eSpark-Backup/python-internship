@@ -1,9 +1,10 @@
 from django.db import models
+from django.utils import timezone
 import datetime
 # Create your models here.
 class eT_Invoice_Table(models.Model):
 
-    date=datetime.datetime.now()
+    current_date = models.DateField(default=timezone.now)
     invoice_no = models.CharField(max_length=15, unique=True)
     attention = models.CharField(max_length=50)
     company_name = models.CharField(max_length=50)
@@ -31,7 +32,8 @@ class eT_Invoice_Table(models.Model):
                 numeric_part = 1
 
             self.invoice_no = f"ETI-{current_year}-{numeric_part:02}"
-
+        if not self.current_date:
+            self.current_date=datetime.datetime.now().date()
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -40,7 +42,7 @@ class eT_Invoice_Table(models.Model):
 
 class Salary_Slip_Table(models.Model):
 
-    date=datetime.datetime.now()
+    current_date = models.DateField(default=timezone.now)
     emp_id = models.CharField(max_length=15)
     emp_name = models.CharField(max_length=50)
     desig = models.CharField(max_length=30)
@@ -58,8 +60,8 @@ class Salary_Slip_Table(models.Model):
         return self.emp_id
 
 class Client_Invoice_Table(models.Model):
-    
-    date=datetime.datetime.now()
+
+    current_date = models.DateField(default=timezone.now)
     invoice_no = models.CharField(max_length=15, unique=True)
     inv_recipient=models.CharField(max_length=50)
     attention=models.CharField(max_length=50)
@@ -70,7 +72,6 @@ class Client_Invoice_Table(models.Model):
     item_desc=models.JSONField()
 
     def save(self, *args, **kwargs):
-
         current_year = str(datetime.datetime.now().year)
 
         if not self.invoice_no:
@@ -85,7 +86,8 @@ class Client_Invoice_Table(models.Model):
                 numeric_part = 1
 
             self.invoice_no = f"CI-{current_year}-{numeric_part:02}"
-
+        if not self.current_date:
+            self.current_date=datetime.datetime.now().date()
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -94,7 +96,7 @@ class Client_Invoice_Table(models.Model):
 
 class Employee_Table(models.Model):
 
-    date=datetime.datetime.now()
+    current_date = models.DateField(default=timezone.now)
     emp_id=models.CharField(max_length=15,unique=True)
     emp_name = models.CharField(max_length=50)
     desig = models.CharField(max_length=30)
@@ -108,8 +110,6 @@ class Employee_Table(models.Model):
     personal_info=models.JSONField()
 
     def save(self, *args, **kwargs):
-
-        import datetime
         current_year = str(datetime.datetime.now().year)
 
         if not self.emp_id:
@@ -124,7 +124,8 @@ class Employee_Table(models.Model):
                 numeric_part = 1
 
             self.emp_id = f"eS-{current_year}-{numeric_part:02}"
-
+        if not self.current_date:
+            self.current_date=datetime.datetime.now().date()
         super().save(*args, **kwargs)
 
     def __str__(self):

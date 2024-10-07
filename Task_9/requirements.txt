@@ -1,0 +1,9 @@
+asgiref==3.8.1
+cffi==1.16.0
+charset-normalizer==3.3.2
+cryptography==42.0.7
+Django==5.0.6
+pdfminer.six==20231228
+pycparser==2.22
+sqlparse==0.5.0
+tzdata==2024.1

@@ -4,9 +4,9 @@ from django.urls import reverse
 from .decorators import login_user_successfull,login_admin_successfull
 from django.views.decorators.cache import cache_control
 import pandas as pd
+from django.conf import settings
 
-
-excel_file="C:/Users/eSpark/Documents/Python_Tasks/Tasks/Task_7/StockData 20-07-23.xlsx"
+excel_file= settings.EXCEL_FILE
 
 
 
